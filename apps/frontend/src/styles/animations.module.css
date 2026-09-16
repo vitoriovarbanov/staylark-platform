@@ -1,0 +1,59 @@
+/* === CARD HOVER — lift + shadow deepen === */
+.cardHover {
+    transition:
+        transform 150ms ease,
+        box-shadow 150ms ease;
+}
+
+.cardHover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+/* === IMAGE ZOOM — scale inside overflow:hidden parent === */
+.imageZoom {
+    overflow: hidden;
+}
+
+.imageZoom img {
+    transition: transform 300ms ease;
+}
+
+.imageZoom:hover img {
+    transform: scale(1.03);
+}
+
+/* === BUTTON PRESS — scale feedback on active === */
+.buttonPress:active {
+    transform: scale(0.98);
+    transition: transform 100ms ease;
+}
+
+/* === FOCUS TRANSITION — smooth border-color on focus === */
+.focusTransition {
+    transition: border-color 150ms ease;
+}
+
+/* === REDUCED MOTION === */
+@media (prefers-reduced-motion: reduce) {
+    .cardHover,
+    .cardHover:hover {
+        transition-duration: 0ms;
+        transform: none;
+    }
+
+    .imageZoom img,
+    .imageZoom:hover img {
+        transition-duration: 0ms;
+        transform: none;
+    }
+
+    .buttonPress:active {
+        transition-duration: 0ms;
+        transform: none;
+    }
+
+    .focusTransition {
+        transition-duration: 0ms;
+    }
+}

@@ -1,0 +1,113 @@
+/* Drawer trigger button — relative wrapper so the count badge can anchor to it. */
+.filterButton {
+    flex: 0 0 auto;
+    position: relative;
+}
+
+/* ── Active filter pills (row beneath the FilterBar) ── */
+.filterPills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.filterPill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px 2px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--mantine-color-dark-6);
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 999px;
+    line-height: 1.4;
+    cursor: default;
+    transition: background 150ms ease;
+    text-transform: capitalize;
+}
+
+.filterPill:hover {
+    background: rgba(0, 0, 0, 0.07);
+}
+
+.filterPillClose {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    color: var(--mantine-color-dark-4);
+    transition:
+        background 150ms ease,
+        color 150ms ease;
+}
+
+.filterPillClose:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--mantine-color-dark-8);
+}
+
+/* ── Filter Drawer ── */
+.filterDrawerBody {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.filterDrawerContent {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.filterDrawerFooter {
+    padding-top: 16px;
+    border-top: 1px solid var(--mantine-color-gray-2);
+    margin-top: auto;
+}
+
+.filterDrawerSection {
+    margin-bottom: 20px;
+}
+
+.filterDrawerSectionLabel {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mantine-color-dark-5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.filterDrawerHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/* ── Badge on filter button ── */
+.filterBadge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: var(--mantine-color-yellow-6);
+    color: var(--mantine-color-dark-9);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    line-height: 1;
+    pointer-events: none;
+}

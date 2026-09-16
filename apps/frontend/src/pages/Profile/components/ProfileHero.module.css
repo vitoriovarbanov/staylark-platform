@@ -1,0 +1,243 @@
+.hero {
+    position: relative;
+    overflow: hidden;
+    padding: 32px 36px;
+    border-radius: var(--mantine-radius-lg);
+    color: #f4f1ea;
+    background:
+        radial-gradient(110% 140% at 88% -10%, rgba(232, 168, 56, 0.16), transparent 45%),
+        radial-gradient(90% 120% at 0% 110%, rgba(128, 164, 255, 0.2), transparent 50%),
+        linear-gradient(
+            155deg,
+            var(--mantine-color-brand-7) 0%,
+            var(--mantine-color-brand-8) 60%,
+            var(--mantine-other-navy-bg) 100%
+        );
+    box-shadow: 0 18px 44px rgba(20, 31, 55, 0.28);
+}
+
+/* Amber L-corner accent — the auth-page visual signature, carried in. */
+.amberCorner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 88px;
+    height: 88px;
+    pointer-events: none;
+    background:
+        linear-gradient(to left, var(--mantine-other-amber-accent, #e8a838) 0 3px, transparent 3px) top right / 88px 3px
+            no-repeat,
+        linear-gradient(to bottom, var(--mantine-other-amber-accent, #e8a838) 0 3px, transparent 3px) top right / 3px
+            88px no-repeat;
+    opacity: 0.8;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+}
+
+.identity {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-width: 0;
+}
+
+.avatarWrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.avatar {
+    /* Soft white ring + navy lift — amber is reserved for the stat values. */
+    border: 3px solid rgba(255, 255, 255, 0.92);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.12);
+}
+
+.cameraBadge {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    color: #2E1027;
+    background: #ffffff;
+    border: 2px solid #2E1027;
+    box-shadow: 0 2px 8px rgba(20, 31, 55, 0.4);
+}
+
+.cameraBadge:hover {
+    background: #eef1f7;
+}
+
+.headings {
+    min-width: 0;
+}
+
+.nameRow {
+    justify-content: flex-start;
+}
+
+.name {
+    margin: 0;
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 1.65rem;
+    line-height: 1.1;
+    color: #ffffff;
+}
+
+.subline {
+    font-family: 'Figtree', system-ui, sans-serif;
+    font-size: 0.9rem;
+    color: rgba(244, 241, 234, 0.85);
+}
+
+.bio {
+    margin-top: 6px;
+    max-width: 46ch;
+    font-family: 'Figtree', system-ui, sans-serif;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: rgba(244, 241, 234, 0.9);
+}
+
+.addBio {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    margin-top: 6px;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-family: 'Figtree', system-ui, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(244, 241, 234, 0.8);
+    background: transparent;
+    border: 1px dashed rgba(232, 168, 56, 0.5);
+    border-radius: var(--mantine-radius-xl);
+    transition:
+        background 160ms ease,
+        color 160ms ease;
+}
+
+.addBio:hover {
+    color: #fff;
+    background: rgba(232, 168, 56, 0.14);
+}
+
+/* --- Stat tiles --- */
+.stats {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.statTile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 84px;
+    padding: 14px 16px;
+    border-radius: var(--mantine-radius-md);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(2px);
+}
+
+.statValue {
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 1.85rem;
+    line-height: 1;
+    color: var(--mantine-other-amber-accent, #e8a838);
+}
+
+.statLabel {
+    margin-top: 5px;
+    font-family: 'Figtree', system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(244, 241, 234, 0.82);
+}
+
+/* --- Edit button — solid white pill so the primary action reads on the navy hero --- */
+.editBtn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 2;
+    box-shadow: 0 6px 18px rgba(20, 31, 55, 0.35);
+}
+
+/* --- Responsive: center-stack, stats become a 3-up chip row --- */
+@media (max-width: 48em) {
+    .hero {
+        padding: 28px 20px 24px;
+    }
+
+    .content {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 22px;
+    }
+
+    .identity {
+        flex-direction: column;
+        text-align: center;
+        gap: 14px;
+    }
+
+    .headings {
+        align-items: center;
+    }
+
+    .nameRow {
+        justify-content: center;
+    }
+
+    .bio {
+        text-align: center;
+    }
+
+    .addBio {
+        margin-inline: auto;
+    }
+
+    .stats {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .statTile {
+        flex: 1;
+        min-width: 0;
+        padding: 12px 8px;
+    }
+
+    .statValue {
+        font-size: 1.55rem;
+    }
+
+    .editBtn {
+        position: static;
+        align-self: center;
+        width: 100%;
+        margin-top: 4px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .addBio,
+    .cameraBadge {
+        transition: none;
+    }
+}

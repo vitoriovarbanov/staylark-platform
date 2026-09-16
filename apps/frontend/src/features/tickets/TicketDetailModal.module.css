@@ -1,0 +1,270 @@
+/* === Layout === */
+.layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: start;
+    position: relative;
+}
+
+.layout[data-has-staff='true'] {
+    grid-template-columns: 1fr 280px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* === Section blocks === */
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sectionLabel {
+    font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    color: var(--mantine-color-gray-7);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sectionLabel::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--mantine-color-gray-2);
+}
+
+/* === Guest's words / transcription === */
+.transcription {
+    background: var(--mantine-color-gray-0);
+    border-radius: var(--mantine-radius-sm);
+    padding: 14px 16px;
+    color: var(--mantine-other-text-primary, #1e2a3a);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    border: 1px solid var(--mantine-color-gray-2);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+}
+
+/* === Dispatch chip row === */
+.dispatchRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+/* === Property card link === */
+.propertyCard {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 12px;
+    background: white;
+    border: 1px solid var(--mantine-color-gray-2);
+    border-radius: var(--mantine-radius-sm);
+    text-decoration: none;
+    color: inherit;
+    transition:
+        transform 150ms ease,
+        border-color 150ms ease,
+        box-shadow 150ms ease;
+}
+
+.propertyCard:hover {
+    transform: translateX(2px);
+    border-color: var(--mantine-color-amber-3);
+    box-shadow: var(--shadow-card);
+}
+
+.propertyThumb {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--mantine-radius-sm);
+    object-fit: cover;
+    background: var(--mantine-color-gray-2);
+}
+
+.propertyMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.propertyName {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--mantine-other-text-primary, #1e2a3a);
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.propertyCity {
+    font-family: 'SF Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--mantine-color-gray-7);
+}
+
+.propertyArrow {
+    color: var(--mantine-color-gray-5);
+    transition: transform 150ms ease;
+}
+
+.propertyCard:hover .propertyArrow {
+    transform: translateX(3px);
+}
+
+/* === Stamp meta — submitted at + ID === */
+.stampRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+    color: var(--mantine-other-text-secondary, #64748b);
+    font-family: 'SF Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}
+
+.stampRow > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* === Right column staff panel === */
+.staffPanel {
+    background: var(--mantine-other-surface-inset, #f1f3f8);
+    border: 1px dashed var(--mantine-color-gray-3);
+    border-radius: var(--mantine-radius-md);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: sticky;
+    top: 0;
+}
+
+.staffEyebrow {
+    font-family: 'SF Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    color: var(--mantine-color-gray-7);
+    font-weight: 600;
+}
+
+.needsReviewPill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--mantine-color-amber-0);
+    color: var(--mantine-color-amber-9);
+    border: 1px solid var(--mantine-color-amber-3);
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    width: fit-content;
+}
+
+/* === Withdrawn (reporter): a "voided" rubber-stamp + context === */
+.withdrawnPanel {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 14px 18px;
+    background: var(--mantine-color-gray-0);
+    border: 1px solid var(--mantine-color-gray-2);
+    border-radius: var(--mantine-radius-sm);
+}
+
+.withdrawnStamp {
+    flex-shrink: 0;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mantine-color-gray-6);
+    border: 2.5px solid var(--mantine-color-gray-4);
+    border-radius: 4px;
+    padding: 5px 12px;
+    transform: rotate(-8deg);
+    opacity: 0.9;
+    animation: withdrawnStampIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.withdrawnText {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.withdrawnTitle {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--mantine-other-text-primary, #1e2a3a);
+}
+
+.withdrawnMeta {
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--mantine-other-text-secondary, #64748b);
+}
+
+@keyframes withdrawnStampIn {
+    from {
+        opacity: 0;
+        transform: rotate(-24deg) scale(1.45);
+    }
+    to {
+        opacity: 0.9;
+        transform: rotate(-8deg) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .withdrawnStamp {
+        animation: none;
+    }
+}
+
+@media (max-width: 760px) {
+    /* Must match the specificity of `.layout[data-has-staff='true']` (an attribute
+       selector), otherwise the two-column staff grid wins here and the content
+       column collapses to a sliver on phones. */
+    .layout,
+    .layout[data-has-staff='true'] {
+        grid-template-columns: 1fr;
+    }
+    .spine {
+        left: -8px;
+    }
+    .staffPanel {
+        position: static;
+    }
+}

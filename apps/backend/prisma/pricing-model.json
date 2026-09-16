@@ -1,0 +1,17 @@
+{
+    "modelVersion": "2026-05-13-v1",
+    "trainedAt": "2026-05-13T14:52:23.100Z",
+    "dataSource": "synthetic",
+    "rngSeed": 42,
+    "rSquared": 0.8488,
+    "coefficients": {
+        "intercept": -1.0630544257097296,
+        "occupancy": 0.8438433674159631,
+        "lastMinute": -0.3647231855425021,
+        "weekend": 0.3937382572338376,
+        "seasonalitySin": -0.2988577716646136,
+        "seasonalityCos": -0.519121989123342,
+        "occupancyLastMinute": 0.036333462218036516,
+        "occupancyWeekend": -0.013693852622011322
+    }
+}

@@ -1,0 +1,235 @@
+/* ── Glass-morphism booking card ──────────────── */
+.bookingCard {
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(128, 164, 255, 0.15);
+    border-radius: var(--mantine-radius-lg);
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.03),
+        0 8px 32px rgba(0, 0, 0, 0.06),
+        0 0 0 1px rgba(255, 255, 255, 0.7) inset;
+}
+
+@media (min-width: 62em) {
+    .bookingCard {
+        position: sticky;
+        top: 72px;
+    }
+}
+
+/* ── Amber corner accents── */
+.bookingCorner {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+}
+
+.bookingCorner[data-position='top-left'] {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid var(--mantine-other-amber-accent);
+    border-left: 2px solid var(--mantine-other-amber-accent);
+    border-top-left-radius: var(--mantine-radius-lg);
+}
+
+.bookingCorner[data-position='top-right'] {
+    top: -1px;
+    right: -1px;
+    border-top: 2px solid var(--mantine-other-amber-accent);
+    border-right: 2px solid var(--mantine-other-amber-accent);
+    border-top-right-radius: var(--mantine-radius-lg);
+}
+
+.bookingCorner[data-position='bottom-left'] {
+    bottom: -1px;
+    left: -1px;
+    border-bottom: 2px solid var(--mantine-other-amber-accent);
+    border-left: 2px solid var(--mantine-other-amber-accent);
+    border-bottom-left-radius: var(--mantine-radius-lg);
+}
+
+.bookingCorner[data-position='bottom-right'] {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid var(--mantine-other-amber-accent);
+    border-right: 2px solid var(--mantine-other-amber-accent);
+    border-bottom-right-radius: var(--mantine-radius-lg);
+}
+
+/* ── Price header ─────────────────────────────── */
+.bookingPrice {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--mantine-other-amber-accent);
+    line-height: 1.2;
+}
+
+.bookingPriceUnit {
+    font-size: var(--mantine-font-size-sm);
+    font-weight: 400;
+    color: var(--mantine-color-dimmed);
+}
+
+/* ── Price breakdown ──────────────────────────── */
+.bookingBreakdownRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bookingBreakdownLabel {
+    color: var(--mantine-other-text-secondary);
+}
+
+.bookingBreakdownValue {
+    color: var(--mantine-other-text-secondary);
+}
+
+.bookingTotalLabel {
+    font-size: var(--mantine-font-size-md);
+    font-weight: 700;
+    color: var(--mantine-other-text-primary);
+}
+
+.bookingTotalValue {
+    font-size: var(--mantine-font-size-md);
+    font-weight: 700;
+    color: var(--mantine-other-text-primary);
+}
+
+/* ── Book Now button ──────────────────────────── */
+.bookingButton {
+    transition:
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+
+    &:hover:not(:disabled) {
+        transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(0);
+    }
+}
+
+/* ── Form field inputs ────────────────────────── */
+.bookingInput {
+    & input {
+        background: rgba(255, 255, 255, 0.95);
+    }
+}
+
+/* ── Empty-state copy (no dates picked) ──────── */
+.bookingPriceEmpty {
+    display: block;
+    padding: 6px 0;
+}
+
+/* ── Breakdown accordion ─────────────────────── */
+.breakdownControl {
+    padding-inline: 0;
+}
+
+/* ── Per-night breakdown list ─────────────────────
+ * The accordion panel was previously squeezed: long rule names
+ * pushed the price column into two-line wraps (`€58.9 / 6`).
+ * This block introduces:
+ *   - a chip header for rules common to every night
+ *   - a locked price column on every per-night row
+ */
+.commonRulesHeader {
+    padding: 8px 10px;
+    background: rgba(232, 168, 56, 0.04);
+    border: 1px solid rgba(232, 168, 56, 0.18);
+    border-radius: var(--mantine-radius-sm);
+}
+
+.commonRulesLabel {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mantine-other-text-secondary, var(--mantine-color-gray-6));
+}
+
+.chipRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.ruleChip {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    font-size: 10.5px;
+    font-weight: 500;
+    line-height: 1.5;
+    background: rgba(232, 168, 56, 0.1);
+    color: #8a5a14;
+    border: 1px solid rgba(232, 168, 56, 0.28);
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.ruleChipDiscount {
+    background: rgba(34, 139, 88, 0.1);
+    color: #185a3a;
+    border-color: rgba(34, 139, 88, 0.3);
+}
+
+/* Per-night row — flex with a locked-width price column on the right. */
+.nightRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 4px 0;
+}
+
+.nightInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.nightDate {
+    color: var(--mantine-other-text-primary, var(--mantine-color-gray-8));
+}
+
+.nightChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 3px;
+}
+
+.nightPrice {
+    flex-shrink: 0;
+    min-width: 64px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    white-space: nowrap;
+    color: var(--mantine-other-text-primary, var(--mantine-color-gray-8));
+}
+
+[data-mantine-color-scheme='dark'] .commonRulesHeader {
+    background: rgba(232, 168, 56, 0.07);
+    border-color: rgba(232, 168, 56, 0.25);
+}
+
+[data-mantine-color-scheme='dark'] .ruleChip {
+    background: rgba(232, 168, 56, 0.18);
+    color: #f3c982;
+    border-color: rgba(232, 168, 56, 0.3);
+}
+
+[data-mantine-color-scheme='dark'] .ruleChipDiscount {
+    background: rgba(34, 139, 88, 0.18);
+    color: #b6e6ce;
+    border-color: rgba(34, 139, 88, 0.32);
+}

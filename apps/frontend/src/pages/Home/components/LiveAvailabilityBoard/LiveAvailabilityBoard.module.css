@@ -1,0 +1,237 @@
+/* ── Section Header ───────────────────────────── */
+.sectionTitle {
+    letter-spacing: -0.5px;
+    color: var(--mantine-other-text-primary);
+}
+
+.liveDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--mantine-other-amber-accent);
+    animation: pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+/* Dated context line: grounds the board's status in "tonight" — echoes the
+   flip-board's mono/uppercase type and stays visible on mobile (where the
+   status column is hidden). Sits past the 8px dot + gap to align under the title. */
+.caption {
+    display: block;
+    margin-top: 4px;
+    padding-left: 18px;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ── Board Container ─────────────────────────── */
+.board {
+    position: relative;
+    background: var(--mantine-other-navy-bg);
+    border-radius: var(--mantine-radius-lg);
+    padding: 16px 0;
+    overflow: hidden;
+}
+
+.scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0, 0, 0, 0.03) 3px,
+        rgba(0, 0, 0, 0.03) 6px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ── Header Row ──────────────────────────────── */
+.headerRow {
+    display: grid;
+    grid-template-columns: 140px 1fr 80px 100px 90px;
+    align-items: center;
+    padding: 8px 28px;
+    gap: 16px;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+}
+
+.divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    margin: 6px 28px;
+}
+
+/* ── Data Rows ───────────────────────────────── */
+.row {
+    display: grid;
+    grid-template-columns: 140px 1fr 80px 100px 90px;
+    align-items: center;
+    padding: 14px 28px;
+    gap: 16px;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    opacity: 0;
+    animation: flipIn 0.4s ease-out forwards;
+    transition: background 0.15s ease;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.row:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+/* ── Column Styles ───────────────────────────── */
+.colCity {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.95);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.colName {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.typeBadge {
+    background: rgba(128, 164, 255, 0.15);
+    color: var(--mantine-color-brand-4);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+}
+
+.colPrice {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    white-space: nowrap;
+}
+
+.colStatus {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--mantine-other-amber-accent);
+}
+
+.statusDot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--mantine-other-amber-accent);
+    flex-shrink: 0;
+}
+
+/* Booked recedes into the board's on-navy neutral (same idiom as the property name).
+   Amber stays the sole "available" signal per the One Pin Rule — an unavailable stay
+   is quietly dimmed, never flagged in red. The brand informs with quiet authority. */
+.colStatusBooked {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.colStatusBooked .statusDot {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* ── Loading Rows ────────────────────────────── */
+.loadingRow {
+    color: rgba(255, 255, 255, 0.12) !important;
+    cursor: default;
+}
+
+.loadingRow:hover {
+    background: transparent;
+}
+
+/* ── Empty State ─────────────────────────────── */
+.emptyRow {
+    padding: 32px 28px;
+    text-align: center;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.3);
+    position: relative;
+    z-index: 2;
+}
+
+/* ── Keyframes ───────────────────────────────── */
+@keyframes flipIn {
+    0% {
+        transform: perspective(800px) rotateX(-60deg);
+        opacity: 0;
+    }
+    60% {
+        transform: perspective(800px) rotateX(5deg);
+        opacity: 1;
+    }
+    100% {
+        transform: perspective(800px) rotateX(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.35;
+    }
+}
+
+/* ── Reduced Motion ──────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .row {
+        animation: none;
+        opacity: 1;
+    }
+
+    .liveDot {
+        animation: none;
+    }
+}
+
+/* ── Mobile ──────────────────────────────────── */
+@media (max-width: 48em) {
+    .headerRow,
+    .row {
+        grid-template-columns: 90px 1fr 80px;
+        padding: 10px 16px;
+        gap: 10px;
+        font-size: 12px;
+    }
+
+    .colType,
+    .colStatus {
+        display: none;
+    }
+}

@@ -1,0 +1,236 @@
+.wrap {
+    --amber: var(--mantine-other-amber-accent, #e8a838);
+    --amber-deep: #8a5e0c;
+    --ink: var(--mantine-other-text-primary, #1e2a3a);
+    --muted: var(--mantine-other-text-secondary, #64748b);
+    width: 100%;
+    /* airy, light, faint blue wash low-right to echo the brand backdrop */
+    background:
+        radial-gradient(110% 120% at 92% 0%, rgba(128, 164, 255, 0.08), transparent 55%),
+        linear-gradient(180deg, #fff, #fbfcfe);
+    border: 1px solid #eef1f7;
+    border-radius: var(--mantine-radius-md);
+    padding: 22px 12px 18px;
+}
+
+.track {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin: 0;
+    padding: 4px 6px 6px;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(232, 168, 56, 0.4) transparent;
+}
+
+.stop {
+    position: relative;
+    flex: 1 0 84px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 6px;
+    min-width: 0;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Dashed connector from this node's centre to the next — a boarding-pass route. */
+.stop:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 13px;
+    left: 50%;
+    width: 100%;
+    border-top: 2px dashed rgba(232, 168, 56, 0.55);
+    z-index: 0;
+}
+
+.node {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--amber);
+    color: var(--amber-deep);
+    box-shadow: 0 4px 12px -5px rgba(232, 168, 56, 0.6);
+}
+
+.nodeHome {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #fff;
+    box-shadow:
+        0 0 0 4px rgba(232, 168, 56, 0.16),
+        0 6px 14px -5px rgba(232, 168, 56, 0.7);
+}
+
+.pinIcon {
+    transform: translateY(-0.5px);
+}
+
+.city {
+    margin-top: 11px;
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.2;
+    color: var(--ink);
+}
+
+.nights {
+    margin-top: 2px;
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--amber-deep);
+}
+
+.month {
+    font-family: 'Figtree', system-ui, sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.homePill {
+    margin-top: 4px;
+    padding: 1px 7px;
+    font-family: 'Figtree', system-ui, sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--amber-deep);
+    background: rgba(232, 168, 56, 0.12);
+    border-radius: 999px;
+}
+
+/* --- Multi-country: grouped by country --- */
+.groups {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 4px 6px 2px;
+}
+
+.countryHead {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 9px;
+}
+
+.countryFlag {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.countryName {
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ink);
+}
+
+.countryCount {
+    margin-left: auto;
+    font-family: 'Figtree', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: #fbfcfe;
+    border: 1px solid #eef1f7;
+    font-family: 'Figtree', system-ui, sans-serif;
+    font-size: 12.5px;
+    color: var(--ink);
+}
+
+.chipDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+}
+
+.chipHome {
+    border-color: rgba(232, 168, 56, 0.5);
+    background: rgba(232, 168, 56, 0.1);
+}
+
+.chipHomeIcon {
+    color: var(--amber-deep);
+}
+
+.chipNights {
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-weight: 700;
+    color: var(--amber-deep);
+}
+
+/* --- Mobile: vertical timeline (scales to any number of stops / long names) --- */
+@media (max-width: 560px) {
+    .track {
+        flex-direction: column;
+        align-items: stretch;
+        overflow-x: visible;
+        padding: 4px 10px;
+    }
+
+    .stop {
+        flex: none;
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        gap: 14px;
+        padding: 0 0 20px;
+    }
+
+    .stop:last-child {
+        padding-bottom: 2px;
+    }
+
+    .body {
+        align-items: flex-start;
+        margin-top: 1px;
+    }
+
+    .city {
+        font-size: 15px;
+    }
+
+    /* connector runs vertically down the node centre to the next stop */
+    .stop:not(:last-child)::after {
+        top: 28px;
+        left: 13px;
+        width: 0;
+        height: calc(100% - 28px);
+        border-top: 0;
+        border-left: 2px dashed rgba(232, 168, 56, 0.55);
+    }
+}

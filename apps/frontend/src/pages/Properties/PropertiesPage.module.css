@@ -1,0 +1,9 @@
+/* ── Results counter (monospace data readout) ── */
+.resultsCount {
+    font-family: 'Fira Code', 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--mantine-other-text-secondary);
+    text-transform: uppercase;
+}

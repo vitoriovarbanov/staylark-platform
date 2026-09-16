@@ -1,0 +1,124 @@
+.successRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed var(--mantine-color-gray-2);
+    margin-bottom: 4px;
+}
+
+.successIcon {
+    background: var(--mantine-color-teal-1);
+    color: var(--mantine-color-teal-7);
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.successLabel {
+    font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    color: var(--mantine-color-teal-8);
+    font-weight: 600;
+}
+
+/* === Sectional layout (mirrors TicketDetailModal) === */
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sectionLabel {
+    font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    color: var(--mantine-color-gray-7);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sectionLabel::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--mantine-color-gray-2);
+}
+
+.transcription {
+    background: var(--mantine-color-gray-0);
+    border-radius: var(--mantine-radius-sm);
+    padding: 14px 16px;
+    color: var(--mantine-other-text-primary, #1e2a3a);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    border: 1px solid var(--mantine-color-gray-2);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+}
+
+.dispatchRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.reviewLine {
+    color: var(--mantine-other-text-secondary, #64748b);
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.reviewLine svg {
+    color: var(--mantine-color-gray-6);
+}
+
+.urgentBanner {
+    background: linear-gradient(135deg, #5a1620 0%, #7a1f2a 100%);
+    border-radius: var(--mantine-radius-sm);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 0.88rem;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.urgentBanner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+}
+
+.urgentBanner svg {
+    color: var(--mantine-color-amber-3);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.urgentBanner > span {
+    position: relative;
+    z-index: 1;
+}
+
+.doneButton {
+    margin-top: 4px;
+}

@@ -1,0 +1,170 @@
+@keyframes ticketFlipIn {
+    0% {
+        opacity: 0;
+        transform: perspective(800px) rotateX(-35deg) translateY(-6px);
+    }
+    60% {
+        opacity: 1;
+        transform: perspective(800px) rotateX(4deg);
+    }
+    100% {
+        opacity: 1;
+        transform: perspective(800px) rotateX(0deg);
+    }
+}
+
+.ticket {
+    position: relative;
+    display: grid;
+    grid-template-columns: 45% 55%;
+    height: 200px;
+    background: var(--mantine-color-white);
+    border: 1px solid rgba(128, 164, 255, 0.12);
+    border-radius: var(--mantine-radius-lg);
+    overflow: hidden;
+    opacity: 0;
+    animation: ticketFlipIn 0.45s ease-out forwards;
+    transform-origin: top center;
+    transition:
+        transform 300ms ease,
+        box-shadow 300ms ease;
+}
+
+.ticket:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(26, 39, 68, 0.12);
+}
+
+/* ── Photo side ─────────────────────────────── */
+
+.photo {
+    position: relative;
+    overflow: hidden;
+}
+
+.photoImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.photoFallback {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--mantine-other-navy-bg) 0%, var(--mantine-color-brand-6) 100%);
+}
+
+.photoOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(26, 39, 68, 0.55) 0%, rgba(26, 39, 68, 0.2) 55%, rgba(26, 39, 68, 0) 100%);
+    pointer-events: none;
+}
+
+.photoCity {
+    position: absolute;
+    left: 20px;
+    bottom: 18px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    line-height: 1.05;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Perforated divider ─────────────────────── */
+
+.divider {
+    position: absolute;
+    left: 45%;
+    top: 16px;
+    bottom: 16px;
+    border-left: 1.5px dashed rgba(128, 164, 255, 0.35);
+    transform: translateX(-0.75px);
+    pointer-events: none;
+    transition: filter 250ms ease;
+}
+
+.ticket:hover .divider {
+    filter: drop-shadow(0 0 3px var(--mantine-other-amber-accent));
+}
+
+/* ── Content side ───────────────────────────── */
+
+.content {
+    min-width: 0;
+}
+
+.dateRow {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--mantine-other-text-secondary);
+    text-transform: uppercase;
+}
+
+.dateRow[data-cancelled] {
+    text-decoration: line-through;
+}
+
+.title {
+    font-family: 'Figtree', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--mantine-other-text-primary);
+    line-height: 1.3;
+}
+
+.price {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--mantine-other-text-primary);
+    letter-spacing: -0.3px;
+    line-height: 1;
+}
+
+.hint {
+    font-size: 11px;
+    color: var(--mantine-other-text-secondary);
+}
+
+/* ── Reduced motion ─────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+    .ticket {
+        animation: none;
+        opacity: 1;
+    }
+
+    .ticket:hover {
+        transform: none;
+    }
+}
+
+/* ── Mobile ─────────────────────────────────── */
+
+@media (max-width: 48em) {
+    .ticket {
+        grid-template-columns: 1fr;
+        grid-template-rows: 160px auto;
+        /* Desktop locks the card to 200px; once it stacks, the content row must
+           drive the height or the title, price, and actions get clipped. */
+        height: auto;
+        min-height: 0;
+    }
+
+    .divider {
+        left: 20px;
+        right: 20px;
+        top: 160px;
+        bottom: auto;
+        border-left: none;
+        border-top: 1.5px dashed rgba(128, 164, 255, 0.35);
+        transform: translateY(-0.75px);
+    }
+}

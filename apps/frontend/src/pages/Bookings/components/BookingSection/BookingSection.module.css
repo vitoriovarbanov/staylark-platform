@@ -1,0 +1,95 @@
+.section {
+    transition: filter 250ms ease;
+}
+
+.section[data-variant='past'] {
+    filter: saturate(0.85);
+}
+
+.section[data-variant='past']:hover {
+    filter: none;
+}
+
+/* ── Departures-board header ─────────────────── */
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: var(--mantine-spacing-md);
+}
+
+.tick {
+    width: 4px;
+    height: 18px;
+    border-radius: 2px;
+    background: var(--mantine-other-amber-accent, #e8a838);
+    flex-shrink: 0;
+}
+
+.section[data-variant='cancelled'] .tick {
+    background: var(--mantine-other-text-secondary, #64748b);
+}
+
+.title {
+    margin: 0;
+    flex-shrink: 0;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--mantine-other-text-primary, #1e2a3a);
+}
+
+.perforation {
+    flex: 1;
+    min-width: 24px;
+    border-top: 1.5px dashed rgba(128, 164, 255, 0.35);
+}
+
+.count {
+    flex-shrink: 0;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--mantine-other-amber-accent, #e8a838);
+    border: 1px solid var(--mantine-other-amber-accent, #e8a838);
+    border-radius: var(--mantine-radius-sm);
+    padding: 2px 8px;
+}
+
+.section[data-variant='cancelled'] .count {
+    color: var(--mantine-other-text-secondary, #64748b);
+    border-color: var(--mantine-other-text-secondary, #64748b);
+}
+
+/* ── Show more (ticket-stub button) ──────────── */
+
+.showMore {
+    width: 100%;
+    margin-top: var(--mantine-spacing-md);
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--mantine-other-text-secondary, #64748b);
+    background: transparent;
+    border: none;
+    border-top: 1.5px dashed rgba(128, 164, 255, 0.35);
+    cursor: pointer;
+    transition:
+        color 200ms ease,
+        background 200ms ease;
+}
+
+.showMore:hover {
+    color: var(--mantine-other-text-primary, #1e2a3a);
+    background: rgba(26, 39, 68, 0.03);
+}

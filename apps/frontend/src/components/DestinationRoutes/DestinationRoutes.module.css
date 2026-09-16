@@ -1,0 +1,163 @@
+.container {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* === ROUTE ARCS — draw themselves in === */
+.routeArc {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    animation: drawRoute 1.8s ease-out forwards;
+}
+
+/* === CITY PINS === */
+.pinDot {
+    opacity: 0;
+    animation: pinAppear 0.4s ease-out forwards;
+}
+
+.pinPulse {
+    opacity: 0;
+    animation: pulseRing 3.5s ease-out infinite;
+}
+
+/* === EMPHASIS RING — outer glow for highlighted cities (e.g. Sofia) === */
+.emphasisRing {
+    opacity: 0;
+    animation:
+        emphasisAppear 0.8s ease-out forwards,
+        emphasisBreathe 4s ease-in-out 3s infinite;
+}
+
+/* === CITY LABELS === */
+.cityLabel {
+    font-family: 'Figtree', system-ui, sans-serif;
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    fill: var(--mantine-color-brand-6);
+    text-anchor: middle;
+    opacity: 0;
+    animation: labelFadeIn 0.5s ease-out forwards;
+}
+
+.cityLabelFeatured {
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    fill: var(--mantine-color-amber-7);
+    text-anchor: middle;
+    opacity: 0;
+    animation: labelFadeIn 0.5s ease-out forwards;
+}
+
+.cityLabelEmphasis {
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    fill: var(--mantine-color-amber-8);
+    text-anchor: middle;
+    opacity: 0;
+    animation: labelFadeIn 0.5s ease-out forwards;
+}
+
+/* === KEYFRAMES === */
+
+@keyframes drawRoute {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes pinAppear {
+    to {
+        opacity: 0.85;
+    }
+}
+
+@keyframes pulseRing {
+    0% {
+        r: 4;
+        opacity: 0.5;
+    }
+    50% {
+        r: 16;
+        opacity: 0;
+    }
+    100% {
+        r: 16;
+        opacity: 0;
+    }
+}
+
+@keyframes emphasisAppear {
+    to {
+        opacity: 0.4;
+    }
+}
+
+@keyframes emphasisBreathe {
+    0%,
+    100% {
+        opacity: 0.4;
+        r: 22;
+    }
+    50% {
+        opacity: 0.2;
+        r: 26;
+    }
+}
+
+@keyframes labelFadeIn {
+    to {
+        opacity: 0.55;
+    }
+}
+
+/* === REDUCED MOTION === */
+@media (prefers-reduced-motion: reduce) {
+    .routeArc {
+        animation: none;
+        stroke-dashoffset: 0;
+    }
+
+    .pinDot {
+        animation: none;
+        opacity: 0.85;
+    }
+
+    .pinPulse,
+    .emphasisRing {
+        animation: none;
+        opacity: 0;
+    }
+
+    .emphasisRing {
+        opacity: 0.35;
+    }
+
+    .cityLabel,
+    .cityLabelFeatured,
+    .cityLabelEmphasis {
+        animation: none;
+        opacity: 0.55;
+    }
+
+    .cityLabelEmphasis {
+        opacity: 0.7;
+    }
+
+    circle[r='2'] {
+        display: none;
+    }
+}

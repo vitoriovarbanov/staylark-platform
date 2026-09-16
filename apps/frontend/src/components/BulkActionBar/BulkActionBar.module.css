@@ -1,0 +1,18 @@
+.bar {
+    position: sticky;
+    bottom: 16px;
+    z-index: 20;
+    margin: 16px auto 0;
+    padding: 12px 18px;
+    background: var(--mantine-color-brand-0, #FBF1F7);
+    color: var(--mantine-other-text-primary, #1e2a3a);
+    border: 1px solid var(--mantine-color-brand-2, #EBBFD9);
+    border-radius: var(--mantine-radius-lg);
+    box-shadow: 0 12px 36px rgba(26, 39, 68, 0.18);
+}
+
+.count {
+    font-family: var(--font-mono, 'SF Mono', Menlo, monospace);
+    font-size: 12px;
+    letter-spacing: 0.6px;
+}

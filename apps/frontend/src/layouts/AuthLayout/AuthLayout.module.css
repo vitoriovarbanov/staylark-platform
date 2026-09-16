@@ -1,0 +1,160 @@
+.wrapper {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+    background: linear-gradient(165deg, #ffffff 0%, var(--mantine-other-surface-bg) 40%, #F7EFF4 100%);
+    overflow: hidden;
+}
+
+/* === FORM SIDE — right-aligned, asymmetric === */
+.formSide {
+    position: relative;
+    z-index: 1;
+    margin-left: auto;
+    width: 48%;
+    max-width: 560px;
+    min-width: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--mantine-spacing-xl) calc(var(--mantine-spacing-xl) * 2);
+    padding-bottom: calc(var(--mantine-spacing-xl) * 9);
+}
+
+.formInner {
+    width: 100%;
+    max-width: 460px;
+    animation: formReveal 0.4s ease-out 0.15s both;
+}
+
+/* === CARD — clean, lifted, with subtle warm shadow === */
+.card {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(128, 164, 255, 0.12);
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.03),
+        0 8px 32px rgba(0, 0, 0, 0.06),
+        0 0 0 1px rgba(255, 255, 255, 0.7);
+    padding: 40px !important;
+}
+
+.title {
+    color: var(--mantine-other-text-primary);
+    font-weight: 700;
+    letter-spacing: -0.3px;
+}
+
+/* === L-CORNER ACCENTS — amber, suggesting destination markers === */
+.corner {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+}
+
+.cornerTL {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid var(--mantine-color-amber-5);
+    border-left: 2px solid var(--mantine-color-amber-5);
+}
+
+.cornerTR {
+    top: -1px;
+    right: -1px;
+    border-top: 2px solid var(--mantine-color-amber-5);
+    border-right: 2px solid var(--mantine-color-amber-5);
+}
+
+.cornerBL {
+    bottom: -1px;
+    left: -1px;
+    border-bottom: 2px solid var(--mantine-color-amber-5);
+    border-left: 2px solid var(--mantine-color-amber-5);
+}
+
+.cornerBR {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid var(--mantine-color-amber-5);
+    border-right: 2px solid var(--mantine-color-amber-5);
+}
+
+/* === FORM REVEAL === */
+@keyframes formReveal {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+    .formSide {
+        width: 55%;
+        padding: var(--mantine-spacing-xl);
+    }
+}
+
+@media (max-width: 768px) {
+    .wrapper {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .formSide {
+        width: 100%;
+        max-width: none;
+        min-width: auto;
+        padding: var(--mantine-spacing-lg) var(--mantine-spacing-md);
+    }
+
+    .formInner {
+        max-width: 440px;
+        margin: 0 auto;
+    }
+
+    .card {
+        padding: 28px !important;
+        background-color: rgba(255, 255, 255, 0.97);
+        backdrop-filter: blur(16px);
+    }
+}
+
+@media (max-width: 480px) {
+    .formSide {
+        padding: var(--mantine-spacing-md);
+    }
+
+    .card {
+        padding: 24px !important;
+    }
+
+    .formInner {
+        max-width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .formInner {
+        animation: none;
+    }
+}
+
+/* Wordmark beside the logo mark — set in the heading face so it reads as brand,
+   not body copy. Paired with the decorative mark in AuthLayout.tsx. */
+.logoWord {
+    font-family: Outfit, system-ui, -apple-system, sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.6px;
+    color: var(--mantine-color-brand-6);
+}

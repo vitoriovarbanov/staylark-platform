@@ -1,0 +1,32 @@
+.header {
+    border-bottom: 1px solid var(--mantine-color-gray-2);
+    background-color: var(--mantine-color-white);
+}
+
+.logo {
+    text-decoration: none;
+}
+
+.logoText {
+    color: var(--mantine-color-brand-6);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.navLink {
+    width: auto;
+    border-radius: var(--mantine-radius-md);
+    padding: 6px 12px;
+    font-weight: 500;
+    font-size: var(--mantine-font-size-sm);
+}
+
+.userButton {
+    padding: 4px 8px;
+    border-radius: var(--mantine-radius-md);
+    transition: background-color 150ms ease;
+
+    &:hover {
+        background-color: var(--mantine-color-gray-0);
+    }
+}

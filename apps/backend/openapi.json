@@ -1,0 +1,3987 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Staylark API",
+        "version": "1.0.0",
+        "description": "Interactive API reference for the Staylark backend.\n\n## Authentication\nMost endpoints require a Bearer token. To obtain one:\n\n```bash\ncurl -X POST '<BASE_URL>/api/auth/sign-in/email' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"email\":\"you@example.com\",\"password\":\"yourpassword\"}'\n```\n\nCopy the `token` from the response, click **Authorize** above, and paste it."
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Current host"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "session-token",
+                "description": "Better Auth session token. Obtain via `POST /api/auth/sign-in/email`, then paste the returned `token` here."
+            }
+        },
+        "schemas": {
+            "ErrorResponse": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "statusCode": {
+                        "type": "number"
+                    },
+                    "errorCode": {
+                        "type": "string"
+                    },
+                    "details": {}
+                },
+                "required": ["error", "message", "statusCode"],
+                "example": {
+                    "error": "Validation Error",
+                    "message": "guests: Number must be greater than 0",
+                    "statusCode": 400
+                }
+            },
+            "Property": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                    },
+                    "description": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": ["APARTMENT", "HOUSE", "HOTEL"]
+                    },
+                    "city": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "address": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "nightlyPrice": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                    },
+                    "minNightlyPrice": {
+                        "type": ["number", "null"],
+                        "exclusiveMinimum": 0
+                    },
+                    "maxNightlyPrice": {
+                        "type": ["number", "null"],
+                        "exclusiveMinimum": 0
+                    },
+                    "maxGuests": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0
+                    },
+                    "amenities": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "photos": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "uri"
+                        }
+                    },
+                    "managerId": {
+                        "type": ["string", "null"],
+                        "minLength": 1
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "title",
+                    "description",
+                    "type",
+                    "city",
+                    "address",
+                    "nightlyPrice",
+                    "maxGuests",
+                    "amenities",
+                    "photos",
+                    "createdAt",
+                    "updatedAt"
+                ]
+            },
+            "CreateProperty": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                    },
+                    "description": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": ["APARTMENT", "HOUSE", "HOTEL"]
+                    },
+                    "city": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "address": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "nightlyPrice": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                    },
+                    "minNightlyPrice": {
+                        "type": ["number", "null"],
+                        "exclusiveMinimum": 0
+                    },
+                    "maxNightlyPrice": {
+                        "type": ["number", "null"],
+                        "exclusiveMinimum": 0
+                    },
+                    "maxGuests": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 20,
+                        "default": 4
+                    },
+                    "amenities": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "managerId": {
+                        "type": ["string", "null"],
+                        "minLength": 1
+                    },
+                    "photos": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        "maxItems": 10,
+                        "default": []
+                    }
+                },
+                "required": ["title", "description", "type", "city", "address", "nightlyPrice", "amenities"]
+            },
+            "UpdateProperty": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                    },
+                    "description": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": ["APARTMENT", "HOUSE", "HOTEL"]
+                    },
+                    "city": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "address": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "nightlyPrice": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                    },
+                    "minNightlyPrice": {
+                        "type": ["number", "null"],
+                        "exclusiveMinimum": 0
+                    },
+                    "maxNightlyPrice": {
+                        "type": ["number", "null"],
+                        "exclusiveMinimum": 0
+                    },
+                    "maxGuests": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 20,
+                        "default": 4
+                    },
+                    "amenities": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "managerId": {
+                        "type": ["string", "null"],
+                        "minLength": 1
+                    },
+                    "photos": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        "maxItems": 10,
+                        "default": []
+                    }
+                }
+            },
+            "ImportRowError": {
+                "type": "object",
+                "properties": {
+                    "row": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0
+                    },
+                    "column": {
+                        "type": ["string", "null"]
+                    },
+                    "value": {
+                        "type": ["string", "null"]
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "required": ["row", "column", "value", "message"]
+            },
+            "ImportPropertiesResult": {
+                "type": "object",
+                "properties": {
+                    "created": {
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    "properties": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "title": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 200
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "minLength": 1
+                                },
+                                "type": {
+                                    "type": "string",
+                                    "enum": ["APARTMENT", "HOUSE", "HOTEL"]
+                                },
+                                "city": {
+                                    "type": "string",
+                                    "minLength": 1
+                                },
+                                "address": {
+                                    "type": "string",
+                                    "minLength": 1
+                                },
+                                "nightlyPrice": {
+                                    "type": "number",
+                                    "exclusiveMinimum": 0
+                                },
+                                "minNightlyPrice": {
+                                    "type": ["number", "null"],
+                                    "exclusiveMinimum": 0
+                                },
+                                "maxNightlyPrice": {
+                                    "type": ["number", "null"],
+                                    "exclusiveMinimum": 0
+                                },
+                                "maxGuests": {
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0
+                                },
+                                "amenities": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "photos": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "format": "uri"
+                                    }
+                                },
+                                "managerId": {
+                                    "type": ["string", "null"],
+                                    "minLength": 1
+                                },
+                                "createdAt": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "updatedAt": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "title",
+                                "description",
+                                "type",
+                                "city",
+                                "address",
+                                "nightlyPrice",
+                                "maxGuests",
+                                "amenities",
+                                "photos",
+                                "createdAt",
+                                "updatedAt"
+                            ]
+                        }
+                    }
+                },
+                "required": ["created", "properties"]
+            },
+            "Booking": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "userId": {
+                        "type": "string"
+                    },
+                    "propertyId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "checkIn": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "checkOut": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "guests": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0
+                    },
+                    "totalPrice": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                    },
+                    "priceBreakdown": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "date": {
+                                    "type": "string",
+                                    "format": "date"
+                                },
+                                "price": {
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "appliedRules": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "required": ["date", "price", "appliedRules"]
+                        },
+                        "minItems": 1
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": ["PENDING", "CONFIRMED", "ACTIVE", "COMPLETED", "CANCELLED"]
+                    },
+                    "cancellationReason": {
+                        "type": ["string", "null"],
+                        "enum": ["MANUAL_GUEST", "MANUAL_ADMIN", "AUTO_EXPIRED_NO_CONFIRMATION"]
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "userId",
+                    "propertyId",
+                    "checkIn",
+                    "checkOut",
+                    "guests",
+                    "totalPrice",
+                    "priceBreakdown",
+                    "status",
+                    "cancellationReason",
+                    "createdAt",
+                    "updatedAt"
+                ]
+            },
+            "CreateBooking": {
+                "type": "object",
+                "properties": {
+                    "propertyId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "checkIn": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "checkOut": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "guests": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0
+                    },
+                    "expectedTotalPrice": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                    }
+                },
+                "required": ["propertyId", "checkIn", "checkOut", "guests"]
+            },
+            "Feedback": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "userId": {
+                        "type": "string"
+                    },
+                    "propertyId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "bookingId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "audioUrl": {
+                        "type": ["string", "null"],
+                        "format": "uri"
+                    },
+                    "transcription": {
+                        "type": ["string", "null"]
+                    },
+                    "sentiment": {
+                        "type": ["string", "null"],
+                        "enum": ["POSITIVE", "NEUTRAL", "NEGATIVE"]
+                    },
+                    "topics": {
+                        "type": ["array", "null"],
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "score": {
+                        "type": ["integer", "null"],
+                        "minimum": 1,
+                        "maximum": 5
+                    },
+                    "summary": {
+                        "type": ["string", "null"]
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "userId",
+                    "propertyId",
+                    "bookingId",
+                    "audioUrl",
+                    "transcription",
+                    "sentiment",
+                    "topics",
+                    "score",
+                    "summary",
+                    "createdAt",
+                    "updatedAt"
+                ]
+            },
+            "FeedbackAggregation": {
+                "type": "object",
+                "properties": {
+                    "totalCount": {
+                        "type": "integer"
+                    },
+                    "averageScore": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 5
+                    },
+                    "sentimentBreakdown": {
+                        "type": "object",
+                        "properties": {
+                            "POSITIVE": {
+                                "type": "integer"
+                            },
+                            "NEUTRAL": {
+                                "type": "integer"
+                            },
+                            "NEGATIVE": {
+                                "type": "integer"
+                            }
+                        },
+                        "required": ["POSITIVE", "NEUTRAL", "NEGATIVE"]
+                    },
+                    "topTopics": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "topic": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                },
+                                "dominantSentiment": {
+                                    "type": "string",
+                                    "enum": ["POSITIVE", "NEUTRAL", "NEGATIVE"]
+                                }
+                            },
+                            "required": ["topic", "count", "dominantSentiment"]
+                        }
+                    },
+                    "feedbackOverTime": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "period": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                },
+                                "averageScore": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 5
+                                },
+                                "positive": {
+                                    "type": "integer"
+                                },
+                                "neutral": {
+                                    "type": "integer"
+                                },
+                                "negative": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": ["period", "count", "averageScore", "positive", "neutral", "negative"]
+                        }
+                    },
+                    "feedbacks": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "userId": {
+                                    "type": "string"
+                                },
+                                "propertyId": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "bookingId": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "audioUrl": {
+                                    "type": ["string", "null"],
+                                    "format": "uri"
+                                },
+                                "transcription": {
+                                    "type": ["string", "null"]
+                                },
+                                "sentiment": {
+                                    "type": ["string", "null"],
+                                    "enum": ["POSITIVE", "NEUTRAL", "NEGATIVE"]
+                                },
+                                "topics": {
+                                    "type": ["array", "null"],
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "score": {
+                                    "type": ["integer", "null"],
+                                    "minimum": 1,
+                                    "maximum": 5
+                                },
+                                "summary": {
+                                    "type": ["string", "null"]
+                                },
+                                "createdAt": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "updatedAt": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "userId",
+                                "propertyId",
+                                "bookingId",
+                                "audioUrl",
+                                "transcription",
+                                "sentiment",
+                                "topics",
+                                "score",
+                                "summary",
+                                "createdAt",
+                                "updatedAt"
+                            ]
+                        }
+                    },
+                    "totalPages": {
+                        "type": "integer"
+                    },
+                    "responseRate": {
+                        "type": ["number", "null"],
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "completedBookings": {
+                        "type": "integer"
+                    },
+                    "negativeRate": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "voiceCount": {
+                        "type": "integer"
+                    },
+                    "textCount": {
+                        "type": "integer"
+                    },
+                    "avgDaysToFeedback": {
+                        "type": ["number", "null"]
+                    },
+                    "scoreDistribution": {
+                        "type": "object",
+                        "properties": {
+                            "1": {
+                                "type": "integer"
+                            },
+                            "2": {
+                                "type": "integer"
+                            },
+                            "3": {
+                                "type": "integer"
+                            },
+                            "4": {
+                                "type": "integer"
+                            },
+                            "5": {
+                                "type": "integer"
+                            }
+                        },
+                        "required": ["1", "2", "3", "4", "5"]
+                    },
+                    "needsAttention": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "userId": {
+                                    "type": "string"
+                                },
+                                "propertyId": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "bookingId": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "audioUrl": {
+                                    "type": ["string", "null"],
+                                    "format": "uri"
+                                },
+                                "transcription": {
+                                    "type": ["string", "null"]
+                                },
+                                "sentiment": {
+                                    "type": ["string", "null"],
+                                    "enum": ["POSITIVE", "NEUTRAL", "NEGATIVE"]
+                                },
+                                "topics": {
+                                    "type": ["array", "null"],
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "score": {
+                                    "type": ["integer", "null"],
+                                    "minimum": 1,
+                                    "maximum": 5
+                                },
+                                "summary": {
+                                    "type": ["string", "null"]
+                                },
+                                "createdAt": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "updatedAt": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "userId",
+                                "propertyId",
+                                "bookingId",
+                                "audioUrl",
+                                "transcription",
+                                "sentiment",
+                                "topics",
+                                "score",
+                                "summary",
+                                "createdAt",
+                                "updatedAt"
+                            ]
+                        }
+                    },
+                    "previous": {
+                        "type": ["object", "null"],
+                        "properties": {
+                            "totalCount": {
+                                "type": "integer"
+                            },
+                            "averageScore": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 5
+                            },
+                            "negativeRate": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "responseRate": {
+                                "type": ["number", "null"],
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        },
+                        "required": ["totalCount", "averageScore", "negativeRate", "responseRate"]
+                    }
+                },
+                "required": [
+                    "totalCount",
+                    "averageScore",
+                    "sentimentBreakdown",
+                    "topTopics",
+                    "feedbackOverTime",
+                    "feedbacks",
+                    "totalPages",
+                    "responseRate",
+                    "completedBookings",
+                    "negativeRate",
+                    "voiceCount",
+                    "textCount",
+                    "avgDaysToFeedback",
+                    "scoreDistribution",
+                    "needsAttention",
+                    "previous"
+                ]
+            },
+            "Ticket": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "userId": {
+                        "type": "string"
+                    },
+                    "propertyId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "propertyTitle": {
+                        "type": "string"
+                    },
+                    "propertyCity": {
+                        "type": "string"
+                    },
+                    "bookingId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "assignedToId": {
+                        "type": ["string", "null"]
+                    },
+                    "assignedToName": {
+                        "type": ["string", "null"]
+                    },
+                    "transcription": {
+                        "type": ["string", "null"]
+                    },
+                    "category": {
+                        "type": ["string", "null"],
+                        "enum": ["NOISE", "DAMAGE", "CLEANLINESS", "DELIVERY", "UTILITIES", "EMERGENCY"]
+                    },
+                    "categoryRaw": {
+                        "type": ["string", "null"]
+                    },
+                    "priority": {
+                        "type": "string",
+                        "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": ["OPEN", "IN_PROGRESS", "RESOLVED", "DISMISSED"]
+                    },
+                    "summary": {
+                        "type": ["string", "null"]
+                    },
+                    "needsReview": {
+                        "type": "boolean"
+                    },
+                    "needsAssignment": {
+                        "type": "boolean"
+                    },
+                    "messageCount": {
+                        "type": "integer"
+                    },
+                    "unreadMessageCount": {
+                        "type": "integer"
+                    },
+                    "awaitingStaffReply": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "userId",
+                    "propertyId",
+                    "propertyTitle",
+                    "propertyCity",
+                    "bookingId",
+                    "assignedToId",
+                    "assignedToName",
+                    "transcription",
+                    "category",
+                    "categoryRaw",
+                    "priority",
+                    "status",
+                    "summary",
+                    "needsReview",
+                    "needsAssignment",
+                    "messageCount",
+                    "unreadMessageCount",
+                    "awaitingStaffReply",
+                    "createdAt",
+                    "updatedAt"
+                ]
+            },
+            "UpdateTicketStatus": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "enum": ["OPEN", "IN_PROGRESS", "RESOLVED", "DISMISSED"]
+                    }
+                },
+                "required": ["status"]
+            },
+            "PricingRule": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "propertyId": {
+                        "type": ["string", "null"],
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": ["SEASONAL", "OCCUPANCY", "DEMAND", "LAST_MINUTE", "DAY_OF_WEEK", "DURATION_DISCOUNT"]
+                    },
+                    "multiplier": {
+                        "type": "number",
+                        "minimum": 0.5,
+                        "maximum": 2
+                    },
+                    "startDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "isActive": {
+                        "type": "boolean"
+                    },
+                    "minNights": {
+                        "type": ["integer", "null"],
+                        "minimum": 2,
+                        "maximum": 365
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "propertyId",
+                    "name",
+                    "type",
+                    "multiplier",
+                    "startDate",
+                    "endDate",
+                    "isActive",
+                    "minNights",
+                    "createdAt",
+                    "updatedAt"
+                ]
+            },
+            "PricingRuleCreate": {
+                "type": "object",
+                "properties": {
+                    "propertyId": {
+                        "type": ["string", "null"],
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": ["SEASONAL", "OCCUPANCY", "DEMAND", "LAST_MINUTE", "DAY_OF_WEEK", "DURATION_DISCOUNT"]
+                    },
+                    "multiplier": {
+                        "type": "number",
+                        "minimum": 0.5,
+                        "maximum": 2
+                    },
+                    "startDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "isActive": {
+                        "type": "boolean"
+                    },
+                    "minNights": {
+                        "type": ["integer", "null"],
+                        "minimum": 2,
+                        "maximum": 365
+                    }
+                },
+                "required": ["name", "type", "multiplier", "startDate", "endDate"]
+            },
+            "PricingRuleUpdate": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": ["SEASONAL", "OCCUPANCY", "DEMAND", "LAST_MINUTE", "DAY_OF_WEEK", "DURATION_DISCOUNT"]
+                    },
+                    "multiplier": {
+                        "type": "number",
+                        "minimum": 0.5,
+                        "maximum": 2
+                    },
+                    "startDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "isActive": {
+                        "type": "boolean"
+                    },
+                    "minNights": {
+                        "type": ["integer", "null"],
+                        "minimum": 2,
+                        "maximum": 365
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ManagerSummary": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": ["USER", "MANAGER", "ADMIN"]
+                    }
+                },
+                "required": ["id", "name", "email", "role"]
+            }
+        },
+        "parameters": {}
+    },
+    "paths": {
+        "/api/properties/amenities": {
+            "get": {
+                "tags": ["Properties"],
+                "summary": "List all distinct amenities",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Amenity names",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/properties/cities": {
+            "get": {
+                "tags": ["Properties"],
+                "summary": "List all distinct cities",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "City names",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/properties": {
+            "get": {
+                "tags": ["Properties"],
+                "summary": "List properties (filterable, paginated)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": false,
+                        "name": "city",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": ["APARTMENT", "HOUSE", "HOTEL"]
+                        },
+                        "required": false,
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "required": false,
+                        "name": "minPrice",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "required": false,
+                        "name": "maxPrice",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "required": false,
+                        "name": "amenities",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": ["title", "city", "basePrice", "createdAt"]
+                        },
+                        "required": false,
+                        "name": "sort",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": ["asc", "desc"]
+                        },
+                        "required": false,
+                        "name": "order",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "exclusiveMinimum": 0,
+                            "default": 1
+                        },
+                        "required": false,
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "exclusiveMinimum": 0,
+                            "maximum": 100,
+                            "default": 20
+                        },
+                        "required": false,
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paginated properties",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Property"
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "number"
+                                        },
+                                        "page": {
+                                            "type": "number"
+                                        },
+                                        "limit": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "required": ["data", "total", "page", "limit"]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Properties"],
+                "summary": "Create a property (ADMIN only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateProperty"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created property",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Property"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/properties/{id}": {
+            "get": {
+                "tags": ["Properties"],
+                "summary": "Get a property by ID",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "description": "Property ID"
+                        },
+                        "required": true,
+                        "description": "Property ID",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Property",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Property"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["Properties"],
+                "summary": "Update a property (ADMIN only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "description": "Property ID"
+                        },
+                        "required": true,
+                        "description": "Property ID",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateProperty"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated property",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Property"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Properties"],
+                "summary": "Soft-delete a property (ADMIN only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "description": "Property ID"
+                        },
+                        "required": true,
+                        "description": "Property ID",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Deleted (no content)"
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/properties/{id}/availability": {
+            "get": {
+                "tags": ["Properties"],
+                "summary": "Get a property's booked date ranges",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "description": "Property ID"
+                        },
+                        "required": true,
+                        "description": "Property ID",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Booked date ranges",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "checkIn": {
+                                                "type": "string"
+                                            },
+                                            "checkOut": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": ["checkIn", "checkOut"]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/properties/import/template": {
+            "get": {
+                "tags": ["Properties"],
+                "summary": "Download the bulk-import spreadsheet template (MANAGER only)",
+                "description": "Generated per request so the amenity suggestions reflect the live catalogue. Contains three sheets: Properties (fill this in), Reference and Example.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "XLSX template",
+                        "content": {
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/properties/import": {
+            "post": {
+                "tags": ["Properties"],
+                "summary": "Bulk-create properties from a spreadsheet (MANAGER only)",
+                "description": "All-or-nothing: any invalid row rejects the whole file and nothing is written. Every created property is assigned to the uploading manager; a managerId column is not accepted. Photo URLs are validated for reachability during the request, then re-hosted on Cloudinary in the background.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": ["file"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Properties created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ImportPropertiesResult"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "The file was rejected. No properties were created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "statusCode": {
+                                            "type": "number",
+                                            "enum": [422]
+                                        },
+                                        "errorCode": {
+                                            "type": "string",
+                                            "enum": ["IMPORT_VALIDATION_FAILED"]
+                                        },
+                                        "details": {
+                                            "type": "object",
+                                            "properties": {
+                                                "rowCount": {
+                                                    "type": "number"
+                                                },
+                                                "errors": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/ImportRowError"
+                                                    }
+                                                }
+                                            },
+                                            "required": ["rowCount", "errors"]
+                                        }
+                                    },
+                                    "required": ["error", "message", "statusCode", "errorCode", "details"]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/upload/signature": {
+            "post": {
+                "tags": ["Upload"],
+                "summary": "Get a Cloudinary upload signature (MANAGER/ADMIN only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "folder": {
+                                        "type": "string",
+                                        "enum": ["properties", "avatars"]
+                                    }
+                                },
+                                "required": ["folder"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cloudinary signature parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "signature": {
+                                                    "type": "string"
+                                                },
+                                                "timestamp": {
+                                                    "type": "number"
+                                                },
+                                                "apiKey": {
+                                                    "type": "string"
+                                                },
+                                                "cloudName": {
+                                                    "type": "string"
+                                                },
+                                                "folder": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": ["signature", "timestamp", "apiKey", "cloudName", "folder"]
+                                        }
+                                    },
+                                    "required": ["data"]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/upload": {
+            "delete": {
+                "tags": ["Upload"],
+                "summary": "Delete an uploaded image by public ID (ADMIN only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "publicId": {
+                                        "type": "string",
+                                        "minLength": 1
+                                    }
+                                },
+                                "required": ["publicId"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Deletion result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "result": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": ["result"]
+                                        }
+                                    },
+                                    "required": ["data"]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/bookings": {
+            "post": {
+                "tags": ["Bookings"],
+                "summary": "Create a booking",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateBooking"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created booking",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Booking"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Bookings"],
+                "summary": "List the current user’s bookings (paginated)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": ["PENDING", "CONFIRMED", "ACTIVE", "COMPLETED", "CANCELLED"]
+                        },
+                        "required": false,
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": false,
+                        "name": "propertyId",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": false,
+                        "name": "userId",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": false,
+                        "name": "guestName",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "required": false,
+                        "name": "checkInFrom",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "required": false,
+                        "name": "checkInTo",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "default": 1
+                        },
+                        "required": false,
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100,
+                            "default": 20
+                        },
+                        "required": false,
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": ["createdAt", "checkIn", "status"]
+                        },
+                        "required": false,
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": ["asc", "desc"],
+                            "default": "desc"
+                        },
+                        "required": false,
+                        "name": "sortOrder",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paginated bookings",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Booking"
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "number"
+                                        },
+                                        "page": {
+                                            "type": "number"
+                                        },
+                                        "limit": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "required": ["data", "total", "page", "limit"]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/bookings/pending-near-expiry-count": {
+            "get": {
+                "tags": ["Bookings"],
+                "summary": "Count of the user’s pending bookings near expiry",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pending-near-expiry count",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                        }
+                                    },
+                                    "required": ["count"]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/bookings/{id}": {
+            "get": {
+                "tags": ["Bookings"],
+                "summary": "Get a booking by ID",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true,
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Booking",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Booking"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/bookings/{id}/confirm": {
+            "patch": {
+                "tags": ["Bookings"],
+                "summary": "Confirm a pending booking",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true,
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string",
+                                    "enum": ["true"]
+                                },
+                                {
+                                    "type": "string",
+                                    "enum": ["false"]
+                                },
+                                {
+                                    "type": "boolean"
+                                }
+                            ]
+                        },
+                        "required": false,
+                        "name": "notify",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Confirmed booking",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Booking"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/bookings/{id}/cancel": {
+            "patch": {
+                "tags": ["Bookings"],
+                "summary": "Cancel a booking",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true,
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cancelled booking",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Booking"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/feedback/eligible": {
+            "get": {
+                "tags": ["Feedback"],
+                "summary": "List bookings eligible for feedback",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Eligible bookings",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "eligibleBookings": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "bookingId": {
+                                                        "type": "string",
+                                                        "format": "uuid"
+                                                    },
+                                                    "propertyId": {
+                                                        "type": "string",
+                                                        "format": "uuid"
+                                                    },
+                                                    "propertyName": {
+                                                        "type": "string"
+                                                    },
+                                                    "propertyCity": {
+                                                        "type": "string"
+                                                    },
+                                                    "checkOutDate": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "bookingId",
+                                                    "propertyId",
+                                                    "propertyName",
+                                                    "propertyCity",
+                                                    "checkOutDate"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "required": ["eligibleBookings"]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/feedback": {
+            "post": {
+                "tags": ["Feedback"],
+                "summary": "Submit feedback (voice or text)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "propertyId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "bookingId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "text": {
+                                        "type": "string",
+                                        "minLength": 10,
+                                        "maxLength": 2000
+                                    },
+                                    "audio": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": ["propertyId", "bookingId"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created feedback",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Feedback"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/feedback/booking/{bookingId}": {
+            "get": {
+                "tags": ["Feedback"],
+                "summary": "Get feedback for a booking",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true,
+                        "name": "bookingId",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Feedback",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Feedback"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/feedback/property/{propertyId}": {
+            "get": {
+                "tags": ["Feedback"],
+                "summary": "Aggregated feedback for a property (ADMIN only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true,
+                        "name": "propertyId",
+                        "in": "path"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                        },
+                        "required": false,
+                        "name": "startDate",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                        },
+                        "required": false,
+                        "name": "endDate",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "required": false,
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 50
+                        },
+                        "required": false,
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": ["createdAt"]
+                        },
+                        "required": false,
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": ["asc", "desc"],
+                            "default": "desc"
+                        },
+                        "required": false,
+                        "name": "sortOrder",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Feedback aggregation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeedbackAggregation"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tickets": {
+            "get": {
+                "tags": ["Tickets"],
+                "summary": "List tickets (filterable)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": ["OPEN", "IN_PROGRESS", "RESOLVED", "DISMISSED"]
+                        },
+                        "required": false,
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+                        },
+                        "required": false,
+                        "name": "priority",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": ["NOISE", "DAMAGE", "CLEANLINESS", "DELIVERY", "UTILITIES", "EMERGENCY"]
+                        },
+                        "required": false,
+                        "name": "category",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": false,
+                        "name": "propertyId",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "minLength": 1
+                        },
+                        "required": false,
+                        "name": "assignedToId",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": ["true", "false"]
+                        },
+                        "required": false,
+                        "name": "needsAssignment",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "default": 1
+                        },
+                        "required": false,
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100,
+                            "default": 20
+                        },
+                        "required": false,
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": ["priority", "status", "assignee", "createdAt"]
+                        },
+                        "required": false,
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": ["asc", "desc"],
+                            "default": "desc"
+                        },
+                        "required": false,
+                        "name": "sortOrder",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tickets",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "tickets": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "format": "uuid"
+                                                    },
+                                                    "userId": {
+                                                        "type": "string"
+                                                    },
+                                                    "propertyId": {
+                                                        "type": "string",
+                                                        "format": "uuid"
+                                                    },
+                                                    "propertyTitle": {
+                                                        "type": "string"
+                                                    },
+                                                    "propertyCity": {
+                                                        "type": "string"
+                                                    },
+                                                    "bookingId": {
+                                                        "type": "string",
+                                                        "format": "uuid"
+                                                    },
+                                                    "assignedToId": {
+                                                        "type": ["string", "null"]
+                                                    },
+                                                    "assignedToName": {
+                                                        "type": ["string", "null"]
+                                                    },
+                                                    "transcription": {
+                                                        "type": ["string", "null"]
+                                                    },
+                                                    "category": {
+                                                        "type": ["string", "null"],
+                                                        "enum": [
+                                                            "NOISE",
+                                                            "DAMAGE",
+                                                            "CLEANLINESS",
+                                                            "DELIVERY",
+                                                            "UTILITIES",
+                                                            "EMERGENCY"
+                                                        ]
+                                                    },
+                                                    "categoryRaw": {
+                                                        "type": ["string", "null"]
+                                                    },
+                                                    "priority": {
+                                                        "type": "string",
+                                                        "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "enum": ["OPEN", "IN_PROGRESS", "RESOLVED", "DISMISSED"]
+                                                    },
+                                                    "summary": {
+                                                        "type": ["string", "null"]
+                                                    },
+                                                    "needsReview": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "needsAssignment": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "messageCount": {
+                                                        "type": "integer"
+                                                    },
+                                                    "unreadMessageCount": {
+                                                        "type": "integer"
+                                                    },
+                                                    "awaitingStaffReply": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "createdAt": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "updatedAt": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "id",
+                                                    "userId",
+                                                    "propertyId",
+                                                    "propertyTitle",
+                                                    "propertyCity",
+                                                    "bookingId",
+                                                    "assignedToId",
+                                                    "assignedToName",
+                                                    "transcription",
+                                                    "category",
+                                                    "categoryRaw",
+                                                    "priority",
+                                                    "status",
+                                                    "summary",
+                                                    "needsReview",
+                                                    "needsAssignment",
+                                                    "messageCount",
+                                                    "unreadMessageCount",
+                                                    "awaitingStaffReply",
+                                                    "createdAt",
+                                                    "updatedAt"
+                                                ]
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "integer"
+                                        },
+                                        "page": {
+                                            "type": "integer"
+                                        },
+                                        "limit": {
+                                            "type": "integer"
+                                        },
+                                        "totalPages": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": ["tickets", "total", "page", "limit", "totalPages"]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Tickets"],
+                "summary": "Report a problem (voice or text)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "propertyId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "bookingId": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "text": {
+                                        "type": "string",
+                                        "minLength": 10,
+                                        "maxLength": 2000
+                                    },
+                                    "audio": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": ["propertyId", "bookingId"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created ticket",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ticket"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tickets/{id}": {
+            "get": {
+                "tags": ["Tickets"],
+                "summary": "Get a ticket by ID",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true,
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ticket",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ticket"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tickets/{id}/status": {
+            "put": {
+                "tags": ["Tickets"],
+                "summary": "Update ticket status (MANAGER/ADMIN only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true,
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateTicketStatus"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated ticket",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ticket"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pricing/model": {
+            "get": {
+                "tags": ["Pricing"],
+                "summary": "Get pricing model metadata (MANAGER/ADMIN only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pricing model metadata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "modelVersion": {
+                                            "type": "string"
+                                        },
+                                        "trainedAt": {
+                                            "type": "string"
+                                        },
+                                        "dataSource": {
+                                            "type": "string",
+                                            "enum": ["synthetic", "real"]
+                                        },
+                                        "rSquared": {
+                                            "type": "number"
+                                        },
+                                        "note": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": ["modelVersion", "trainedAt", "dataSource", "rSquared", "note"]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pricing/rules": {
+            "get": {
+                "tags": ["Pricing"],
+                "summary": "List pricing rules (MANAGER/ADMIN only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": false,
+                        "name": "propertyId",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "required": false,
+                        "name": "activeOn",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "string",
+                                    "enum": ["true", "false"]
+                                }
+                            ],
+                            "default": false
+                        },
+                        "required": false,
+                        "name": "includeInactive",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "default": 1
+                        },
+                        "required": false,
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100,
+                            "default": 20
+                        },
+                        "required": false,
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pricing rules",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "format": "uuid"
+                                                    },
+                                                    "propertyId": {
+                                                        "type": ["string", "null"],
+                                                        "format": "uuid"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "minLength": 1,
+                                                        "maxLength": 200
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "SEASONAL",
+                                                            "OCCUPANCY",
+                                                            "DEMAND",
+                                                            "LAST_MINUTE",
+                                                            "DAY_OF_WEEK",
+                                                            "DURATION_DISCOUNT"
+                                                        ]
+                                                    },
+                                                    "multiplier": {
+                                                        "type": "number",
+                                                        "minimum": 0.5,
+                                                        "maximum": 2
+                                                    },
+                                                    "startDate": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "endDate": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "isActive": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "minNights": {
+                                                        "type": ["integer", "null"],
+                                                        "minimum": 2,
+                                                        "maximum": 365
+                                                    },
+                                                    "createdAt": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "updatedAt": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "id",
+                                                    "propertyId",
+                                                    "name",
+                                                    "type",
+                                                    "multiplier",
+                                                    "startDate",
+                                                    "endDate",
+                                                    "isActive",
+                                                    "minNights",
+                                                    "createdAt",
+                                                    "updatedAt"
+                                                ]
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
+                                        "page": {
+                                            "type": "integer",
+                                            "exclusiveMinimum": 0
+                                        },
+                                        "limit": {
+                                            "type": "integer",
+                                            "exclusiveMinimum": 0
+                                        }
+                                    },
+                                    "required": ["data", "total", "page", "limit"]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Pricing"],
+                "summary": "Create a pricing rule (MANAGER/ADMIN only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PricingRuleCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created pricing rule",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PricingRule"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pricing/rules/{id}": {
+            "patch": {
+                "tags": ["Pricing"],
+                "summary": "Update a pricing rule (MANAGER/ADMIN only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true,
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PricingRuleUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated pricing rule",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PricingRule"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Pricing"],
+                "summary": "Delete a pricing rule (MANAGER/ADMIN only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true,
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Deleted (no content)"
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pricing/{propertyId}": {
+            "get": {
+                "tags": ["Pricing"],
+                "summary": "Get a price quote for a property",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "description": "Property ID"
+                        },
+                        "required": true,
+                        "description": "Property ID",
+                        "name": "propertyId",
+                        "in": "path"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "required": true,
+                        "name": "checkIn",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "required": true,
+                        "name": "checkOut",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Price quote",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "propertyId": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "basePrice": {
+                                            "type": "number",
+                                            "exclusiveMinimum": 0
+                                        },
+                                        "dynamicPrice": {
+                                            "type": "number",
+                                            "exclusiveMinimum": 0
+                                        },
+                                        "breakdown": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "minimum": 0
+                                                    },
+                                                    "appliedRules": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                },
+                                                "required": ["date", "price", "appliedRules"]
+                                            }
+                                        },
+                                        "totalPrice": {
+                                            "type": "number",
+                                            "exclusiveMinimum": 0
+                                        },
+                                        "nights": {
+                                            "type": "integer",
+                                            "exclusiveMinimum": 0
+                                        },
+                                        "modelVersion": {
+                                            "type": "string"
+                                        },
+                                        "durationDiscount": {
+                                            "type": ["object", "null"],
+                                            "properties": {
+                                                "ruleName": {
+                                                    "type": "string",
+                                                    "minLength": 1
+                                                },
+                                                "percent": {
+                                                    "type": "integer",
+                                                    "minimum": 1,
+                                                    "maximum": 99
+                                                },
+                                                "originalTotal": {
+                                                    "type": "number",
+                                                    "exclusiveMinimum": 0
+                                                },
+                                                "minNights": {
+                                                    "type": "integer",
+                                                    "exclusiveMinimum": 0
+                                                }
+                                            },
+                                            "required": ["ruleName", "percent", "originalTotal", "minNights"]
+                                        }
+                                    },
+                                    "required": [
+                                        "propertyId",
+                                        "basePrice",
+                                        "dynamicPrice",
+                                        "breakdown",
+                                        "totalPrice",
+                                        "nights",
+                                        "modelVersion",
+                                        "durationDiscount"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/managers": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "List managers (ADMIN only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Managers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ManagerSummary"
+                                            }
+                                        }
+                                    },
+                                    "required": ["data"]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/{id}": {
+            "delete": {
+                "tags": ["Users"],
+                "summary": "Soft-delete a user (ADMIN only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "description": "User ID"
+                        },
+                        "required": true,
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Deleted (no content)"
+                    },
+                    "401": {
+                        "description": "Not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden — insufficient role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "webhooks": {}
+}

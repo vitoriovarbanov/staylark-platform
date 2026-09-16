@@ -1,0 +1,64 @@
+# Local-only helper to run the self-hosted inference service for real (Tier 2/3 testing).
+# Production does NOT use this file — Railway builds Dockerfile.inference directly.
+#
+#   docker compose -f docker-compose.inference.yml up --build
+#
+# Then probe it:  ./scripts/probe-inference.sh
+# See docs/inference-service-guide.md for the full walkthrough.
+
+# Own project namespace — kept separate from the dev DB's "staylark" project so
+# the two compose files don't see each other as orphans. Without this, Compose
+# derives the name from the directory ("subscription-living").
+name: inference-python-ai
+
+services:
+  inference:
+    build:
+      context: .
+      dockerfile: Dockerfile.inference
+      args:
+        # Bake the 'small' Whisper model — better at proper nouns / neighbourhood
+        # names (e.g. "Kapana") that aren't in the property record so can't be
+        # prompt-biased. Trade-off: ~+350 MB RAM, ~3-4x slower transcription.
+        WHISPER_MODEL: small
+    image: inference-python-ai
+    container_name: inference-python-ai
+    # Apple Silicon (arm64) Macs: the torch==*+cpu wheel is linux/amd64 only, so we
+    # build/run for amd64 (emulated). This also matches Railway's x86_64 runtime.
+    platform: linux/amd64
+    ports:
+      - '8000:8000'
+    environment:
+      # Shared secret the Node backend must send as X-Inference-Key.
+      INFERENCE_API_KEY: ${INFERENCE_API_KEY:-local}
+      # Bind IPv4 locally — Docker publishes the port over IPv4, but the image
+      # defaults HOST=:: (IPv6) for Railway private networking. Without this override
+      # local curls to localhost:8000 get "Empty reply" (the :: socket is IPv6-only here).
+      HOST: 0.0.0.0
+      # Uncomment to override defaults (all have sane defaults in app/config.py):
+      # WHISPER_MODEL: base
+      # OMP_NUM_THREADS: '2'
+      # MKL_NUM_THREADS: '2'
+      # RELEVANCE_THRESHOLD: '0.3'
+      # ASPECT_THRESHOLD: '0.42'
+    volumes:
+      # NAMED volume (not a bind mount): Docker seeds an empty named volume from the
+      # image's pre-baked model cache on first run, so weights persist across restarts
+      # WITHOUT shadowing them. A bind mount here would hide the baked models and force
+      # a re-download. Leave this as a named volume.
+      - hf-cache:/usr/local/share/hf
+    # The models need real memory (~3-3.5 GB warm: Whisper + nlptown classifier +
+    # the mDeBERTa relevance model + the MiniLM aspect-embedding model).
+    # On Docker Desktop also raise the VM memory (Settings > Resources) above this.
+    mem_limit: 4g
+    restart: unless-stopped
+    healthcheck:
+      # /health needs no auth; uses the container's own Python (curl isn't in slim).
+      test: ['CMD', 'python', '-c', "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  hf-cache:

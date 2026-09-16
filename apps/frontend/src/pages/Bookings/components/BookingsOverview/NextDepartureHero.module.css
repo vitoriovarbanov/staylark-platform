@@ -1,0 +1,300 @@
+.hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    min-height: 380px;
+    border-radius: var(--mantine-radius-lg);
+    overflow: hidden;
+    background: var(--mantine-other-navy-bg);
+}
+
+/* ── Photo background + overlay ─────────────── */
+
+.photo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photoFallback {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(135deg, var(--mantine-other-navy-bg) 0%, var(--mantine-color-brand-7) 100%);
+}
+
+.photoOverlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+        90deg,
+        var(--mantine-other-navy-bg) 0%,
+        rgba(26, 39, 68, 0.78) 45%,
+        rgba(26, 39, 68, 0.35) 100%
+    );
+    pointer-events: none;
+}
+
+/* ── Left content block ─────────────────────── */
+
+.content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    padding: 48px 40px 36px 48px;
+    min-width: 0;
+}
+
+.label {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    color: var(--mantine-other-amber-accent);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.labelDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--mantine-other-amber-accent);
+    box-shadow: 0 0 8px var(--mantine-other-amber-accent);
+}
+
+.labelDotPulsing {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.city {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    line-height: 1.02;
+    letter-spacing: -1.5px;
+    color: #ffffff;
+    /* Rendered as an <h2> for screen-reader heading nav; reset UA heading margins. */
+    margin: 0 0 8px;
+}
+
+.title {
+    font-family: 'Figtree', sans-serif;
+    font-weight: 400;
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 520px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+/* ── Status ribbon (ACTIVE / CONFIRMED / PENDING) ── */
+
+.statusRibbon {
+    margin-top: auto;
+    padding-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.countdown {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+    letter-spacing: -0.5px;
+    color: var(--mantine-other-amber-accent);
+    line-height: 1;
+}
+
+.countdownLabel {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+}
+
+.progressRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--mantine-other-amber-accent);
+    text-transform: uppercase;
+}
+
+.progressTrack {
+    position: relative;
+    height: 3px;
+    width: 100%;
+    max-width: 420px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progressFill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: linear-gradient(90deg, rgba(232, 168, 56, 0.75) 0%, var(--mantine-other-amber-accent) 100%);
+    box-shadow: 0 0 10px rgba(232, 168, 56, 0.5);
+}
+
+.pendingText {
+    font-family: 'Figtree', sans-serif;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* ── Right stub ─────────────────────────────── */
+
+.stub {
+    position: relative;
+    z-index: 2;
+    padding: 48px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    border-left: 1.5px dashed rgba(255, 255, 255, 0.25);
+    background: rgba(26, 39, 68, 0.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.stubDates {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+.stubDatesDash {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.stubMeta {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.65);
+    text-transform: uppercase;
+}
+
+.stubPrice {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: -0.5px;
+    color: var(--mantine-other-amber-accent);
+}
+
+.stubPriceLabel {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.3px;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.stubCta {
+    margin-top: auto;
+}
+
+/* ── Empty hero (no bookings) ───────────────── */
+
+.emptyHero {
+    position: relative;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 40px 32px;
+    background: var(--mantine-other-navy-bg);
+    border-radius: var(--mantine-radius-lg);
+    overflow: hidden;
+    text-align: center;
+}
+
+.emptyLabel {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    color: var(--mantine-other-amber-accent);
+    text-transform: uppercase;
+}
+
+.emptyTitle {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+/* ── Keyframes ──────────────────────────────── */
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.35;
+    }
+}
+
+/* ── Reduced motion ─────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+    .labelDotPulsing {
+        animation: none;
+    }
+}
+
+/* ── Mobile ─────────────────────────────────── */
+
+@media (max-width: 48em) {
+    .hero {
+        grid-template-columns: 1fr;
+        min-height: 0;
+    }
+
+    .content {
+        padding: 32px 24px 16px;
+    }
+
+    .stub {
+        padding: 28px 24px;
+        border-left: none;
+        border-top: 1.5px dashed rgba(255, 255, 255, 0.25);
+    }
+}

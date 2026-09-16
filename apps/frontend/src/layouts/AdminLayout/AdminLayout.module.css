@@ -1,0 +1,47 @@
+.navLink {
+    border-radius: var(--mantine-radius-sm);
+}
+
+.expiryBadge {
+    background: var(--mantine-color-amber-6, #e8a838);
+    color: var(--mantine-color-navy-9, #2E1027);
+    animation: expiryBreathe 2.4s ease-in-out infinite;
+}
+
+@keyframes expiryBreathe {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(232, 168, 56, 0.55);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(232, 168, 56, 0);
+    }
+}
+
+/* "Guest reply awaiting your response" dot on the Tickets nav section. Teal to
+   match the card-level "New guest reply" treatment; gentle pulse to draw the eye. */
+.replyDot {
+    width: 9px;
+    height: 9px;
+    min-width: 9px;
+    padding: 0;
+    background: var(--mantine-color-teal-6);
+    animation: replyPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes replyPulse {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(18, 184, 134, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 0 5px rgba(18, 184, 134, 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .expiryBadge,
+    .replyDot {
+        animation: none;
+    }
+}

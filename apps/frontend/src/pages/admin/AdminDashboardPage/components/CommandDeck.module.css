@@ -1,0 +1,213 @@
+/* CommandDeck — the dashboard's navy "instrument cluster". A sibling of
+   NextDepartureHero: same navy ground, amber mono eyebrow with a glowing live
+   dot, Outfit display numerals, and SF-Mono micro-labels. Replaces the generic
+   6-card KPI grid with one connected, gauged readout. */
+
+.deck {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--mantine-radius-lg);
+    background: var(--mantine-other-navy-bg);
+    padding: 26px 30px 30px;
+    box-shadow: var(--shadow-elevated);
+}
+
+/* Faint blueprint texture + an amber glow bleeding from the top-left corner,
+   echoing the auth "Destination Routes" navy blocks. */
+.glow {
+    position: absolute;
+    top: -120px;
+    left: -80px;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232, 168, 56, 0.16) 0%, rgba(232, 168, 56, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+/* Each tier groups metrics that share a timeframe (all-time vs current). */
+.tier {
+    position: relative;
+    z-index: 2;
+}
+
+.tier + .tier {
+    margin-top: 22px;
+}
+
+.tierHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 13px;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--mantine-other-amber-accent);
+}
+
+.eyebrowDivider {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.eyebrowMonth {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--mantine-other-amber-accent);
+    box-shadow: 0 0 8px var(--mantine-other-amber-accent);
+    animation: livePulse 2.4s ease-in-out infinite;
+}
+
+.caption {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.38);
+}
+
+/* Hairline-divided grid: the grid's own background shows through 1px gaps as
+   thin separators between cells — an instrument panel, not floating cards. */
+.metrics {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: var(--mantine-radius-md);
+    overflow: hidden;
+}
+
+@media (min-width: 36em) {
+    .metrics {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.cell {
+    background: var(--mantine-other-navy-bg);
+    padding: 18px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+}
+
+.cellLabel {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.value {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 2.3vw, 2.15rem);
+    line-height: 1;
+    letter-spacing: -1px;
+    color: #ffffff;
+    font-variant-numeric: tabular-nums;
+}
+
+.value.money {
+    color: var(--mantine-other-amber-accent);
+    text-shadow: 0 0 18px rgba(232, 168, 56, 0.35);
+}
+
+.value.alert {
+    color: #ff8a8a;
+    text-shadow: 0 0 18px rgba(255, 138, 138, 0.35);
+}
+
+/* Gauge tick beneath each value. Occupancy fills proportionally (a real
+   gauge); other metrics get a short categorical accent in their tone colour. */
+.gaugeTrack {
+    height: 3px;
+    width: 100%;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.gaugeFill {
+    height: 100%;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.gaugeFill.money {
+    background: linear-gradient(90deg, rgba(232, 168, 56, 0.7) 0%, var(--mantine-other-amber-accent) 100%);
+    box-shadow: 0 0 10px rgba(232, 168, 56, 0.5);
+}
+
+.gaugeFill.alert {
+    background: linear-gradient(90deg, rgba(255, 138, 138, 0.7) 0%, #ff8a8a 100%);
+    box-shadow: 0 0 10px rgba(255, 138, 138, 0.45);
+}
+
+.hint {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.hint.alert {
+    color: #ff8a8a;
+}
+
+@keyframes livePulse {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.4;
+        transform: scale(0.82);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dot {
+        animation: none;
+    }
+}

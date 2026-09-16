@@ -1,0 +1,15 @@
+node_modules
+.git
+.env
+.env.*
+*.log
+dist
+.DS_Store
+.husky
+.vscode
+.idea
+
+# Python (inference service)
+.venv
+__pycache__
+.pytest_cache

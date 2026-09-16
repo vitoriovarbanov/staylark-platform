@@ -1,0 +1,18 @@
+.sectionCard {
+    background: var(--mantine-color-white);
+}
+
+.titleAccent {
+    display: inline-block;
+    width: 4px;
+    height: 18px;
+    border-radius: 2px;
+    background: var(--mantine-other-amber-accent, #e8a838);
+}
+
+.sectionTitle {
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--mantine-other-text-primary, #1e2a3a);
+}

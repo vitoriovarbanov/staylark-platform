@@ -1,0 +1,96 @@
+/*
+ * Light filter/sort toolbar — a soft tint of the brand/logo blue (#C86FA5),
+ * carrying the blue identity of the old navy bar into a light, airy surface
+ * that holds white inputs. Replaces the old navy + scanline "terminal" look.
+ * Use the FilterBar compound components (FilterBar.Select / .Sort / .Clear /
+ * .Actions) so every entity gets identical styling without hand-rolling
+ * `classNames`.
+ */
+.bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 12px;
+    padding: 12px 14px;
+    border-radius: var(--mantine-radius-lg);
+    background: var(--mantine-color-brand-0, #FBF1F7);
+    border: 1px solid var(--mantine-color-brand-2, #EBBFD9);
+}
+
+/* Consistent field sizing wrapper (Select / TextInput / DatePickerInput root). */
+.field {
+    min-width: 0;
+}
+
+.input {
+    background: var(--mantine-color-white, #fff);
+    border: 1px solid var(--mantine-color-gray-3, #dee2e6);
+    color: var(--mantine-other-text-primary, #1e2a3a);
+    font-size: 14px;
+}
+
+.input::placeholder {
+    color: var(--mantine-color-gray-5, #adb5bd);
+}
+
+.input:focus,
+.input:focus-within {
+    border-color: var(--mantine-color-brand-5, #B3508D);
+    box-shadow: 0 0 0 3px rgba(128, 164, 255, 0.22);
+}
+
+.dropdown {
+    border: 1px solid var(--mantine-color-gray-2, #e9ecef);
+}
+
+.option[data-checked] {
+    background: var(--mantine-color-brand-0, #FBF1F7);
+    color: var(--mantine-color-brand-8, #64264E);
+    font-weight: 600;
+}
+
+/* Sort cluster — visually separated from the filter inputs by a divider. */
+.sort {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 14px;
+    border-left: 1px solid var(--mantine-color-brand-2, #EBBFD9);
+}
+
+.sortLabel {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mantine-other-text-secondary, #64748b);
+    white-space: nowrap;
+}
+
+/* Right-aligned slot for primary actions (Invite user, New override, …). */
+.actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.clear {
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .field {
+        width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+
+    .sort {
+        width: 100%;
+        padding-left: 0;
+        border-left: none;
+    }
+
+    .actions {
+        margin-left: 0;
+        width: 100%;
+    }
+}

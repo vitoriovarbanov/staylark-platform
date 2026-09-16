@@ -1,0 +1,320 @@
+/* ── Section Layout: centered, stacked (distinct from the side-by-side
+   Voice section so the two AI features don't read as one template) ── */
+.section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 44px;
+}
+
+/* ── Intro (centered) ────────────────────────── */
+.intro {
+    max-width: 620px;
+    text-align: center;
+}
+
+.sectionLabel {
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mantine-color-amber-8);
+    margin-bottom: 8px;
+}
+
+.heading {
+    font-size: 1.75rem;
+    letter-spacing: -0.5px;
+    color: var(--mantine-other-text-primary);
+    margin-bottom: 12px;
+    text-wrap: balance;
+}
+
+.description {
+    color: var(--mantine-color-gray-7);
+    line-height: 1.7;
+    font-size: var(--mantine-font-size-sm);
+}
+
+/* ── Capability row (3-up beneath the pipeline) ── */
+.featureRow {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    width: 100%;
+    max-width: 760px;
+}
+
+.featureItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
+.featureIcon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--mantine-radius-md);
+    background: rgba(128, 164, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mantine-color-brand-6);
+}
+
+.featureLabel {
+    font-size: var(--mantine-font-size-sm);
+    line-height: 1.45;
+    color: var(--mantine-color-gray-7);
+}
+
+/* ── Illustration (full width) ───────────────── */
+.illustration {
+    width: 100%;
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+        opacity 0.6s ease-out,
+        transform 0.6s ease-out;
+    transition-delay: 0.15s;
+}
+
+[data-revealed] .illustration {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── Pipeline Card (navy, like departure board) ── */
+.pipelineCard {
+    position: relative;
+    background: var(--mantine-other-navy-bg);
+    border-radius: var(--mantine-radius-lg);
+    padding: 36px 28px;
+    overflow: hidden;
+}
+
+.scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0, 0, 0, 0.03) 3px,
+        rgba(0, 0, 0, 0.03) 6px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ── Pipeline Layout ─────────────────────────── */
+.pipeline {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+}
+
+/* ── Pipeline Node ───────────────────────────── */
+.pipelineNode {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 90px;
+    opacity: 0.15;
+    transition: opacity 0.5s ease-out;
+}
+
+[data-revealed] .pipelineNode:nth-child(1) {
+    opacity: 1;
+    transition-delay: 0.3s;
+}
+
+[data-revealed] .pipelineNode:nth-child(3) {
+    opacity: 1;
+    transition-delay: 0.9s;
+}
+
+[data-revealed] .pipelineNode:nth-child(5) {
+    opacity: 1;
+    transition-delay: 1.5s;
+}
+
+.nodeCircle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid;
+    transition: border-color 0.3s ease;
+}
+
+.nodeCircle[data-stage='reported'] {
+    border-color: var(--mantine-other-amber-accent);
+    color: var(--mantine-other-amber-accent);
+}
+
+.nodeCircle[data-stage='analyzing'] {
+    border-color: var(--mantine-color-brand-4);
+    color: var(--mantine-color-brand-4);
+}
+
+.nodeCircle[data-stage='resolved'] {
+    border-color: #5cb870;
+    color: #5cb870;
+}
+
+.nodeLabel {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+}
+
+.nodeDetail {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.55);
+    text-align: center;
+    letter-spacing: 0.3px;
+}
+
+/* ── Connectors ──────────────────────────────── */
+.connector {
+    display: flex;
+    align-items: center;
+    flex: 0 0 48px;
+    height: 42px;
+    position: relative;
+}
+
+.connectorLine {
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+}
+
+/* First connector appears between node 1 and 2 */
+[data-revealed] .pipelineNode:nth-child(1) ~ .connector:nth-child(2) .connectorLine {
+    opacity: 1;
+    transition-delay: 0.6s;
+}
+
+/* Second connector appears between node 2 and 3 */
+[data-revealed] .pipelineNode:nth-child(3) ~ .connector:nth-child(4) .connectorLine {
+    opacity: 1;
+    transition-delay: 1.2s;
+}
+
+.connectorDot {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--mantine-color-brand-4);
+    left: 0;
+    opacity: 0;
+}
+
+[data-revealed] .connector .connectorDot {
+    animation: pipelineDot 2s ease-in-out 2s infinite;
+}
+
+/* ── Keyframes ───────────────────────────────── */
+@keyframes pipelineDot {
+    0% {
+        left: 0;
+        opacity: 0;
+    }
+    15% {
+        opacity: 0.6;
+    }
+    85% {
+        opacity: 0.6;
+    }
+    100% {
+        left: calc(100% - 5px);
+        opacity: 0;
+    }
+}
+
+/* ── Reduced Motion ──────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .illustration {
+        transition: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    .pipelineNode {
+        transition: none;
+        opacity: 1 !important;
+    }
+
+    .connectorLine {
+        transition: none;
+        opacity: 1 !important;
+    }
+
+    .connectorDot {
+        animation: none !important;
+        opacity: 0;
+    }
+}
+
+/* ── Mobile ──────────────────────────────────── */
+@media (max-width: 48em) {
+    .section {
+        gap: 32px;
+    }
+
+    .featureRow {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        max-width: 340px;
+    }
+
+    .pipelineCard {
+        padding: 28px 14px;
+    }
+
+    .pipelineNode {
+        min-width: 64px;
+    }
+
+    .nodeCircle {
+        width: 36px;
+        height: 36px;
+    }
+
+    /* Tighten micro-type on phones so the 3-node row doesn't overflow. */
+    .nodeLabel {
+        font-size: 10px;
+    }
+
+    .nodeDetail {
+        font-size: 9px;
+    }
+
+    .connector {
+        flex: 0 0 22px;
+    }
+
+    .heading {
+        font-size: 1.5rem;
+    }
+}

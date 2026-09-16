@@ -1,0 +1,129 @@
+.tableWrapper {
+    background: white;
+    border: 1px solid var(--mantine-color-gray-2);
+    border-radius: var(--mantine-radius-md);
+    overflow: hidden;
+}
+
+.priorityCell {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.warningIcon {
+    color: var(--mantine-color-red-6);
+}
+
+.reviewIcon {
+    color: var(--mantine-color-amber-7);
+}
+
+/* Ticket card — uniform white surface with a single priority "rail" on the
+   left edge. One consistent accent language (rail = priority) replaces the old
+   per-flag full-card background washes, so the grid reads cleanly. */
+.card {
+    position: relative;
+    overflow: hidden;
+    background: var(--mantine-color-white);
+    transition:
+        transform 150ms ease,
+        box-shadow 150ms ease,
+        border-color 150ms ease;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--rail, transparent);
+}
+
+.card[data-priority='CRITICAL'] {
+    --rail: var(--mantine-color-red-6);
+}
+.card[data-priority='HIGH'] {
+    --rail: var(--mantine-color-orange-5);
+}
+.card[data-priority='MEDIUM'] {
+    --rail: var(--mantine-color-yellow-5);
+}
+.card[data-priority='LOW'] {
+    --rail: var(--mantine-color-gray-4);
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    border-color: var(--mantine-color-brand-4);
+    box-shadow: 0 8px 24px rgba(26, 39, 68, 0.14) !important;
+}
+
+/* Closed work (resolved or dismissed) recedes so active tickets dominate the
+   queue. Dismissed shares the resolved treatment — both are terminal — and is
+   told apart by its gray status dot + label rather than a loud priority rail. */
+.card[data-status='RESOLVED'],
+.card[data-status='DISMISSED'] {
+    background: var(--mantine-color-gray-0);
+    --rail: var(--mantine-color-gray-3);
+}
+.card[data-status='RESOLVED'] .cardBody,
+.card[data-status='DISMISSED'] .cardBody {
+    opacity: 0.7;
+}
+
+/* A guest reply is waiting on staff — make the card stand out in the grid with a
+   teal frame + tint. Placed after the status rules so a re-engaged closed ticket
+   still surfaces. The "New guest reply" badge inside carries the explicit label. */
+.card[data-awaiting-reply] {
+    border-color: var(--mantine-color-teal-4);
+    background: var(--mantine-color-teal-0);
+}
+.card[data-awaiting-reply] .cardBody {
+    opacity: 1;
+}
+
+.unreadBadge {
+    align-self: flex-start;
+}
+
+.summary {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--mantine-other-text-primary, #1e2a3a);
+}
+
+.statusDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.time {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+.metaIcon {
+    color: var(--mantine-color-gray-5);
+    flex-shrink: 0;
+}
+
+.assigneeName {
+    max-width: 96px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card,
+    .card:hover {
+        transform: none;
+    }
+}

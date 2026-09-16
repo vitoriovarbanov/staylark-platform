@@ -1,0 +1,33 @@
+.row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--mantine-spacing-md);
+}
+
+.label {
+    flex: 0 0 160px;
+    padding-top: 6px;
+}
+
+.select {
+    flex: 1;
+    min-width: 0;
+}
+
+.action {
+    flex: 0 0 auto;
+    padding-top: 1px;
+}
+
+@media (max-width: 48em) {
+    .row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .label,
+    .select,
+    .action {
+        flex: initial;
+    }
+}

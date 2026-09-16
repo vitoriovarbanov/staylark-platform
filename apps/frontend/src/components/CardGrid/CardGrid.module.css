@@ -1,0 +1,10 @@
+/* Keyboard focus ring for clickable cards — the wrapper is the focusable
+   element, so the visible affordance lives here (not on the card itself). */
+.cardWrapper {
+    border-radius: var(--mantine-radius-md);
+}
+
+.cardWrapper:focus-visible {
+    outline: 2px solid var(--mantine-color-brand-5, #B3508D);
+    outline-offset: 2px;
+}

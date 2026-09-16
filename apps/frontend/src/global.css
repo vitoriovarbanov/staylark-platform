@@ -1,0 +1,44 @@
+:root {
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+    --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+html {
+    /* Stops iOS Safari inflating text on orientation change. */
+    -webkit-text-size-adjust: 100%;
+}
+
+/* Backstop against sideways page drift. `clip` rather than `hidden` because
+   `hidden` would silently create a scroll container and break every
+   `position: sticky` in the app. */
+html,
+body {
+    overflow-x: clip;
+    max-width: 100%;
+}
+
+body {
+    background-color: #f8f9fc;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* iOS Safari zooms the whole page in when a focused form control's computed
+   font-size is below 16px, and it does NOT zoom back out on blur — the app
+   stays scaled and panned for the rest of the session, which reads as a
+   broken, overflowing layout rather than as zoom.
+   16px is Safari's threshold, not a design preference. Every input in the app
+   would otherwise be 14px: Mantine's default `sm` size, plus an explicit
+   14px in FilterBar.module.css.
+   `!important` is required because Mantine sets `font-size: var(--input-fz)`
+   via its own class and resolves that variable from an inline style.
+   Deliberately NOT solved with `maximum-scale=1` / `user-scalable=no`: that
+   fails WCAG 1.4.4, and Safari has ignored it since iOS 10. */
+@media (max-width: 48em) {
+    input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='file']),
+    textarea,
+    select {
+        font-size: 16px !important;
+    }
+}

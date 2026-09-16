@@ -1,0 +1,43 @@
+.bookingMeta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    border-bottom: 1px dashed var(--mantine-color-gray-3);
+}
+
+.bookingMetaRow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--mantine-other-text-secondary, #64748b);
+    font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}
+
+.bookingMetaRow svg {
+    color: var(--mantine-color-amber-6);
+}
+
+.processing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 40px 0;
+    color: var(--mantine-other-text-secondary, #64748b);
+    text-align: center;
+}
+
+.processingHint {
+    font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--mantine-color-amber-6);
+}

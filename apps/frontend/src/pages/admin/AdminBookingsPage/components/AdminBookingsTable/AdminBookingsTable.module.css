@@ -1,0 +1,4 @@
+.confirmBtn {
+    background: var(--mantine-color-amber-1, #fff3d6);
+    color: #8a5912;
+}

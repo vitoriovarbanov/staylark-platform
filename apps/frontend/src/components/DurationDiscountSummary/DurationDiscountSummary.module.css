@@ -1,0 +1,115 @@
+/* ── Duration-discount savings affordance ───────────────────────
+ * Refined call-out: muted savings green with a vertical accent stripe,
+ * subtle one-shot reveal on first paint. Used in both the booking
+ * sidebar and the confirmation modal so the discount feels like a
+ * continuous beat from price selection through checkout.
+ */
+.savingsBand {
+    position: relative;
+    padding: 10px 12px 10px 16px;
+    background: linear-gradient(180deg, rgba(34, 139, 88, 0.06) 0%, rgba(34, 139, 88, 0.04) 100%);
+    border: 1px solid rgba(34, 139, 88, 0.18);
+    border-radius: var(--mantine-radius-md);
+    overflow: hidden;
+    animation: savingsBandReveal 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.savingsBandStripe {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #2b9d63 0%, #228b58 100%);
+    border-radius: var(--mantine-radius-md) 0 0 var(--mantine-radius-md);
+}
+
+.savingsIcon {
+    color: #228b58;
+    flex-shrink: 0;
+}
+
+.savingsTitle {
+    color: #185a3a;
+    line-height: 1.2;
+}
+
+.savingsSubtitle {
+    color: #2b6d4d;
+    opacity: 0.85;
+    line-height: 1.2;
+}
+
+.savingsPill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    background: #228b58;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border-radius: 999px;
+    box-shadow:
+        0 1px 2px rgba(34, 139, 88, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+    white-space: nowrap;
+}
+
+.savingsAmount {
+    color: #228b58;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.strikethroughTotal {
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+    text-decoration-color: rgba(0, 0, 0, 0.45);
+}
+
+.totalAmountDiscounted {
+    color: #185a3a;
+    font-size: var(--mantine-font-size-md);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+@keyframes savingsBandReveal {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .savingsBand {
+        animation: none;
+    }
+}
+
+/* ── Dark theme ─────────────────────────────────────────────── */
+[data-mantine-color-scheme='dark'] .savingsBand {
+    background: linear-gradient(180deg, rgba(34, 139, 88, 0.14) 0%, rgba(34, 139, 88, 0.1) 100%);
+    border-color: rgba(34, 139, 88, 0.3);
+}
+
+[data-mantine-color-scheme='dark'] .savingsTitle {
+    color: #b6e6ce;
+}
+
+[data-mantine-color-scheme='dark'] .savingsSubtitle {
+    color: #88c9a8;
+}
+
+[data-mantine-color-scheme='dark'] .totalAmountDiscounted {
+    color: #b6e6ce;
+}
+
+[data-mantine-color-scheme='dark'] .strikethroughTotal {
+    text-decoration-color: rgba(255, 255, 255, 0.5);
+}

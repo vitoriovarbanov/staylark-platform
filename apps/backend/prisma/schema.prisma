@@ -1,0 +1,407 @@
+// Subscription Living — Prisma Schema
+// Better Auth models use @@map("lowercase") — Better Auth queries lowercase table names.
+// App models keep PascalCase (Prisma default).
+// Better Auth mounts before express.json() — it handles its own body parsing at /api/auth/*.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ──────────────────────────────────────────────────────
+
+enum UserRole {
+  USER
+  MANAGER
+  ADMIN
+}
+
+enum SubscriptionTier {
+  BASIC
+  PREMIUM
+  EXECUTIVE
+}
+
+enum PropertyType {
+  APARTMENT
+  HOUSE
+  HOTEL
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum CancellationReason {
+  MANUAL_GUEST
+  MANUAL_ADMIN
+  AUTO_EXPIRED_NO_CONFIRMATION
+}
+
+enum FeedbackSentiment {
+  POSITIVE
+  NEUTRAL
+  NEGATIVE
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  DISMISSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum TicketCategory {
+  NOISE
+  DAMAGE
+  CLEANLINESS
+  DELIVERY
+  UTILITIES
+  EMERGENCY
+}
+
+enum PricingRuleType {
+  SEASONAL
+  OCCUPANCY
+  DEMAND
+  LAST_MINUTE
+  DAY_OF_WEEK
+  DURATION_DISCOUNT
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  REVOKED
+}
+
+// ─── Better Auth Models ─────────────────────────────────────────
+
+model User {
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  emailVerified Boolean
+  image         String?
+
+  // App-specific fields
+  role             UserRole          @default(USER)
+  subscriptionTier SubscriptionTier?
+  phone            String?
+  avatarUrl        String?
+  bio       String?  @db.VarChar(280)
+  homeCity  String?  @db.VarChar(100)
+  languages String[] @default([])
+
+  // Better Auth admin plugin fields (ban/impersonate unused in v1 UI)
+  banned     Boolean?
+  banReason  String?
+  banExpires DateTime?
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Better Auth relations
+  sessions Session[]
+  accounts Account[]
+
+  // App relations
+  bookings        Booking[]
+  feedback        Feedback[]
+  reportedTickets Ticket[]  @relation("TicketReporter")
+  assignedTickets Ticket[]  @relation("TicketAssignee")
+  ticketMessages TicketMessage[] @relation("TicketMessages")
+  categoryAssignments TicketCategoryAssignee[] @relation("CategoryAssignments")
+  managedProperties Property[] @relation("ManagedProperties")
+  sentInvitations Invitation[] @relation("SentInvitations")
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  expiresAt DateTime
+  token     String   @unique
+  ipAddress String?
+  userAgent String?
+
+  // Better Auth admin plugin (impersonation) — unused in v1 UI
+  impersonatedBy String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("session")
+}
+
+model Account {
+  id                    String  @id @default(uuid())
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id @default(uuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+
+  createdAt DateTime?
+  updatedAt DateTime?
+
+  @@map("verification")
+}
+
+// ─── App Models ─────────────────────────────────────────────────
+
+model Property {
+  id          String       @id @default(uuid())
+  title       String       @db.VarChar(200)
+  description String       @db.Text
+  type        PropertyType
+  city        String       @db.VarChar(100)
+  address     String       @db.VarChar(300)
+  nightlyPrice    Decimal   @db.Decimal(10, 2)
+  minNightlyPrice Decimal?  @db.Decimal(10, 2)
+  maxNightlyPrice Decimal?  @db.Decimal(10, 2)
+  amenities   Json         @default("[]")
+  photos      String[]
+  maxGuests    Int          @default(4)
+  managerId    String?
+  manager      User?        @relation("ManagedProperties", fields: [managerId], references: [id])
+  // Stashes the manager when they're soft-deleted, so a restore can re-link
+  // properties that are still unassigned. Not a FK — the referenced user may
+  // be soft-deleted when this is read.
+  previousManagerId String?
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  bookings     Booking[]
+  feedback     Feedback[]
+  tickets      Ticket[]
+  pricingRules PricingRule[]
+  priceQuotes  PriceQuote[]
+
+  @@index([city])
+  @@index([managerId])
+}
+
+model Booking {
+  id                String        @id @default(uuid())
+  userId            String
+  propertyId        String
+  checkIn           DateTime      @db.Date
+  checkOut          DateTime      @db.Date
+  guests            Int
+  totalPrice        Decimal       @db.Decimal(10, 2)
+  priceBreakdown    Json
+  status            BookingStatus @default(PENDING)
+  cancellationReason CancellationReason?
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Restrict)
+
+  feedback Feedback[]
+  tickets  Ticket[]
+  priceQuote PriceQuote?
+
+  @@index([propertyId, status])
+  @@index([userId])
+}
+
+model PriceQuote {
+  id           String   @id @default(uuid())
+  propertyId   String
+  // Set only when the quote converts (the booking's user). Quotes are anonymous
+  // at request time, so this is null for non-converted rows.
+  userId       String?
+  checkIn      DateTime @db.Date
+  checkOut     DateTime @db.Date
+  nights       Int
+  // Property-level forward occupancy at quote time — the leakage-safe snapshot.
+  // The ONLY feature that can't be re-derived from dates later, so it's the whole
+  // reason this table exists. daysToCheckIn/isWeekend/month are derived at train time.
+  occupancy    Float
+  basePrice    Decimal  @db.Decimal(10, 2) // property.nightlyPrice at quote time
+  totalPrice   Decimal  @db.Decimal(10, 2) // price the guest actually saw
+  modelVersion String
+  converted    Boolean  @default(false)
+  bookingId    String?  @unique
+  createdAt    DateTime @default(now())    // quote time = leakage anchor
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  booking  Booking? @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+
+  @@index([propertyId, checkIn, checkOut])
+  @@index([converted])
+  @@index([createdAt])
+}
+
+model Feedback {
+  id            String             @id @default(uuid())
+  userId        String
+  propertyId    String
+  bookingId     String
+  audioUrl      String?
+  transcription String?            @db.Text
+  sentiment     FeedbackSentiment?
+  topics        Json?
+  score         Int?
+  summary       String?            @db.Text
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Restrict)
+  booking  Booking  @relation(fields: [bookingId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, bookingId])
+  @@index([propertyId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Ticket {
+  id            String             @id @default(uuid())
+  userId        String
+  propertyId    String
+  bookingId     String
+  assignedToId  String?
+  transcription String?            @db.Text
+  category      TicketCategory?
+  categoryRaw   String?
+  priority      TicketPriority     @default(MEDIUM)
+  status        TicketStatus       @default(OPEN)
+  summary       String?            @db.Text
+  needsReview   Boolean            @default(false)
+  needsAssignment Boolean          @default(false)
+
+  deletedAt  DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  resolvedAt DateTime? // set when status → RESOLVED, cleared when leaving RESOLVED
+
+  // Unread tracking for the reporter only (v1): a staff message with
+  // createdAt > reporterLastSeenAt is "unread". Stamped by POST /:id/seen.
+  reporterLastSeenAt DateTime?
+
+  user       User     @relation("TicketReporter", fields: [userId], references: [id], onDelete: Restrict)
+  assignedTo User?    @relation("TicketAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Restrict)
+  booking    Booking  @relation(fields: [bookingId], references: [id], onDelete: Restrict)
+  messages   TicketMessage[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([priority])
+  @@index([propertyId])
+  @@index([createdAt])
+  @@index([assignedToId])
+  @@index([needsAssignment])
+  @@index([resolvedAt])
+}
+
+model TicketMessage {
+  id        String   @id @default(uuid())
+  ticketId  String
+  authorId  String
+  body      String   @db.Text
+  createdAt DateTime @default(now())
+
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  author User   @relation("TicketMessages", fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId, createdAt])
+}
+
+model PricingRule {
+  id         String          @id @default(uuid())
+  propertyId String?
+  name       String
+  type       PricingRuleType
+  multiplier Decimal         @db.Decimal(10, 2)
+  startDate  DateTime        @db.Date
+  endDate    DateTime        @db.Date
+  isActive   Boolean         @default(true)
+  minNights  Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  property Property? @relation(fields: [propertyId], references: [id], onDelete: Restrict)
+
+  @@index([propertyId])
+}
+
+model Invitation {
+  id             String           @id @default(uuid())
+  email          String
+  name           String
+  role           UserRole
+  tokenHash      String           @unique
+  status         InvitationStatus @default(PENDING)
+  expiresAt      DateTime
+  invitedById    String
+  invitedBy      User             @relation("SentInvitations", fields: [invitedById], references: [id], onDelete: Cascade)
+  acceptedUserId String?
+  acceptedAt     DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([email])
+  @@index([status])
+}
+
+model TicketCategoryAssignee {
+  id        String         @id @default(uuid())
+  category  TicketCategory
+  userId    String
+  user      User           @relation("CategoryAssignments", fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime       @default(now())
+
+  @@unique([category, userId])
+  @@index([category])
+  @@map("ticket_category_assignee")
+}

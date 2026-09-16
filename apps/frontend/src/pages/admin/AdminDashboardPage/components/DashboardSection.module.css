@@ -1,0 +1,33 @@
+/* DashboardSection — the light-surface counterpart to CommandDeck's header.
+   An amber tick + SF-Mono eyebrow over an Outfit title gives every panel the
+   same "instrument label" rhythm as the navy deck, so the page reads as one
+   command-center rather than a stack of unrelated cards. */
+
+.header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--mantine-color-text-secondary, #64748b);
+    margin-bottom: 6px;
+}
+
+.tick {
+    width: 3px;
+    height: 12px;
+    border-radius: 2px;
+    background: var(--mantine-other-amber-accent);
+}

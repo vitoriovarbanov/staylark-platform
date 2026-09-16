@@ -1,0 +1,25 @@
+# Dev override for the inference service.
+#
+# Bind-mounts the app source and runs uvicorn with --reload, so Python edits are picked up
+# LIVE without rebuilding the image. Rebuilding bakes ~2 GB of model weights and leaves
+# large BuildKit cache behind — iterating that way churns Docker's disk and (on a near-full
+# host) is what corrupted the local image store. With this override you build the image ONCE
+# and never rebuild for code changes; the models, deps and HF cache come from that image and
+# only app/ is overlaid from the host.
+#
+# Usage:
+#   # build the base image once (or after a deps/Dockerfile change):
+#   docker compose -f docker-compose.inference.yml build
+#   # then run with live reload:
+#   docker compose -f docker-compose.inference.yml -f docker-compose.inference.dev.yml up
+services:
+  inference:
+    # Read-only: the service only reads app code; nothing should write to the source tree.
+    volumes:
+      - ./apps/inference/app:/app/app:ro
+    # --reload-dir scopes the watcher to app/ so it doesn't try to watch the multi-GB
+    # site-packages tree. HOST/PORT fall back to the same defaults as the base command.
+    command:
+      - sh
+      - -c
+      - uvicorn app.main:app --host ${HOST:-0.0.0.0} --port ${PORT:-8000} --reload --reload-dir /app/app

@@ -1,0 +1,189 @@
+.banner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 4px 1fr auto;
+    align-items: stretch;
+    background: linear-gradient(135deg, var(--mantine-other-navy-bg) 0%, var(--mantine-color-brand-8) 100%);
+    border-radius: var(--mantine-radius-md);
+    overflow: hidden;
+    margin-bottom: var(--mantine-spacing-md);
+    box-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.04),
+        0 4px 14px rgba(26, 39, 68, 0.18);
+    isolation: isolate;
+}
+
+.banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Amber spine on the left */
+.spine {
+    background: var(--mantine-color-amber-5);
+    box-shadow: 0 0 14px rgba(232, 168, 56, 0.45);
+    position: relative;
+    z-index: 1;
+}
+
+.body {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--mantine-color-amber-4);
+    box-shadow: 0 0 0 0 rgba(232, 168, 56, 0.6);
+    animation: dotPulse 2.4s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+@keyframes dotPulse {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(232, 168, 56, 0);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(232, 168, 56, 0.18);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dot {
+        animation: none;
+    }
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.eyebrow {
+    font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    color: var(--mantine-color-amber-4);
+    font-weight: 600;
+    line-height: 1;
+}
+
+.message {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    line-height: 1.3;
+    letter-spacing: -0.1px;
+}
+
+.message strong {
+    color: var(--mantine-color-amber-4);
+    font-weight: 800;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px 8px 0;
+    position: relative;
+    z-index: 1;
+}
+
+.cta {
+    background: var(--mantine-color-amber-5);
+    color: #2E1027;
+    border: none;
+    font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition:
+        background 150ms ease,
+        transform 150ms ease;
+    white-space: nowrap;
+}
+
+.cta:hover {
+    background: var(--mantine-color-amber-4);
+    transform: translateX(2px);
+}
+
+.cta:active {
+    transform: translateX(0);
+}
+
+.dismiss {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        background 150ms ease,
+        color 150ms ease;
+    flex-shrink: 0;
+}
+
+.dismiss:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.messageTail {
+    color: inherit;
+}
+
+@media (max-width: 600px) {
+    .banner {
+        grid-template-columns: 4px 1fr;
+    }
+    .body {
+        padding: 10px 12px;
+        gap: 10px;
+    }
+    .actions {
+        grid-column: 2;
+        padding: 0 12px 10px 12px;
+        justify-content: flex-end;
+    }
+    .cta {
+        font-size: 10px;
+        padding: 6px 10px;
+        letter-spacing: 1px;
+    }
+    .message {
+        font-size: 0.88rem;
+    }
+    .messageTail {
+        display: none;
+    }
+}

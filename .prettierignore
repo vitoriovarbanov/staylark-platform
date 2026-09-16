@@ -1,0 +1,6 @@
+# Markdown is authored by hand (docs, runbooks, plans) — Prettier reflows tables
+# and reflowed prose in ways that hurt readability and create noisy diffs.
+# Keep .md out of both the pre-commit hook (see package.json lint-staged) and
+# any manual `prettier` run.
+*.md
+**/*.md

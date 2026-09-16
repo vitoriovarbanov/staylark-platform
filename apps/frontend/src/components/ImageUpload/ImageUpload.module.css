@@ -1,0 +1,33 @@
+.dropzone {
+    border: 2px dashed var(--mantine-color-default-border);
+    border-radius: var(--mantine-radius-md);
+    transition: border-color 150ms ease;
+
+    &:hover {
+        border-color: var(--mantine-color-primary-4);
+    }
+
+    &[data-accept] {
+        border-color: var(--mantine-color-green-6);
+        background-color: var(--mantine-color-green-0);
+    }
+
+    &[data-reject] {
+        border-color: var(--mantine-color-red-6);
+        background-color: var(--mantine-color-red-0);
+    }
+}
+
+.preview {
+    &:hover .removeButton {
+        opacity: 1;
+    }
+}
+
+.removeButton {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    opacity: 0;
+    transition: opacity 150ms ease;
+}

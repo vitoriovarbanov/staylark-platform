@@ -1,0 +1,132 @@
+@keyframes cardFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.propertyCard {
+    border: 1px solid var(--mantine-color-gray-2);
+    text-decoration: none;
+    color: inherit;
+    transition:
+        transform 300ms ease,
+        box-shadow 300ms ease;
+    overflow: hidden;
+    opacity: 0;
+    animation: cardFadeUp 0.4s ease-out forwards;
+}
+
+.propertyCard:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-elevated, 0 12px 32px rgba(0, 0, 0, 0.12));
+}
+
+/* ── Image Section ── */
+
+.cardImageSection {
+    position: relative;
+    overflow: hidden;
+    height: 220px;
+}
+
+.cardImage {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 400ms ease;
+}
+
+.propertyCard:hover .cardImage {
+    transform: scale(1.05);
+}
+
+/* Gradient overlay for text readability */
+.cardImageOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.5) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Styled placeholder when no photo */
+.cardPlaceholder {
+    width: 100%;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+        135deg,
+        var(--mantine-other-navy-bg, #2E1027) 0%,
+        var(--mantine-color-brand-6, #963B74) 100%
+    );
+}
+
+/* Type badge – top-right corner of image */
+.cardTypeBadge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    background: var(--mantine-other-amber-accent, #e8a838);
+    color: white;
+    text-transform: uppercase;
+    font-family: 'Fira Code', 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    border: none;
+}
+
+/* Unavailable badge – top-left, reuses the type-badge shape with a warning tone */
+.cardUnavailBadge {
+    right: auto;
+    left: 12px;
+    background: var(--mantine-color-red-7);
+}
+
+/* Dim the photo of a property that's booked for the searched dates */
+.propertyCard[data-blocked] .cardImage,
+.propertyCard[data-blocked] .cardPlaceholder {
+    filter: grayscale(0.4) brightness(0.9);
+}
+
+/* Price – bottom-left of image with blur backing */
+.cardPriceOverlay {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    z-index: 2;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* ── Reduced Motion ── */
+
+@media (prefers-reduced-motion: reduce) {
+    .propertyCard {
+        animation: none;
+        opacity: 1;
+    }
+
+    .propertyCard:hover {
+        transform: none;
+    }
+
+    .cardImage {
+        transition: none;
+    }
+
+    .propertyCard:hover .cardImage {
+        transform: none;
+    }
+}

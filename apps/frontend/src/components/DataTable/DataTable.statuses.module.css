@@ -1,0 +1,86 @@
+/* Bookings status row treatments */
+:global(tr)[data-status='PENDING'] {
+    box-shadow: inset 3px 0 0 0 var(--mantine-color-amber-6, #e8a838);
+    animation: dataTableRowBreathe 2.6s ease-in-out infinite;
+}
+
+@keyframes dataTableRowBreathe {
+    0%,
+    100% {
+        background-color: rgba(232, 168, 56, 0.04);
+    }
+    50% {
+        background-color: rgba(232, 168, 56, 0.1);
+    }
+}
+
+:global(tr)[data-status='CANCELLED'] {
+    /* --mantine-other-*, not --mantine-color-*: the latter is undefined and CSS
+       fails silently on it, so this row was never actually muted. */
+    color: var(--mantine-other-text-secondary);
+    background-image: repeating-linear-gradient(
+        135deg,
+        transparent 0,
+        transparent 8px,
+        rgba(0, 0, 0, 0.04) 8px,
+        rgba(0, 0, 0, 0.04) 9px
+    );
+}
+
+:global(tr)[data-status='CANCELLED'] td:not(:last-child) {
+    text-decoration: line-through;
+    text-decoration-color: rgba(0, 0, 0, 0.35);
+}
+
+/* Tickets priority + flag row treatments */
+:global(tr)[data-priority='CRITICAL'] {
+    background: rgba(220, 53, 69, 0.06);
+}
+
+:global(tr)[data-priority='CRITICAL']:hover {
+    background: rgba(220, 53, 69, 0.1);
+}
+
+:global(tr)[data-flag='needs-review'] {
+    background: var(--mantine-color-amber-0);
+}
+
+:global(tr)[data-flag='needs-review']:hover {
+    background: rgba(232, 168, 56, 0.18);
+}
+
+:global(tr)[data-flag='needs-assignment'] {
+    box-shadow: inset 3px 0 0 0 var(--mantine-color-blue-4);
+    background: rgba(34, 139, 230, 0.05);
+}
+
+:global(tr)[data-flag='needs-assignment']:hover {
+    background: rgba(34, 139, 230, 0.1);
+}
+
+/* Deactivated rows (users, pricing overrides) — reversible, so muted rather than alarming */
+/* Token is --mantine-other-*, not --mantine-color-*: the latter is undefined here and
+   silently falls back to black. */
+:global(tr)[data-inactive='true'] {
+    color: var(--mantine-other-text-secondary);
+    background-image: repeating-linear-gradient(
+        135deg,
+        transparent 0,
+        transparent 8px,
+        rgba(0, 0, 0, 0.04) 8px,
+        rgba(0, 0, 0, 0.04) 9px
+    );
+}
+
+/* Not the last cell: the actions menu must stay legible. */
+:global(tr)[data-inactive='true'] td:not(:last-child) {
+    text-decoration: line-through;
+    text-decoration-color: rgba(0, 0, 0, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :global(tr)[data-status='PENDING'] {
+        animation: none;
+        background-color: rgba(232, 168, 56, 0.06);
+    }
+}

@@ -1,0 +1,44 @@
+/* ── Booking Sidebar ── */
+
+.bookingSidebar {
+    position: sticky;
+    top: 72px;
+}
+
+/* ── Main info column ── */
+/* On mobile (single-column grid) the column spans the only column.
+   On md+ (3-column grid) it spans 2 of 3, leaving 1 for the booking sidebar. */
+.mainColumn {
+    grid-column: auto;
+}
+
+@media (min-width: 62em) {
+    .mainColumn {
+        grid-column: span 2;
+    }
+}
+
+/* ── Amenity Badges ── */
+
+.amenityBadge {
+    text-transform: capitalize;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    border-color: var(--mantine-color-brand-2);
+    color: var(--mantine-color-brand-7);
+}
+
+/* ── Availability Section ── */
+
+.availabilitySection {
+    background: var(--mantine-other-surface-bg);
+    border: 1px solid var(--mantine-color-gray-1);
+    border-radius: var(--mantine-radius-lg);
+    padding: var(--mantine-spacing-md);
+}
+
+@media (max-width: 62em) {
+    .availabilitySection {
+        padding: 0;
+    }
+}

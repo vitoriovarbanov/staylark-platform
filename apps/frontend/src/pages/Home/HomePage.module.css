@@ -1,0 +1,165 @@
+/* ── Hero: Living Map ─────────────────────────── */
+.hero {
+    position: relative;
+    height: 70vh;
+    min-height: 520px;
+    max-height: 720px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin: calc(-1 * var(--mantine-spacing-md));
+    margin-bottom: 0;
+}
+
+.heroGradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(165deg, #ffffff 0%, var(--mantine-other-surface-bg) 40%, #F7EFF4 100%);
+    z-index: 0;
+}
+
+/* ── Title overlay ─────────────────────────────── */
+.heroHeader {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 40px 24px 0;
+}
+
+.heroTitle {
+    color: var(--mantine-other-text-primary);
+    font-size: 2.5rem;
+    line-height: 1.15;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+}
+
+.heroAccent {
+    color: var(--mantine-other-amber-accent);
+}
+
+.heroSubtitle {
+    color: var(--mantine-other-text-secondary);
+    font-size: var(--mantine-font-size-md);
+    line-height: 1.5;
+}
+
+/* ── Map area ──────────────────────────────────── */
+.mapArea {
+    position: relative;
+    z-index: 3;
+    flex: 1;
+    min-height: 0;
+    padding: 0 24px;
+}
+
+/* ── Search bar ────────────────────────────────── */
+.searchBarWrapper {
+    position: relative;
+    z-index: 3;
+    padding: 0 24px 32px;
+    display: flex;
+    justify-content: center;
+}
+
+.searchBar {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(128, 164, 255, 0.15);
+    border-radius: var(--mantine-radius-lg);
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.03),
+        0 8px 32px rgba(0, 0, 0, 0.06),
+        0 0 0 1px rgba(255, 255, 255, 0.7) inset;
+}
+
+.searchInput {
+    background: rgba(255, 255, 255, 0.95);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── Amber corner accents (matching auth card) ── */
+.searchCorner {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+}
+
+.searchCorner[data-position='top-left'] {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid var(--mantine-other-amber-accent);
+    border-left: 2px solid var(--mantine-other-amber-accent);
+    border-top-left-radius: var(--mantine-radius-lg);
+}
+
+.searchCorner[data-position='top-right'] {
+    top: -1px;
+    right: -1px;
+    border-top: 2px solid var(--mantine-other-amber-accent);
+    border-right: 2px solid var(--mantine-other-amber-accent);
+    border-top-right-radius: var(--mantine-radius-lg);
+}
+
+.searchCorner[data-position='bottom-left'] {
+    bottom: -1px;
+    left: -1px;
+    border-bottom: 2px solid var(--mantine-other-amber-accent);
+    border-left: 2px solid var(--mantine-other-amber-accent);
+    border-bottom-left-radius: var(--mantine-radius-lg);
+}
+
+.searchCorner[data-position='bottom-right'] {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid var(--mantine-other-amber-accent);
+    border-right: 2px solid var(--mantine-other-amber-accent);
+    border-bottom-right-radius: var(--mantine-radius-lg);
+}
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 48em) {
+    .hero {
+        height: auto;
+        min-height: 480px;
+    }
+
+    .heroHeader {
+        padding: 24px 16px 0;
+    }
+
+    .heroTitle {
+        font-size: 1.75rem;
+    }
+
+    .mapArea {
+        min-height: 240px;
+        padding: 0 8px;
+    }
+
+    .searchBarWrapper {
+        padding: 0 16px 24px;
+    }
+
+    .searchBar {
+        padding: 16px;
+    }
+
+    .searchGroup {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .searchGroup > * {
+        flex: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}

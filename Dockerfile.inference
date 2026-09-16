@@ -1,0 +1,66 @@
+# glibc base — required by the ML wheels (torch / ctranslate2 / transformers);
+# Alpine/musl would force broken source builds. Pin to bookworm for reproducibility.
+FROM python:3.11-slim-bookworm
+
+# Patch OS packages (clears the fixable Debian CVEs the stock image ships with),
+# then install ffmpeg (faster-whisper needs it for audio decoding).
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends ffmpeg \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# pip / setuptools / wheel are themselves common CVE sources — upgrade before installing.
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+
+WORKDIR /app
+COPY apps/inference/requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Create the unprivileged runtime user UP FRONT and bake the model weights AS that user.
+# Downloading as appuser (instead of chowning afterwards) avoids a ~2 GB duplicate layer:
+# a `chown -R` over the pre-baked HF cache rewrites every model file into a fresh layer.
+# huggingface_hub also writes lock files in HF_HOME even on cache reads, so it must be
+# owned by appuser at runtime.
+ENV HF_HOME=/usr/local/share/hf
+RUN useradd --create-home --uid 10001 appuser \
+    && mkdir -p "$HF_HOME" \
+    && chown appuser /app "$HF_HOME"
+USER appuser
+
+# Pre-download the ML model weights at build time into the (appuser-owned) cache. Without
+# this the FIRST request after each deploy would block pulling hundreds of MB from Hugging
+# Face, and ephemeral restarts would re-download every time — baking them makes cold starts
+# cheap and offline. Whisper size is parameterised so the SAME model that runs at runtime
+# gets baked in; ENV makes the runtime default match the baked weights, so there's no surprise
+# download on first request. Default `small` — it's the production target: noticeably better at
+# Bulgarian proper nouns / neighbourhood names (e.g. "Kapana") that aren't in the property
+# record and so can't be prompt-biased. Override at BUILD time for a lighter image:
+# --build-arg WHISPER_MODEL=base (English-only / smaller). A runtime-only override would
+# mismatch the baked weights and re-download on first request, so always set it at build.
+ARG WHISPER_MODEL=small
+ENV WHISPER_MODEL=${WHISPER_MODEL}
+RUN python -c "import os; from faster_whisper import WhisperModel; WhisperModel(os.environ['WHISPER_MODEL'], device='cpu', compute_type='int8')" \
+    && python -c "from transformers import pipeline; pipeline('sentiment-analysis', model='nlptown/bert-base-multilingual-uncased-sentiment')"
+
+# Relevance gate model — multilingual zero-shot NLI. Separate layer so it caches
+# independently of the others.
+RUN python -c "from transformers import pipeline; pipeline('zero-shot-classification', model='MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7')"
+
+# Aspect-tagging model — multilingual sentence embeddings (mean-pooled). Separate layer.
+RUN python -c "from transformers import AutoModel, AutoTokenizer; m='sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'; AutoModel.from_pretrained(m); AutoTokenizer.from_pretrained(m)"
+
+# Cap math-library thread pools. On a small Railway instance, oversubscribing
+# threads wastes memory on per-thread arenas without improving CPU-bound latency.
+ENV OMP_NUM_THREADS=2 \
+    MKL_NUM_THREADS=2
+
+COPY --chown=appuser apps/inference/app ./app
+
+ENV PORT=8000
+EXPOSE 8000
+# HOST defaults to :: (IPv6) — REQUIRED for Railway private networking, which resolves
+# over IPv6. Local Docker publishes the port over IPv4, and the :: socket is IPv6-only
+# in that environment, so the compose file overrides HOST=0.0.0.0 for local runs.
+ENV HOST=::
+CMD ["sh", "-c", "uvicorn app.main:app --host ${HOST} --port ${PORT}"]

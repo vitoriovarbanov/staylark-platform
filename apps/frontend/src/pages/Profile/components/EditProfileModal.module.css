@@ -1,0 +1,113 @@
+/* Grouped sections with a quiet monospace eyebrow, echoing the BrandedModal header. */
+.section {
+    position: relative;
+}
+
+.sectionLabel {
+    display: inline-block;
+    margin-bottom: 12px;
+    font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--mantine-color-blue-6, #963B74);
+}
+
+.identityRow {
+    align-items: flex-start;
+}
+
+.identityFields {
+    flex: 1;
+    min-width: 0;
+}
+
+/* --- Avatar uploader --- */
+.avatarDropzone {
+    flex-shrink: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Override Mantine Dropzone's default block styling for the round avatar target. */
+.avatarDropzone :global(.mantine-Dropzone-inner) {
+    pointer-events: none;
+}
+
+.avatar {
+    /* Soft white ring matching the profile hero avatar; the hairline + shadow
+       define it against the modal's white background. */
+    border: 3px solid #ffffff;
+    box-shadow:
+        0 0 0 1px rgba(26, 39, 68, 0.08),
+        0 6px 18px rgba(26, 39, 68, 0.18);
+    background: linear-gradient(155deg, var(--mantine-other-navy-bg), var(--mantine-color-brand-8));
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    transition: box-shadow 180ms ease;
+}
+
+.avatarDropzone:hover .avatar {
+    box-shadow:
+        0 0 0 1px rgba(26, 39, 68, 0.12),
+        0 8px 22px rgba(26, 39, 68, 0.26);
+}
+
+.avatarDropzone[data-reduced='true'] .avatar {
+    transition: none;
+}
+
+.avatarBadge {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: #2E1027;
+    background: #ffffff;
+    border: 2px solid #2E1027;
+    box-shadow: 0 2px 8px rgba(20, 31, 55, 0.3);
+}
+
+.spin {
+    animation: spin 800ms linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* --- Bio counter --- */
+.counter {
+    margin-top: 6px;
+    text-align: right;
+    font-family: 'Figtree', system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--mantine-color-gray-5, #aeb6c6);
+}
+
+.counter[data-near-limit='true'] {
+    color: var(--mantine-color-red-6, #e03131);
+    font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .avatar {
+        transition: none;
+    }
+    .spin {
+        animation: none;
+    }
+}

@@ -1,0 +1,99 @@
+/* ---- panel: branded navy scanline (full-page / primary empties) ---- */
+.panel {
+    background: var(--mantine-other-navy-bg);
+    border-radius: var(--mantine-radius-lg);
+    padding: 56px 24px;
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0, 0, 0, 0.05) 3px,
+        rgba(0, 0, 0, 0.05) 6px
+    );
+    pointer-events: none;
+}
+
+/* ---- compact: lighter, on-brand (tables / charts / small panels) ---- */
+.compact {
+    padding: 32px 24px;
+    text-align: center;
+    color: var(--mantine-color-text);
+}
+
+/* ---- shared elements ---- */
+.icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 14px;
+    border-radius: 999px;
+    color: var(--mantine-color-amber-8);
+    background: var(--mantine-color-amber-1);
+}
+
+.panel .icon {
+    color: var(--mantine-color-amber-4);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.eyebrow {
+    position: relative;
+    font-family: var(--font-mono, 'SF Mono', ui-monospace, monospace);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    color: var(--mantine-color-amber-8);
+    margin-bottom: 10px;
+}
+
+.panel .eyebrow {
+    color: var(--mantine-color-amber-4);
+}
+
+.title {
+    position: relative;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    margin: 0 0 6px;
+}
+
+.panel .title {
+    font-size: 1.4rem;
+}
+
+.compact .title {
+    font-size: 1.05rem;
+}
+
+.body {
+    position: relative;
+    margin: 0 auto;
+    max-width: 420px;
+    font-size: 0.95rem;
+}
+
+.panel .body {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.compact .body {
+    color: var(--mantine-color-dimmed);
+}
+
+.action {
+    position: relative;
+    margin-top: 16px;
+}

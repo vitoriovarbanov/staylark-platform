@@ -1,0 +1,151 @@
+.modal {
+    /* Remove default header padding when no title */
+}
+
+.modal :global(.mantine-Modal-header) {
+    display: none;
+}
+
+.modal :global(.mantine-Modal-body) {
+    padding: var(--mantine-spacing-lg);
+}
+
+.propertyPhoto {
+    width: 120px;
+    height: 80px;
+    border-radius: var(--mantine-radius-md);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.detailsCard {
+    background-color: var(--mantine-color-gray-0);
+    border-radius: var(--mantine-radius-md);
+    padding: var(--mantine-spacing-md);
+}
+
+.detailRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.priceBreakdown {
+    color: var(--mantine-color-gray-6);
+}
+
+.totalAmount {
+    color: #e8a838;
+    font-size: var(--mantine-font-size-xl);
+    font-weight: 700;
+}
+
+.totalLabel {
+    font-size: var(--mantine-font-size-md);
+    font-weight: 700;
+}
+
+.confirmButton {
+    position: relative;
+}
+
+.confirmButton::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: #e8a838;
+    border-radius: 1px;
+    opacity: 0;
+    transition: opacity 200ms ease;
+}
+
+.confirmButton:hover::after {
+    opacity: 1;
+}
+
+/* Success state */
+.successCheckWrapper {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background-color: var(--mantine-color-green-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: successBounce 500ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.successCheck {
+    color: var(--mantine-color-green-6);
+    animation: successFadeIn 300ms ease 200ms forwards;
+    opacity: 0;
+}
+
+@keyframes successBounce {
+    0% {
+        transform: scale(0);
+    }
+    70% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes successFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.successTitle {
+    font-size: var(--mantine-font-size-xl);
+    font-weight: 700;
+}
+
+.successPropertyName {
+    color: #e8a838;
+    font-weight: 600;
+}
+
+/* Branded buttons for conflict/error states */
+.brandedOutlineButton {
+    border-color: var(--mantine-color-dark-4);
+    color: var(--mantine-color-dark-4);
+}
+
+.brandedOutlineButton:hover {
+    background-color: var(--mantine-color-gray-0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .successCheckWrapper {
+        animation: none;
+        transform: scale(1);
+    }
+
+    .successCheck {
+        animation: none;
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Dark theme adjustments */
+[data-mantine-color-scheme='dark'] .detailsCard {
+    background-color: var(--mantine-color-dark-6);
+}
+
+[data-mantine-color-scheme='dark'] .priceBreakdown {
+    color: var(--mantine-color-dark-2);
+}

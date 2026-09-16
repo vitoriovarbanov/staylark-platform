@@ -1,0 +1,22 @@
+.bookingMeta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    border-bottom: 1px dashed var(--mantine-color-gray-3);
+}
+
+.bookingMetaRow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--mantine-other-text-secondary, #64748b);
+    font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+    text-transform: uppercase;
+}
+
+.bookingMetaRow svg {
+    color: var(--mantine-color-amber-6);
+}

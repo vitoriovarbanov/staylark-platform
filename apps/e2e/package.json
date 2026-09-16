@@ -1,0 +1,13 @@
+{
+    "name": "@staylark/e2e",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "test:smoke": "playwright test --grep @smoke",
+        "test:smoke:readonly": "playwright test --project=public",
+        "report": "playwright show-report"
+    },
+    "devDependencies": {
+        "@playwright/test": "^1.49.0"
+    }
+}

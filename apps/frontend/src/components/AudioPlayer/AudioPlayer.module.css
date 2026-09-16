@@ -1,0 +1,136 @@
+.player {
+    background: linear-gradient(135deg, var(--mantine-other-navy-bg) 0%, var(--mantine-color-brand-8) 100%);
+    border-radius: var(--mantine-radius-md);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+/* CRT-style scanline texture for the studio-console feel */
+.player::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+}
+
+.eyebrow {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--mantine-color-amber-4);
+    font-weight: 600;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--mantine-color-amber-5);
+    box-shadow: 0 0 8px var(--mantine-color-amber-4);
+    flex-shrink: 0;
+}
+
+.eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(252, 211, 77, 0.35), transparent);
+}
+
+.controls {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.playButton {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    color: #2E1027;
+    background: linear-gradient(135deg, var(--mantine-color-amber-4), var(--mantine-color-amber-5));
+    box-shadow: 0 2px 8px rgba(232, 168, 56, 0.35);
+    transition:
+        transform 120ms ease,
+        box-shadow 120ms ease;
+}
+
+.playButton:hover {
+    transform: scale(1.06);
+    box-shadow: 0 4px 14px rgba(232, 168, 56, 0.45);
+}
+
+.playButton:active {
+    transform: scale(0.95);
+}
+
+.playButton:focus-visible {
+    outline: 2px solid var(--mantine-color-amber-4);
+    outline-offset: 2px;
+}
+
+.track {
+    position: relative;
+    flex: 1;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    cursor: pointer;
+    touch-action: none;
+}
+
+.track:focus-visible {
+    outline: 2px solid var(--mantine-color-amber-4);
+    outline-offset: 3px;
+}
+
+.fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--mantine-color-amber-5), var(--mantine-color-amber-4));
+    box-shadow: 0 0 8px rgba(232, 168, 56, 0.5);
+}
+
+.thumb {
+    position: absolute;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.time {
+    flex-shrink: 0;
+    font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.75);
+    font-variant-numeric: tabular-nums;
+    min-width: 74px;
+    text-align: right;
+}

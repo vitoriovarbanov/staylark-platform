@@ -1,0 +1,49 @@
+/* Calendar day states */
+.calendarBooked {
+    background: var(--mantine-color-red-0) !important;
+    color: var(--mantine-color-red-4) !important;
+    text-decoration: line-through;
+    cursor: default !important;
+    pointer-events: none;
+}
+
+.calendarAvailable {
+    position: relative;
+}
+
+.calendarAvailable::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--mantine-color-green-5);
+}
+
+.calendarSelected {
+    background: var(--mantine-color-brand-1) !important;
+    color: var(--mantine-color-brand-8) !important;
+    font-weight: 600;
+}
+
+/* Legend dots */
+.calendarLegendDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.calendarLegendDot[data-type='available'] {
+    background: var(--mantine-color-green-5);
+}
+
+.calendarLegendDot[data-type='booked'] {
+    background: var(--mantine-color-red-4);
+}
+
+.calendarLegendDot[data-type='selected'] {
+    background: var(--mantine-color-brand-4);
+}

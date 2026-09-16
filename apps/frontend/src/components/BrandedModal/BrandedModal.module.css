@@ -1,0 +1,197 @@
+.content {
+    overflow: visible;
+    border-radius: var(--mantine-radius-lg);
+    box-shadow: var(--shadow-elevated);
+    background: white;
+    position: relative;
+    /* `vh` is the LARGE viewport on iOS Safari — the height with the URL bar
+       collapsed. While the bar is visible a `vh`-capped modal is taller than
+       the screen and, being centred, overflows off both ends. `dvh` tracks the
+       live visible area; the `vh` line above stays as the fallback. */
+    max-height: calc(100vh - 48px);
+    max-height: calc(100dvh - 48px);
+    display: flex;
+    flex-direction: column;
+}
+
+.inner {
+    padding: 24px 16px;
+}
+
+/* Mantine's Modal body wraps the header/body/footer sections. Reset its default
+   padding and make it a height-constrained flex column so the inner .body can
+   flex:1 + scroll instead of overflowing past .content's max-height. */
+.bodyReset {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+@media (max-width: 600px) {
+    /* Was `calc(100dvh - 24px)` — ~97% of the screen, which reads as a takeover
+       rather than a modal: no backdrop stays visible, so there is nothing to
+       signal the modal is layered over a page. Capping below full height keeps
+       the dimmed backdrop in view top and bottom; long content scrolls inside
+       `.body` instead of stretching the modal past the viewport. */
+    .content {
+        max-height: 82vh;
+        /* min() covers both states with one rule. Keyboard closed: --app-vvh is
+           the full screen, so the second term is ~97% and 82dvh wins. Keyboard
+           open: --app-vvh collapses to the strip above the keyboard, the second
+           term wins, and the modal fits the space actually left. */
+        max-height: min(82dvh, calc(var(--app-vvh, 100dvh) - 24px));
+    }
+
+    /* Mantine pins the inner to the LAYOUT viewport (`fixed; top: 0; bottom: 0`),
+       which iOS does not shrink for the keyboard — it scrolls the visual
+       viewport instead, dragging the modal off screen. Re-pin to the visual
+       viewport so the modal stays put and the composer stays reachable.
+       Falls back to the previous behaviour without the VisualViewport API. */
+    .inner {
+        padding: 12px 8px;
+        top: var(--app-vv-top, 0px);
+        height: var(--app-vvh, 100dvh);
+        bottom: auto;
+    }
+}
+
+.header {
+    background: linear-gradient(135deg, var(--mantine-other-navy-bg) 0%, var(--mantine-color-brand-8) 100%);
+    color: white;
+    padding: 16px 20px 14px;
+    border-radius: var(--mantine-radius-lg) var(--mantine-radius-lg) 0 0;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.header[data-tone='urgent'] {
+    background: linear-gradient(135deg, #4d1620 0%, #6b1f2a 100%);
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+}
+
+.headerInner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.headerText {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.eyebrow {
+    font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--mantine-color-amber-4);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.eyebrow[data-tone='urgent'] {
+    color: #ffb4be;
+}
+
+.title {
+    font-family:
+        'Outfit',
+        system-ui,
+        -apple-system,
+        sans-serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    line-height: 1.25;
+    color: white;
+    word-break: break-word;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+}
+
+.closeButton {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 150ms ease;
+    flex-shrink: 0;
+}
+
+.closeButton:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+}
+
+.footer {
+    border-top: 1px solid var(--mantine-color-gray-2);
+    padding: 14px 20px;
+    background: var(--mantine-other-surface-inset, #f1f3f8);
+    border-radius: 0 0 var(--mantine-radius-lg) var(--mantine-radius-lg);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+@media (max-width: 600px) {
+    .body {
+        padding: 16px;
+    }
+
+    /* Keeps a field off the modal's edge when it is scrolled into view after
+       the keyboard resize, rather than landing flush against it. */
+    .body :is(input, textarea) {
+        scroll-margin-block: 16px;
+    }
+
+    /* The body scrolls beneath the header, so without a shadow the partially
+       scrolled line at the top edge just reads as broken clipping. */
+    .header {
+        padding: 14px 16px 12px;
+        /* Negative spread so the shadow stays below the header instead of
+           haloing up past the modal's rounded top edge. */
+        box-shadow: 0 6px 10px -4px rgba(20, 31, 55, 0.22);
+        z-index: 1;
+    }
+
+    /* Two lines rather than three. A long AI-generated summary would otherwise
+       consume most of the modal before any content is visible. */
+    .title {
+        font-size: 1.2rem;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+    }
+}
