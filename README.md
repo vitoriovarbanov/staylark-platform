@@ -9,7 +9,7 @@ Property subscription/booking platform with AI-powered voice feedback, problem r
 - **Backend:** Express + TypeScript + Prisma + Better Auth
 - **Contract:** Shared Zod schemas
 - **Database:** PostgreSQL (Railway)
-- **AI:** OpenAI Whisper + GPT-4o-mini
+- **AI:** HuggingFace BERT models
 
 ## Local Development
 
