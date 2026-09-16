@@ -62,3 +62,7 @@ staylark/
 - `main` — production-ready code
 - `develop` — integration branch for features
 - `feature/*` — individual feature branches (branch from `develop`)
+
+## License
+
+MIT — see [LICENSE](./LICENSE).
