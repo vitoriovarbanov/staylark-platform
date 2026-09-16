@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: Lint & Typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        # Reads pnpm version from packageManager field in package.json
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Backend typecheck needs the generated client: @prisma/client ships no
+      # model types until `prisma generate` runs.
+      - name: Generate Prisma client
+        run: pnpm --filter @staylark/backend exec prisma generate
+
+      - name: Lint all workspaces
+        run: pnpm lint
+
+      - name: Typecheck all workspaces
+        run: pnpm typecheck
