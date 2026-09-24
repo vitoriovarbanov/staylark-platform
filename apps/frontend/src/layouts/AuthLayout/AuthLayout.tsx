@@ -1,6 +1,5 @@
-import { Paper, Title, Text, Stack, Group, Image } from '@mantine/core';
-import logoIcon from '@/assets/logo-icon.svg';
-import { ContourField } from '@/components/ContourField/ContourField';
+import { Title, Text, Stack, Group } from '@mantine/core';
+import { RooflineField } from '@/components/RooflineField/RooflineField';
 import classes from './AuthLayout.module.css';
 
 interface AuthLayoutProps {
@@ -13,41 +12,36 @@ interface AuthLayoutProps {
 export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProps) {
     return (
         <div className={classes.wrapper}>
-            <ContourField />
+            <RooflineField tone='dusk' />
 
             {/* No "Back to home": the app is gated, so '/' would bounce straight back here. */}
 
             <div className={classes.formSide}>
                 <div className={classes.formInner}>
                     <Stack align='center' mb='xl'>
-                        {/* Mark is decorative — the wordmark beside it carries the name. */}
+                        {/* Mark is decorative — the wordmark beside it carries the name. Inlined
+                            (not logo-icon.svg) so the roof can turn white on the dark ground. */}
                         <Group gap={10} align='center'>
-                            <Image src={logoIcon} alt='' h={40} w='auto' />
+                            <svg className={classes.logoMark} viewBox='0 0 48 48' aria-hidden='true'>
+                                <path className={classes.logoRoof} d='M4.5 29 24 10 43.5 29' />
+                                <path className={classes.logoWing} d='M11.5 35.5c6.5-6.5 13.5-5.5 21 2' />
+                            </svg>
                             <Text className={classes.logoWord}>Staylark</Text>
                         </Group>
                     </Stack>
 
-                    <Paper className={classes.card} p='xl' radius={0}>
-                        <span className={`${classes.corner} ${classes.cornerTL}`} />
-                        <span className={`${classes.corner} ${classes.cornerTR}`} />
-                        <span className={`${classes.corner} ${classes.cornerBL}`} />
-                        <span className={`${classes.corner} ${classes.cornerBR}`} />
-
-                        <Stack gap='xs' mb='xl'>
-                            <Title order={2} ta='center' className={classes.title}>
+                    <div className={classes.card}>
+                        <Stack gap={6} mb='xl'>
+                            <Title order={2} className={classes.title}>
                                 {title}
                             </Title>
-                            {subtitle && (
-                                <Text c='var(--mantine-other-text-secondary)' size='sm' ta='center'>
-                                    {subtitle}
-                                </Text>
-                            )}
+                            {subtitle && <Text className={classes.subtitle}>{subtitle}</Text>}
                         </Stack>
                         {children}
-                    </Paper>
+                    </div>
 
                     {footer && (
-                        <Text c='var(--mantine-other-text-secondary)' size='sm' ta='center' mt='lg'>
+                        <Text size='sm' ta='center' mt='lg' className={classes.footer}>
                             {footer}
                         </Text>
                     )}

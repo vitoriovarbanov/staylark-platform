@@ -1,17 +1,52 @@
 .wrapper {
+    --dusk-text: rgba(255, 255, 255, 0.92);
+    --dusk-muted: rgba(255, 255, 255, 0.68);
+    --dusk-link: var(--mantine-color-brand-2);
+
+    --mantine-color-text: var(--dusk-text);
+    --mantine-color-dimmed: var(--dusk-muted);
+    --mantine-color-placeholder: rgba(255, 255, 255, 0.4);
+    --mantine-color-error: #ff9a9a;
+
+    /* Primary (filled) actions turn amber: the lit window */
+    --mantine-primary-color-filled: var(--mantine-color-amber-5);
+    --mantine-primary-color-filled-hover: var(--mantine-color-amber-4);
+    --mantine-color-brand-filled: var(--mantine-color-amber-5);
+    --mantine-color-brand-filled-hover: var(--mantine-color-amber-4);
+
+    /* Secondary (light) actions stay plum, tinted for the dark ground */
+    --mantine-primary-color-light: rgba(221, 151, 192, 0.14);
+    --mantine-primary-color-light-hover: rgba(221, 151, 192, 0.22);
+    --mantine-primary-color-light-color: var(--mantine-color-brand-1);
+    --mantine-color-brand-light: rgba(221, 151, 192, 0.14);
+    --mantine-color-brand-light-hover: rgba(221, 151, 192, 0.22);
+    --mantine-color-brand-light-color: var(--mantine-color-brand-1);
+
+    /* Alerts: translucent tints with pale text, legible on plum */
+    --mantine-color-red-light: rgba(255, 107, 107, 0.14);
+    --mantine-color-red-light-color: #ffc2c2;
+    --mantine-color-green-light: rgba(81, 207, 102, 0.14);
+    --mantine-color-green-light-color: #b8f0c2;
+
+    /* Password visibility toggle (subtle gray ActionIcon) */
+    --mantine-color-gray-light-color: rgba(255, 255, 255, 0.6);
+    --mantine-color-gray-light-hover: rgba(255, 255, 255, 0.08);
+
     position: relative;
-    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     align-items: stretch;
-    background: linear-gradient(165deg, #ffffff 0%, var(--mantine-other-surface-bg) 40%, #F7EFF4 100%);
     overflow: hidden;
+    color: var(--dusk-text);
+    color-scheme: dark;
+    background: radial-gradient(120% 90% at 85% 110%, #6b2a55 0%, var(--mantine-color-brand-9) 38%, #2a0f21 100%);
 }
 
-/* === FORM SIDE — right-aligned, asymmetric === */
+/* === FORM SIDE — left-aligned, asymmetric; the roofline village fills the right === */
 .formSide {
     position: relative;
     z-index: 1;
-    margin-left: auto;
+    margin-right: auto;
     width: 48%;
     max-width: 560px;
     min-width: 420px;
@@ -19,69 +54,123 @@
     align-items: center;
     justify-content: center;
     padding: var(--mantine-spacing-xl) calc(var(--mantine-spacing-xl) * 2);
-    padding-bottom: calc(var(--mantine-spacing-xl) * 9);
+    padding-bottom: calc(var(--mantine-spacing-xl) * 6);
 }
 
 .formInner {
     width: 100%;
-    max-width: 460px;
+    max-width: 440px;
     animation: formReveal 0.4s ease-out 0.15s both;
 }
 
-/* === CARD — clean, lifted, with subtle warm shadow === */
+/* === CARD — frosted glass over the night village === */
 .card {
     position: relative;
-    background-color: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(128, 164, 255, 0.12);
+    padding: 38px 36px 32px;
+    border-radius: 18px;
+    background: rgba(42, 15, 33, 0.55);
+    border: 1px solid rgba(221, 151, 192, 0.22);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.03),
-        0 8px 32px rgba(0, 0, 0, 0.06),
-        0 0 0 1px rgba(255, 255, 255, 0.7);
-    padding: 40px !important;
+        0 30px 60px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .title {
-    color: var(--mantine-other-text-primary);
+    color: #fff;
     font-weight: 700;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.5px;
 }
 
-/* === L-CORNER ACCENTS — amber, suggesting destination markers === */
-.corner {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    pointer-events: none;
+.subtitle {
+    color: var(--dusk-muted);
+    font-size: 15px;
 }
 
-.cornerTL {
-    top: -1px;
-    left: -1px;
-    border-top: 2px solid var(--mantine-color-amber-5);
-    border-left: 2px solid var(--mantine-color-amber-5);
+.footer {
+    color: var(--dusk-muted);
 }
 
-.cornerTR {
-    top: -1px;
-    right: -1px;
-    border-top: 2px solid var(--mantine-color-amber-5);
-    border-right: 2px solid var(--mantine-color-amber-5);
+/* === MANTINE RE-TONING — values Mantine sets on the element itself === */
+
+/* Input chrome is declared on the input element, so it can't inherit from the wrapper */
+.wrapper :global(.mantine-Input-input[data-variant]) {
+    --input-bg: rgba(255, 255, 255, 0.06);
+    --input-bd: rgba(255, 255, 255, 0.16);
+    --input-disabled-bg: rgba(255, 255, 255, 0.03);
+    --input-disabled-color: rgba(255, 255, 255, 0.5);
+    transition:
+        border-color 150ms ease,
+        box-shadow 150ms ease;
 }
 
-.cornerBL {
-    bottom: -1px;
-    left: -1px;
-    border-bottom: 2px solid var(--mantine-color-amber-5);
-    border-left: 2px solid var(--mantine-color-amber-5);
+.wrapper :global(.mantine-Input-input[data-variant]:focus),
+.wrapper :global(.mantine-Input-input[data-variant]:focus-within) {
+    --input-bd: var(--mantine-color-amber-5);
+    box-shadow: 0 0 0 3px rgba(232, 168, 56, 0.18);
 }
 
-.cornerBR {
-    bottom: -1px;
-    right: -1px;
-    border-bottom: 2px solid var(--mantine-color-amber-5);
-    border-right: 2px solid var(--mantine-color-amber-5);
+.wrapper :global(.mantine-Input-input[data-variant][data-error]) {
+    --input-bd: var(--mantine-color-error);
+}
+
+.wrapper :global(.mantine-InputWrapper-label) {
+    color: var(--dusk-text);
+}
+
+/* Browser autofill paints its own light background — keep it on the night palette */
+.wrapper input:-webkit-autofill {
+    -webkit-text-fill-color: #fff;
+    -webkit-box-shadow: 0 0 0 1000px #3a1530 inset;
+    caret-color: #fff;
+}
+
+/* Filled buttons write `--button-color: white` inline; white on amber fails contrast.
+   Mantine omits data-variant for the default (filled) variant, hence both selectors. */
+.wrapper :global(.mantine-Button-root:not([data-variant])),
+.wrapper :global(.mantine-Button-root[data-variant='filled']) {
+    --button-color: var(--mantine-color-brand-9) !important;
+    font-weight: 700;
+}
+
+/* Alert body text is hard-set to black for the light scheme; follow the alert's tint instead */
+.wrapper :global(.mantine-Alert-message) {
+    color: var(--alert-color);
+}
+
+/* Anchors get `color: brand.6` inline from the theme default — too dark on plum */
+.wrapper :global(.mantine-Anchor-root) {
+    color: var(--dusk-link) !important;
+    font-weight: 600;
+}
+
+/* === LOGO — white roof, pink wing, live-text wordmark === */
+.logoMark {
+    height: 40px;
+    width: auto;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.logoRoof {
+    stroke: #fff;
+    stroke-width: 5;
+}
+
+.logoWing {
+    stroke: var(--mantine-color-brand-3);
+    stroke-width: 4.6;
+}
+
+/* Set in the heading face so it reads as brand, not body copy */
+.logoWord {
+    font-family: Outfit, system-ui, -apple-system, sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.6px;
+    color: #fff;
 }
 
 /* === FORM REVEAL === */
@@ -122,10 +211,10 @@
         margin: 0 auto;
     }
 
+    /* The village runs behind the card on phones — firm up the glass */
     .card {
-        padding: 28px !important;
-        background-color: rgba(255, 255, 255, 0.97);
-        backdrop-filter: blur(16px);
+        padding: 30px 24px 26px;
+        background: rgba(42, 15, 33, 0.78);
     }
 }
 
@@ -135,7 +224,7 @@
     }
 
     .card {
-        padding: 24px !important;
+        padding: 26px 20px 22px;
     }
 
     .formInner {
@@ -147,14 +236,4 @@
     .formInner {
         animation: none;
     }
-}
-
-/* Wordmark beside the logo mark — set in the heading face so it reads as brand,
-   not body copy. Paired with the decorative mark in AuthLayout.tsx. */
-.logoWord {
-    font-family: Outfit, system-ui, -apple-system, sans-serif;
-    font-size: 30px;
-    font-weight: 800;
-    letter-spacing: -0.6px;
-    color: var(--mantine-color-brand-6);
 }

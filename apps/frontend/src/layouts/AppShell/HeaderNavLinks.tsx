@@ -4,6 +4,7 @@ import { ActionIcon, Button, Group, Indicator, Tooltip } from '@mantine/core';
 import { IconCalendar, IconAlertOctagon } from '@tabler/icons-react';
 import type { Icon } from '@tabler/icons-react';
 import { useTicketUnreadCount } from '@/hooks/api/use-ticket-messages';
+import classes from './AppShell.module.css';
 
 interface NavItem {
     label: string;
@@ -40,6 +41,7 @@ export function HeaderNavLinks() {
                             component={Link}
                             to={to}
                             variant={isActive(to) ? 'light' : 'subtle'}
+                            className={isActive(to) ? classes.navActive : undefined}
                             size='sm'
                             leftSection={<ItemIcon size={16} stroke={1.5} />}
                             // Header nav reads as plain links, not bordered buttons — opt these
@@ -53,7 +55,7 @@ export function HeaderNavLinks() {
                     if (to !== REPORTS_PATH || unread === 0) return button;
 
                     return (
-                        <Indicator key={to} label={unread} size={18} color='teal' offset={8} withBorder>
+                        <Indicator key={to} label={unread} size={18} color='brand' offset={8} withBorder>
                             <Tooltip label={reportsTip} withArrow>
                                 {button}
                             </Tooltip>
@@ -72,6 +74,7 @@ export function HeaderNavLinks() {
                             to={to}
                             aria-label={showBadge ? `${label}, ${unread} unread` : label}
                             variant={isActive(to) ? 'light' : 'subtle'}
+                            className={isActive(to) ? classes.navActive : undefined}
                             size='lg'
                         >
                             <ItemIcon size={20} stroke={1.5} />
@@ -81,7 +84,7 @@ export function HeaderNavLinks() {
                     return (
                         <Tooltip key={to} label={showBadge ? reportsTip : label} withArrow>
                             {showBadge ? (
-                                <Indicator label={unread} size={16} color='teal' offset={4} withBorder>
+                                <Indicator label={unread} size={16} color='brand' offset={4} withBorder>
                                     {actionIcon}
                                 </Indicator>
                             ) : (

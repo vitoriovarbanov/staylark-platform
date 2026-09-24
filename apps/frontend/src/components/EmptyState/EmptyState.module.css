@@ -1,26 +1,17 @@
-/* ---- panel: branded navy scanline (full-page / primary empties) ---- */
 .panel {
     background: var(--mantine-other-navy-bg);
     border-radius: var(--mantine-radius-lg);
-    padding: 56px 24px;
+    padding: 56px 24px 72px;
     color: white;
     text-align: center;
     position: relative;
     overflow: hidden;
 }
 
-.panel::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 3px,
-        rgba(0, 0, 0, 0.05) 3px,
-        rgba(0, 0, 0, 0.05) 6px
-    );
-    pointer-events: none;
+/* Wide, short panels only show the dense front rows — fade them out behind the copy */
+.village {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.35) 45%, black 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.35) 45%, black 100%);
 }
 
 /* ---- compact: lighter, on-brand (tables / charts / small panels) ---- */

@@ -47,7 +47,7 @@ export function TicketCard({ ticket }: { ticket: Ticket }) {
             <Stack gap={8} h='100%' className={classes.cardBody}>
                 {ticket.awaitingStaffReply && (
                     <Badge
-                        color='teal'
+                        color='brand'
                         variant='filled'
                         radius='sm'
                         size='sm'

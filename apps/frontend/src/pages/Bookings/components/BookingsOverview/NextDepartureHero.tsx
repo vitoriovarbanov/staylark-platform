@@ -1,3 +1,4 @@
+import { RooflineField } from '@/components/RooflineField/RooflineField';
 import { FeedbackModal } from '@/features/feedback/FeedbackModal';
 import { ReportProblemModal, type ReportableBooking } from '@/features/tickets/ReportProblemModal';
 import { feedbackKeys } from '@/hooks/api/query-keys';
@@ -84,9 +85,13 @@ export function HeroForBooking({ booking }: { booking: BookingWithRelations }) {
                 {photo ? (
                     <img src={photo} alt='' aria-hidden='true' className={classes.photo} />
                 ) : (
-                    <div className={classes.photoFallback} aria-hidden='true' />
+                    // No photo yet: the night village from the sign-in page stands in for it
+                    <div className={classes.photoFallback} aria-hidden='true'>
+                        <RooflineField tone='dusk' contained />
+                    </div>
                 )}
-                <div className={classes.photoOverlay} aria-hidden='true' />
+                {/* Legibility scrim for photos only — the village already keeps clear of the copy */}
+                {photo && <div className={classes.photoOverlay} aria-hidden='true' />}
 
                 <div className={classes.content}>
                     <motion.div

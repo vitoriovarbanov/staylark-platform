@@ -75,11 +75,11 @@
 }
 
 /* A guest reply is waiting on staff — make the card stand out in the grid with a
-   teal frame + tint. Placed after the status rules so a re-engaged closed ticket
+   plum frame + tint. Placed after the status rules so a re-engaged closed ticket
    still surfaces. The "New guest reply" badge inside carries the explicit label. */
 .card[data-awaiting-reply] {
-    border-color: var(--mantine-color-teal-4);
-    background: var(--mantine-color-teal-0);
+    border-color: var(--mantine-color-brand-4);
+    background: var(--mantine-color-brand-0);
 }
 .card[data-awaiting-reply] .cardBody {
     opacity: 1;
