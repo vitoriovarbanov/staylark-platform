@@ -31,12 +31,12 @@ export function useTicketEvents() {
                     ? {
                           title: 'New reply on your report',
                           message: messageExcerpt(event.message.body),
-                          color: 'teal'
+                          color: 'brand'
                       }
                     : {
                           title: 'Your report was updated',
                           message: `Status: ${STATUS_LABELS_USER[event.status]}`,
-                          color: 'teal'
+                          color: 'brand'
                       }
             );
         };

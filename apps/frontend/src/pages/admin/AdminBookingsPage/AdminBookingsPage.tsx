@@ -178,7 +178,7 @@ export function AdminBookingsPage() {
                     styles={{
                         root: {
                             background: 'var(--mantine-color-amber-6, #e8a838)',
-                            color: 'var(--mantine-color-navy-9, #2E1027)'
+                            color: 'var(--mantine-color-brand-9)'
                         }
                     }}
                 >

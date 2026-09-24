@@ -30,3 +30,34 @@
         background-color: var(--mantine-color-gray-0);
     }
 }
+
+.navActive.navActive {
+    overflow: visible;
+}
+
+.navActive::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -8px;
+    width: 14px;
+    height: 7px;
+    transform: translateX(-50%);
+    background: no-repeat center / contain
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 7'%3E%3Cpath d='M1.2 6 7 1.2 12.8 6' fill='none' stroke='%23963B74' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    pointer-events: none;
+    animation: roofSettle 0.25s ease-out;
+}
+
+@keyframes roofSettle {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 3px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .navActive::after {
+        animation: none;
+    }
+}

@@ -1,7 +1,3 @@
-/* CommandDeck — the dashboard's navy "instrument cluster". A sibling of
-   NextDepartureHero: same navy ground, amber mono eyebrow with a glowing live
-   dot, Outfit display numerals, and SF-Mono micro-labels. Replaces the generic
-   6-card KPI grid with one connected, gauged readout. */
 
 .deck {
     position: relative;
@@ -12,8 +8,10 @@
     box-shadow: var(--shadow-elevated);
 }
 
-/* Faint blueprint texture + an amber glow bleeding from the top-left corner,
-   echoing the auth "Destination Routes" navy blocks. */
+.village {
+    opacity: 0.5;
+}
+
 .glow {
     position: absolute;
     top: -120px;

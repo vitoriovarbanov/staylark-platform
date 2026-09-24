@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { motion } from 'motion/react';
 import type { AdminStatsTotals } from '@staylark/contract';
-import { GeometricPattern } from '@/components/GeometricPattern/GeometricPattern';
+import { RooflineField } from '@/components/RooflineField/RooflineField';
 import { formatEURCompact } from '@/lib/currency';
 import { prefersReducedMotion, staggered } from '@/pages/Bookings/utils/bookings.utils';
 import classes from './CommandDeck.module.css';
@@ -100,7 +100,7 @@ export function CommandDeck({ totals }: { totals: AdminStatsTotals }) {
             transition={staggered(0, reduced)}
         >
             <span className={classes.glow} aria-hidden='true' />
-            <GeometricPattern variant='blueprint' opacity={0.05} color='#ffffff' />
+            <RooflineField tone='dusk' contained className={classes.village} />
 
             {tiers.map(tier => (
                 <div key={tier.id} className={classes.tier}>
