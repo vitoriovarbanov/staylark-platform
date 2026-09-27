@@ -1,0 +1,198 @@
+/* ── Your stay, start to finish ──────────────── */
+.section {
+    /* Same column as the street above */
+    max-width: 1152px;
+    margin: 0 auto;
+    padding: 110px 8px 120px;
+}
+
+.title {
+    margin: 0;
+    font-family: var(--mantine-font-family-headings);
+    font-weight: 800;
+    font-size: clamp(1.875rem, 3vw, 2.75rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+}
+
+.lede {
+    margin: 12px 0 0;
+    max-width: 56ch;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--mantine-other-text-secondary);
+}
+
+.steps {
+    position: relative;
+    margin: 48px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px;
+}
+
+/* The path linking the four roofs */
+.steps::before {
+    content: '';
+    position: absolute;
+    top: 21px;
+    left: 22px;
+    right: 22px;
+    border-top: 2px dashed var(--mantine-color-brand-2);
+}
+
+.step {
+    position: relative;
+    min-width: 0;
+}
+
+.marker {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+}
+
+.marker svg {
+    position: absolute;
+    inset: 0;
+}
+
+.marker path {
+    fill: var(--mantine-color-body);
+    stroke: var(--mantine-color-brand-6);
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+}
+
+.marker b {
+    position: relative;
+    top: 6px;
+    font-family: var(--mantine-font-family-headings);
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--mantine-color-brand-9);
+}
+
+.stepTitle {
+    margin: 18px 0 6px;
+    font-family: var(--mantine-font-family-headings);
+    font-weight: 700;
+    font-size: 19px;
+}
+
+.text {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--mantine-other-text-secondary);
+}
+
+.example {
+    margin: 16px 0 0;
+    padding: 14px;
+    background: #fff;
+    border: 1px solid var(--mantine-color-gray-2);
+    border-radius: 14px;
+}
+
+.example blockquote {
+    margin: 0;
+    font-size: 14px;
+    font-style: italic;
+    line-height: 1.45;
+}
+
+.example blockquote::before {
+    content: '\201C';
+}
+
+.example blockquote::after {
+    content: '\201D';
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.tag {
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--mantine-color-brand-0);
+    color: var(--mantine-color-brand-9);
+}
+
+.tag[data-tone='good'] {
+    background: var(--mantine-color-green-0);
+    color: var(--mantine-color-green-9);
+}
+
+.tag[data-tone='mixed'] {
+    background: var(--mantine-color-amber-0);
+    color: var(--mantine-color-amber-9);
+}
+
+.tag[data-tone='urgent'] {
+    background: var(--mantine-color-red-0);
+    color: var(--mantine-color-red-9);
+}
+
+.link {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--mantine-color-brand-6);
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+/* ── Responsive: the path turns vertical ────── */
+@media (max-width: 62em) {
+    .steps {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        max-width: 560px;
+    }
+
+    .steps::before {
+        top: 22px;
+        bottom: 22px;
+        left: 21px;
+        right: auto;
+        border-top: 0;
+        border-left: 2px dashed var(--mantine-color-brand-2);
+    }
+
+    .step {
+        padding-left: 64px;
+    }
+
+    .marker {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .stepTitle {
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 48em) {
+    .section {
+        padding: 80px 0 88px;
+    }
+}

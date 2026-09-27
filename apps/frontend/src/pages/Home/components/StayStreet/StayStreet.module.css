@@ -1,0 +1,291 @@
+.section {
+    max-width: 1152px;
+    margin: 0 auto;
+    padding: 88px 8px 0;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.title {
+    margin: 0;
+    font-family: var(--mantine-font-family-headings);
+    font-weight: 800;
+    font-size: clamp(2rem, 3.6vw, 3.25rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+}
+
+.lede {
+    margin: 12px 0 0;
+    max-width: 56ch;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--mantine-other-text-secondary);
+}
+
+.legend {
+    display: flex;
+    gap: 18px;
+    font-size: 13px;
+    color: var(--mantine-other-text-secondary);
+}
+
+.legend i {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 6px;
+    border-radius: 50%;
+    vertical-align: -1px;
+}
+
+.legendLit {
+    background: var(--mantine-color-amber-5);
+    box-shadow: 0 0 6px var(--mantine-color-amber-5);
+}
+
+.legendDark {
+    border: 2px solid var(--mantine-color-gray-5);
+}
+
+/* ── The street ─────────────────────────────── */
+.street {
+    position: relative;
+    margin-top: 44px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    align-items: end;
+}
+
+/* The ground line the houses stand on */
+.street::after {
+    content: '';
+    position: absolute;
+    left: -24px;
+    right: -24px;
+    bottom: -1px;
+    height: 2px;
+    background: var(--mantine-color-brand-9);
+    opacity: 0.15;
+}
+
+.house {
+    position: relative;
+    height: var(--house-h, 400px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 20px 20px;
+    overflow: hidden;
+    color: #fff;
+    text-decoration: none;
+    /* Gable roof, same pitch family as the logo */
+    clip-path: polygon(50% 0, 100% 64px, 100% 100%, 0 100%, 0 64px);
+    background: radial-gradient(120% 90% at 50% 110%, #6b2a55 0%, var(--mantine-color-brand-9) 55%, #2a0f21 100%);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.house:hover {
+    transform: translateY(-8px);
+}
+
+/* clip-path hides a normal outline, so draw focus inside the shape */
+.house:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 3px var(--mantine-color-amber-5);
+}
+
+.scene {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(42, 15, 33, 0) 58%,
+        rgba(42, 15, 33, 0.85) 72%,
+        rgba(42, 15, 33, 0.96) 100%
+    );
+}
+
+.window {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    width: 22px;
+    height: 22px;
+    margin-left: -11px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    background: rgba(0, 0, 0, 0.25);
+    transition:
+        background 0.6s ease,
+        box-shadow 0.6s ease,
+        border-color 0.6s ease;
+}
+
+.window[data-state='lit'] {
+    border-color: var(--mantine-color-amber-5);
+    background: var(--mantine-color-amber-5);
+    box-shadow: 0 0 18px 4px rgba(232, 168, 56, 0.65);
+}
+
+.window[data-state='dark'] {
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.body {
+    position: relative;
+}
+
+.city {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.name {
+    margin: 4px 0 12px;
+    font-family: var(--mantine-font-family-headings);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.15;
+    text-wrap: balance;
+}
+
+.meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    min-height: 44px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.price {
+    font-family: var(--mantine-font-family-headings);
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--mantine-color-amber-5);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.price small {
+    font-family: var(--mantine-font-family);
+    font-weight: 500;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.skeleton {
+    animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 18px;
+    font-size: 14px;
+    color: var(--mantine-other-text-secondary);
+}
+
+.all {
+    font-weight: 600;
+    color: var(--mantine-color-brand-6);
+    text-decoration: none;
+}
+
+.all:hover {
+    text-decoration: underline;
+}
+
+.message {
+    margin-top: 32px;
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    border: 1px dashed var(--mantine-color-gray-4);
+    border-radius: 16px;
+    color: var(--mantine-other-text-secondary);
+}
+
+.message p {
+    margin: 0;
+}
+
+/* ── Responsive ────────────────────────────── */
+@media (max-width: 62em) {
+    .street {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .street::after {
+        display: none;
+    }
+}
+
+@media (max-width: 48em) {
+    .section {
+        padding: 64px 0 0;
+    }
+
+    /* Phones: the street scrolls sideways, one house at a time */
+    .street {
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: 78%;
+        margin-right: calc(-1 * var(--mantine-spacing-md));
+        padding-right: var(--mantine-spacing-md);
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+    }
+
+    .house {
+        height: calc(var(--house-h, 400px) - 70px);
+        scroll-snap-align: start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .house,
+    .window {
+        transition: none;
+    }
+
+    .house:hover {
+        transform: none;
+    }
+
+    .skeleton {
+        animation: none;
+    }
+}

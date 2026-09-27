@@ -47,7 +47,7 @@ async function main() {
         );
     }
 
-    const cities = ['Sofia', 'Bansko', 'Varna', 'Plovdiv'] as const;
+    const cities = ['Sofia', 'Zermatt', 'Lagos', 'Montepulciano'] as const;
     const propsByCity = new Map<string, { id: string; nightlyPrice: number }>();
     for (const city of cities) {
         const p = await prisma.property.findFirst({ where: { city }, select: { id: true, nightlyPrice: true } });
@@ -70,7 +70,7 @@ async function main() {
 
     const specs: Spec[] = [
         // ── ACTIVE (spans today) → becomes the hero, excluded from sections ──
-        { seq: 1, city: 'Bansko', checkIn: dayFromToday(-3), checkOut: dayFromToday(4), guests: 1, status: 'ACTIVE' },
+        { seq: 1, city: 'Zermatt', checkIn: dayFromToday(-3), checkOut: dayFromToday(4), guests: 1, status: 'ACTIVE' },
 
         // ── Upcoming = CONFIRMED + PENDING (3 cards) ──
         {
@@ -83,7 +83,7 @@ async function main() {
         },
         {
             seq: 3,
-            city: 'Varna',
+            city: 'Lagos',
             checkIn: dayFromToday(32),
             checkOut: dayFromToday(38),
             guests: 4,
@@ -91,7 +91,7 @@ async function main() {
         },
         {
             seq: 4,
-            city: 'Plovdiv',
+            city: 'Montepulciano',
             checkIn: dayFromToday(54),
             checkOut: dayFromToday(58),
             guests: 2,
@@ -109,7 +109,7 @@ async function main() {
         },
         {
             seq: 6,
-            city: 'Varna',
+            city: 'Lagos',
             checkIn: dayFromToday(-59),
             checkOut: dayFromToday(-54),
             guests: 3,
@@ -117,7 +117,7 @@ async function main() {
         },
         {
             seq: 7,
-            city: 'Plovdiv',
+            city: 'Montepulciano',
             checkIn: dayFromToday(-99),
             checkOut: dayFromToday(-93),
             guests: 2,
@@ -125,7 +125,7 @@ async function main() {
         },
         {
             seq: 8,
-            city: 'Bansko',
+            city: 'Zermatt',
             checkIn: dayFromToday(-130),
             checkOut: dayFromToday(-126),
             guests: 1,
@@ -144,7 +144,7 @@ async function main() {
         },
         {
             seq: 10,
-            city: 'Varna',
+            city: 'Lagos',
             checkIn: dayFromToday(20),
             checkOut: dayFromToday(23),
             guests: 2,
@@ -188,7 +188,7 @@ async function main() {
     }
 
     console.log(`\nSeeded ${specs.length} bookings for ${USER_EMAIL} (id ${user.id}).`);
-    console.log('Hero = ACTIVE Bansko; Upcoming = 2 CONFIRMED + 1 PENDING; Past = 4 COMPLETED; Cancelled = 2.');
+    console.log('Hero = ACTIVE Zermatt; Upcoming = 2 CONFIRMED + 1 PENDING; Past = 4 COMPLETED; Cancelled = 2.');
 }
 
 main()

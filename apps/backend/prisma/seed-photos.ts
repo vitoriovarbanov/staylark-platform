@@ -20,7 +20,7 @@ const photoSet = (slug: string, count: number) => Array.from({ length: count }, 
 
 export const DEMO_PHOTOS = {
     sofiaApartment: photoSet('sofia-apartment', 2),
-    banskoHotel: photoSet('bansko-hotel', 2),
-    varnaHouse: photoSet('varna-house', 3),
-    plovdivApartment: photoSet('plovdiv-apartment', 3)
+    zermattHotel: photoSet('zermatt-hotel', 2),
+    lagosHouse: photoSet('lagos-house', 3),
+    tuscanyApartment: photoSet('tuscany-apartment', 3)
 } satisfies Record<string, string[]>;

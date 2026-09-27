@@ -5,7 +5,7 @@ const allPhotos = Object.values(DEMO_PHOTOS).flat();
 
 describe('demo photos', () => {
     it('provides photos for every seeded property', () => {
-        expect(Object.keys(DEMO_PHOTOS)).toEqual(['sofiaApartment', 'banskoHotel', 'varnaHouse', 'plovdivApartment']);
+        expect(Object.keys(DEMO_PHOTOS)).toEqual(['sofiaApartment', 'zermattHotel', 'lagosHouse', 'tuscanyApartment']);
         for (const photos of Object.values(DEMO_PHOTOS)) {
             expect(photos.length).toBeGreaterThan(0);
         }
