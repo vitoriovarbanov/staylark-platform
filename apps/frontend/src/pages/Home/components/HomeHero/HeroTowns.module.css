@@ -1,6 +1,7 @@
 /* Decorative town roofs over the dusk village */
 .towns {
     flex: 1;
+    min-width: 0;
     max-width: 620px;
     margin-top: 110px;
     overflow: visible;
