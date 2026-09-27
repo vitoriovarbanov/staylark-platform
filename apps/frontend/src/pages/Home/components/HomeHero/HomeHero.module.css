@@ -38,8 +38,9 @@
 }
 
 .copy {
+    flex: 0 1 560px;
+    min-width: 0;
     max-width: 560px;
-    flex: none;
 }
 
 .title {
