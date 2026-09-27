@@ -56,7 +56,7 @@
     line-height: 1.55;
     white-space: pre-wrap;
     border: 1px solid var(--mantine-color-gray-2);
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 500;
 }
 
@@ -108,7 +108,7 @@
 }
 
 .propertyName {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 600;
     font-size: 0.92rem;
     color: var(--mantine-other-text-primary, #1e2a3a);
@@ -202,7 +202,7 @@
 
 .withdrawnStamp {
     flex-shrink: 0;
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 800;
     font-size: 0.95rem;
     letter-spacing: 2px;
@@ -224,7 +224,7 @@
 }
 
 .withdrawnTitle {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 700;
     font-size: 0.92rem;
     color: var(--mantine-other-text-primary, #1e2a3a);

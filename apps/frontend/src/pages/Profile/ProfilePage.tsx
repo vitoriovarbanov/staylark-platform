@@ -60,7 +60,7 @@ function ProfileError({ onRetry }: ProfileErrorProps) {
             <Paper withBorder radius='lg' p='xl'>
                 <Stack align='center' gap='sm'>
                     <IconAlertTriangle size={36} stroke={1.6} color='var(--mantine-color-red-6)' />
-                    <Title order={3} ff='Outfit' fw={700}>
+                    <Title order={3} ff='heading' fw={700}>
                         We couldn&apos;t load your profile
                     </Title>
                     <Text c='dimmed' size='sm' ta='center'>

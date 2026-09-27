@@ -112,11 +112,7 @@
 }
 
 .title {
-    font-family:
-        'Outfit',
-        system-ui,
-        -apple-system,
-        sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 700;
     font-size: 1.35rem;
     line-height: 1.25;

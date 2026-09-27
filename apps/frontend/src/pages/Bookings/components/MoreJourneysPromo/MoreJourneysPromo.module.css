@@ -43,7 +43,7 @@
     position: relative;
     overflow: hidden;
     border-radius: var(--mantine-radius-lg);
-    background: var(--mantine-other-navy-bg, #4A1B3A);
+    background: var(--mantine-other-navy-bg, #4a1b3a);
     box-shadow: 0 20px 40px -24px rgba(26, 39, 68, 0.55);
 }
 
@@ -90,7 +90,7 @@
 
 .headline {
     margin: 12px 0 0;
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 700;
     font-size: clamp(1.5rem, 3vw, 2.1rem);
     line-height: 1.1;

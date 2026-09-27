@@ -11,6 +11,7 @@ interface RooflineFieldProps {
     placement?: Placement;
     /** Fill the nearest positioned ancestor instead of the viewport (heroes, panels). */
     contained?: boolean;
+    windows?: boolean;
     className?: string;
 }
 
@@ -126,7 +127,13 @@ function getVillage(tone: Tone, placement: Placement) {
     return village;
 }
 
-export function RooflineField({ tone = 'day', placement = 'right', contained = false, className }: RooflineFieldProps) {
+export function RooflineField({
+    tone = 'day',
+    placement = 'right',
+    contained = false,
+    windows = true,
+    className
+}: RooflineFieldProps) {
     const prefersReduced =
         typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const [revealed, setRevealed] = useState(prefersReduced);
@@ -180,7 +187,7 @@ export function RooflineField({ tone = 'day', placement = 'right', contained = f
                                     strokeLinejoin='round'
                                     opacity={roof.opacity}
                                 />
-                                {roof.window && (
+                                {windows && roof.window && (
                                     <circle
                                         className={tone === 'dusk' && roof.window.flicker ? classes.flicker : undefined}
                                         style={

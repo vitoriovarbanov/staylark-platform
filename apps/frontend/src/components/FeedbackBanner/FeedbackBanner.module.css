@@ -84,7 +84,7 @@
 }
 
 .message {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-size: 0.95rem;
     font-weight: 600;
     color: white;
@@ -108,7 +108,7 @@
 
 .cta {
     background: var(--mantine-color-amber-5);
-    color: #2E1027;
+    color: #2e1027;
     border: none;
     font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
     font-size: 11px;

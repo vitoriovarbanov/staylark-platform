@@ -3,7 +3,7 @@ import { Group, Stack, Text, Title } from '@mantine/core';
 
 /**
  * <PageHeader> — single source of truth for the admin/consumer page header
- * pattern: Outfit 700 Title (order=2) + secondary-ink subtitle, with an optional
+ * pattern: display-face 700 Title (order=2) + secondary-ink subtitle, with an optional
  * right-aligned actions slot.
  *
  * Subtitle uses Ink Muted (#64748b, ~4.76:1 on the page) — the design system's
@@ -20,7 +20,7 @@ export interface PageHeaderProps {
 export function PageHeader({ title, subtitle, actions }: PageHeaderProps) {
     const titleBlock = (
         <Stack gap={4}>
-            <Title order={2} ff='Outfit' fw={700} lts={-0.4}>
+            <Title order={2} ff='heading' fw={700} lts={-0.4}>
                 {title}
             </Title>
             {subtitle ? (
