@@ -166,7 +166,7 @@
 
 /* Set in the heading face so it reads as brand, not body copy */
 .logoWord {
-    font-family: Outfit, system-ui, -apple-system, sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-size: 30px;
     font-weight: 800;
     letter-spacing: -0.6px;

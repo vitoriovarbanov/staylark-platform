@@ -11,7 +11,7 @@
 }
 
 .title {
-    font-family: 'Outfit', system-ui, sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 700;
     font-size: 1.1rem;
     color: var(--mantine-other-text-primary, #1e2a3a);
@@ -36,12 +36,12 @@
     place-items: center;
     width: 24px;
     height: 24px;
-    color: var(--mantine-color-brand-6, #963B74);
+    color: var(--mantine-color-brand-6, #963b74);
 }
 
 .label {
     padding-top: 3px;
-    font-family: 'Figtree', system-ui, sans-serif;
+    font-family: var(--mantine-font-family);
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.6px;
@@ -55,20 +55,20 @@
 }
 
 .bioText {
-    font-family: 'Figtree', system-ui, sans-serif;
+    font-family: var(--mantine-font-family);
     font-size: 0.92rem;
     line-height: 1.5;
     color: var(--mantine-other-text-primary, #1e2a3a);
 }
 
 .fieldText {
-    font-family: 'Figtree', system-ui, sans-serif;
+    font-family: var(--mantine-font-family);
     font-size: 0.92rem;
     color: var(--mantine-other-text-primary, #1e2a3a);
 }
 
 .muted {
-    font-family: 'Figtree', system-ui, sans-serif;
+    font-family: var(--mantine-font-family);
     font-size: 0.88rem;
     font-style: italic;
     color: var(--mantine-color-gray-5);

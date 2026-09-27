@@ -21,7 +21,7 @@ export function DashboardSection({ eyebrow, title, subtitle, action, children }:
                         <span className={classes.tick} aria-hidden='true' />
                         {eyebrow}
                     </span>
-                    <Title order={4} ff='Outfit' fw={600} lh={1.15}>
+                    <Title order={4} ff='heading' fw={600} lh={1.15}>
                         {title}
                     </Title>
                     {subtitle ? (

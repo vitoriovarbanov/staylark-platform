@@ -76,7 +76,7 @@
 }
 
 .city {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 700;
     font-size: clamp(2.2rem, 5vw, 3.5rem);
     line-height: 1.02;
@@ -87,7 +87,7 @@
 }
 
 .title {
-    font-family: 'Figtree', sans-serif;
+    font-family: var(--mantine-font-family);
     font-weight: 400;
     font-size: 1.05rem;
     color: rgba(255, 255, 255, 0.8);
@@ -157,7 +157,7 @@
 }
 
 .pendingText {
-    font-family: 'Figtree', sans-serif;
+    font-family: var(--mantine-font-family);
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.75);
 }
@@ -203,7 +203,7 @@
 }
 
 .stubPrice {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 700;
     font-size: 2rem;
     line-height: 1;
@@ -253,7 +253,7 @@
 }
 
 .emptyTitle {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 700;
     font-size: 1.75rem;
     color: #ffffff;

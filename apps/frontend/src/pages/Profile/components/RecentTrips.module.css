@@ -45,7 +45,7 @@
     align-items: center;
     gap: 6px;
     padding: 5px 11px;
-    font-family: 'Figtree', system-ui, sans-serif;
+    font-family: var(--mantine-font-family);
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.2px;
@@ -67,7 +67,7 @@
 }
 
 .statusChip[data-tone='blue'] {
-    color: var(--mantine-color-brand-8, #64264E);
+    color: var(--mantine-color-brand-8, #64264e);
 }
 
 .statusChip[data-tone='red'] {
@@ -93,10 +93,10 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    font-family: 'Outfit', system-ui, sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 600;
     font-size: 0.875rem;
-    color: var(--mantine-color-brand-6, #963B74);
+    color: var(--mantine-color-brand-6, #963b74);
 }
 
 .viewAll:hover {

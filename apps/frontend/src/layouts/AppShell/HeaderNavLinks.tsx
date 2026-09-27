@@ -1,6 +1,5 @@
-import type { CSSProperties } from 'react';
 import { Link, useLocation } from 'react-router';
-import { ActionIcon, Button, Group, Indicator, Tooltip } from '@mantine/core';
+import { Box, Tooltip } from '@mantine/core';
 import { IconCalendar, IconAlertOctagon } from '@tabler/icons-react';
 import type { Icon } from '@tabler/icons-react';
 import { useTicketUnreadCount } from '@/hooks/api/use-ticket-messages';
@@ -15,8 +14,8 @@ interface NavItem {
 const REPORTS_PATH = '/tickets';
 
 const NAV_ITEMS: NavItem[] = [
-    { label: 'My Bookings', to: '/bookings', icon: IconCalendar },
-    { label: 'My Reports', to: REPORTS_PATH, icon: IconAlertOctagon }
+    { label: 'My bookings', to: '/bookings', icon: IconCalendar },
+    { label: 'My reports', to: REPORTS_PATH, icon: IconAlertOctagon }
 ];
 
 export function HeaderNavLinks() {
@@ -27,73 +26,66 @@ export function HeaderNavLinks() {
     // Refreshes live: useTicketEvents invalidates ticketKeys.all on socket pushes.
     const { data } = useTicketUnreadCount();
     const unread = data?.data.count ?? 0;
-    const reportsTip =
-        unread > 0 ? `${unread} new ${unread === 1 ? 'reply' : 'replies'} on your reports` : 'My Reports';
+    const reportsTip = `${unread} new ${unread === 1 ? 'reply' : 'replies'} on your reports`;
 
     return (
         <>
             {/* Desktop: icon + text */}
-            <Group gap='xs' visibleFrom='sm'>
+            <Box component='nav' aria-label='Main' className={classes.track} visibleFrom='sm'>
                 {NAV_ITEMS.map(({ label, to, icon: ItemIcon }) => {
-                    const button = (
-                        <Button
+                    const showCount = to === REPORTS_PATH && unread > 0;
+                    const tab = (
+                        <Link
                             key={to}
-                            component={Link}
                             to={to}
-                            variant={isActive(to) ? 'light' : 'subtle'}
-                            className={isActive(to) ? classes.navActive : undefined}
-                            size='sm'
-                            leftSection={<ItemIcon size={16} stroke={1.5} />}
-                            // Header nav reads as plain links, not bordered buttons — opt these
-                            // out of the global subtle-variant hairline border.
-                            style={{ '--button-bd': '1px solid transparent' } as CSSProperties}
+                            className={classes.tab}
+                            data-active={isActive(to) || undefined}
+                            aria-current={isActive(to) ? 'page' : undefined}
                         >
+                            <ItemIcon size={17} stroke={1.7} />
                             {label}
-                        </Button>
+                            {showCount && (
+                                <span className={classes.count} aria-label={reportsTip}>
+                                    {unread}
+                                </span>
+                            )}
+                        </Link>
                     );
 
-                    if (to !== REPORTS_PATH || unread === 0) return button;
-
-                    return (
-                        <Indicator key={to} label={unread} size={18} color='brand' offset={8} withBorder>
-                            <Tooltip label={reportsTip} withArrow>
-                                {button}
-                            </Tooltip>
-                        </Indicator>
+                    return showCount ? (
+                        <Tooltip key={to} label={reportsTip} withArrow>
+                            {tab}
+                        </Tooltip>
+                    ) : (
+                        tab
                     );
                 })}
-            </Group>
+            </Box>
 
             {/* Mobile: icon-only */}
-            <Group gap={4} hiddenFrom='sm'>
+            <Box component='nav' aria-label='Main' className={classes.track} hiddenFrom='sm'>
                 {NAV_ITEMS.map(({ label, to, icon: ItemIcon }) => {
-                    const showBadge = to === REPORTS_PATH && unread > 0;
-                    const actionIcon = (
-                        <ActionIcon
-                            component={Link}
-                            to={to}
-                            aria-label={showBadge ? `${label}, ${unread} unread` : label}
-                            variant={isActive(to) ? 'light' : 'subtle'}
-                            className={isActive(to) ? classes.navActive : undefined}
-                            size='lg'
-                        >
-                            <ItemIcon size={20} stroke={1.5} />
-                        </ActionIcon>
-                    );
-
+                    const showCount = to === REPORTS_PATH && unread > 0;
                     return (
-                        <Tooltip key={to} label={showBadge ? reportsTip : label} withArrow>
-                            {showBadge ? (
-                                <Indicator label={unread} size={16} color='brand' offset={4} withBorder>
-                                    {actionIcon}
-                                </Indicator>
-                            ) : (
-                                actionIcon
-                            )}
+                        <Tooltip key={to} label={showCount ? reportsTip : label} withArrow>
+                            <Link
+                                to={to}
+                                className={`${classes.tab} ${classes.tabIcon}`}
+                                data-active={isActive(to) || undefined}
+                                aria-current={isActive(to) ? 'page' : undefined}
+                                aria-label={showCount ? `${label}, ${unread} unread` : label}
+                            >
+                                <ItemIcon size={20} stroke={1.7} />
+                                {showCount && (
+                                    <span className={classes.count} aria-hidden='true'>
+                                        {unread}
+                                    </span>
+                                )}
+                            </Link>
                         </Tooltip>
                     );
                 })}
-            </Group>
+            </Box>
         </>
     );
 }

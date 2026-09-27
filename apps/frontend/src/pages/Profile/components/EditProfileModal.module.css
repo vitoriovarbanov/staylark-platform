@@ -11,7 +11,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1.4px;
-    color: var(--mantine-color-blue-6, #963B74);
+    color: var(--mantine-color-blue-6, #963b74);
 }
 
 .identityRow {
@@ -46,7 +46,7 @@
         0 0 0 1px rgba(26, 39, 68, 0.08),
         0 6px 18px rgba(26, 39, 68, 0.18);
     background: linear-gradient(155deg, var(--mantine-other-navy-bg), var(--mantine-color-brand-8));
-    font-family: 'Outfit', system-ui, sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 700;
     font-size: 2rem;
     transition: box-shadow 180ms ease;
@@ -72,9 +72,9 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    color: #2E1027;
+    color: #2e1027;
     background: #ffffff;
-    border: 2px solid #2E1027;
+    border: 2px solid #2e1027;
     box-shadow: 0 2px 8px rgba(20, 31, 55, 0.3);
 }
 
@@ -92,7 +92,7 @@
 .counter {
     margin-top: 6px;
     text-align: right;
-    font-family: 'Figtree', system-ui, sans-serif;
+    font-family: var(--mantine-font-family);
     font-size: 0.72rem;
     font-variant-numeric: tabular-nums;
     color: var(--mantine-color-gray-5, #aeb6c6);

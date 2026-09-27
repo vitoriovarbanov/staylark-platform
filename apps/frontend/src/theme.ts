@@ -45,9 +45,9 @@ export const theme = createTheme({
         brand,
         amber
     },
-    fontFamily: 'Figtree, system-ui, -apple-system, sans-serif',
+    fontFamily: "'Wix Madefor Text Variable', system-ui, -apple-system, sans-serif",
     headings: {
-        fontFamily: 'Outfit, system-ui, -apple-system, sans-serif',
+        fontFamily: "'Wix Madefor Display Variable', system-ui, -apple-system, sans-serif",
         fontWeight: '700'
     },
     defaultRadius: 'md',

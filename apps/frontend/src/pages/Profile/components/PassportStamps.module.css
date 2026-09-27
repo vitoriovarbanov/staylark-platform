@@ -77,7 +77,7 @@
 
 .country {
     margin-top: 4px;
-    font-family: 'Outfit', system-ui, sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 700;
     font-size: 0.95rem;
     letter-spacing: 0.2px;
@@ -85,7 +85,7 @@
 }
 
 .meta {
-    font-family: 'Figtree', system-ui, sans-serif;
+    font-family: var(--mantine-font-family);
     font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.2px;

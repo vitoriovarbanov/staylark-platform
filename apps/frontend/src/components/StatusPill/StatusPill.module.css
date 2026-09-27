@@ -101,7 +101,7 @@
     position: absolute;
     top: 20px;
     right: 20px;
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 800;
     font-size: 1.15rem;
     letter-spacing: 2.5px;

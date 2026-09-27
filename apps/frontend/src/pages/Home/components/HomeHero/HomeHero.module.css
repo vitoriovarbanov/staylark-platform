@@ -1,0 +1,125 @@
+/* ── Hero: Dusk arrival ────────────────────────── */
+.hero {
+    position: relative;
+    /* Full-bleed: cancel the AppShell main padding */
+    margin: calc(-1 * var(--mantine-spacing-md));
+    margin-bottom: 0;
+    padding-bottom: var(--mantine-spacing-xl);
+}
+
+/* First on the page: run the dusk band up behind the floating header pill */
+.hero:first-child {
+    margin-top: calc(-1 * (var(--app-shell-header-offset, 0rem) + var(--mantine-spacing-md)));
+}
+
+.hero:first-child .inner {
+    padding-top: calc(var(--app-shell-header-offset, 0rem) + 72px);
+}
+
+/* Same night ground as the auth pages */
+.band {
+    position: relative;
+    overflow: hidden;
+    min-height: 500px;
+    background: radial-gradient(120% 110% at 85% 120%, #6b2a55 0%, var(--mantine-color-brand-9) 42%, #2a0f21 100%);
+}
+
+.inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    min-height: 500px;
+    margin: 0 auto;
+    padding: 72px 24px 120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+.copy {
+    max-width: 560px;
+    flex: none;
+}
+
+.title {
+    margin: 0;
+    font-family: var(--mantine-font-family-headings);
+    font-weight: 800;
+    font-size: clamp(2.5rem, 4.6vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    color: #fff;
+}
+
+.subtitle {
+    margin-top: 20px;
+    max-width: 440px;
+    font-size: 18px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.78);
+}
+
+/* ── Search card, straddling the band's lower edge ── */
+.search {
+    position: relative;
+    z-index: 2;
+    /* Inner width of .inner, so the card's edge lines up with the headline */
+    max-width: 1152px;
+    margin: -80px auto 0;
+    width: calc(100% - 48px);
+    box-sizing: border-box;
+    padding: 24px 28px;
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow:
+        0 24px 60px -24px rgba(74, 27, 58, 0.45),
+        0 2px 6px rgba(74, 27, 58, 0.08);
+}
+
+.where {
+    flex: 1.7;
+    min-width: 0;
+}
+
+.date {
+    flex: 1;
+    min-width: 0;
+}
+
+.submit {
+    flex: 0.9;
+}
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 48em) {
+    .band,
+    .inner {
+        min-height: 0;
+    }
+
+    .inner {
+        padding: 40px 16px 112px;
+    }
+
+    .hero:first-child .inner {
+        padding-top: calc(var(--app-shell-header-offset, 0rem) + 40px);
+    }
+
+    .search {
+        width: calc(100% - 32px);
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px;
+    }
+
+    .where,
+    .date,
+    .submit {
+        flex: none;
+        width: 100%;
+    }
+}

@@ -62,7 +62,7 @@
     line-height: 1.55;
     white-space: pre-wrap;
     border: 1px solid var(--mantine-color-gray-2);
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 500;
 }
 

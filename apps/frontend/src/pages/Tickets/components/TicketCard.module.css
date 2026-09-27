@@ -36,7 +36,7 @@
     width: 160px;
     height: 100%;
     overflow: hidden;
-    background: var(--mantine-other-navy-bg, #2E1027);
+    background: var(--mantine-other-navy-bg, #2e1027);
     position: relative;
 }
 
@@ -59,7 +59,7 @@
     bottom: 8px;
     left: 10px;
     z-index: 1;
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 800;
     font-size: 0.78rem;
     color: white;
@@ -102,7 +102,7 @@
 }
 
 .summary {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 600;
     font-size: 0.98rem;
     line-height: 1.3;

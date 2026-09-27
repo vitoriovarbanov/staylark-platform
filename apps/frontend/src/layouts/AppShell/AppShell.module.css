@@ -1,63 +1,152 @@
+/* ── Floating header ───────────────────────────── */
+/* The header band itself is invisible; only the pill catches clicks */
 .header {
-    border-bottom: 1px solid var(--mantine-color-gray-2);
-    background-color: var(--mantine-color-white);
+    background: transparent;
+    padding: 16px 24px 0;
+    pointer-events: none;
+}
+
+.pill {
+    pointer-events: auto;
+    /* Same width as the home hero's search card, so their edges line up */
+    max-width: 1152px;
+    height: 60px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 0 10px 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(74, 27, 58, 0.06);
+    box-shadow:
+        0 12px 32px -14px rgba(42, 15, 33, 0.42),
+        0 1px 2px rgba(74, 27, 58, 0.08);
 }
 
 .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     text-decoration: none;
+    flex: none;
 }
 
+/* Live-text wordmark, set in the display face */
 .logoText {
-    color: var(--mantine-color-brand-6);
+    font-family: var(--mantine-font-family-headings);
+    font-size: 22px;
     font-weight: 800;
-    letter-spacing: -0.5px;
-}
-
-.navLink {
-    width: auto;
-    border-radius: var(--mantine-radius-md);
-    padding: 6px 12px;
-    font-weight: 500;
-    font-size: var(--mantine-font-size-sm);
+    letter-spacing: -0.03em;
+    color: var(--mantine-color-brand-6);
 }
 
 .userButton {
-    padding: 4px 8px;
-    border-radius: var(--mantine-radius-md);
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px 6px 6px;
+    border-radius: 999px;
+    color: var(--mantine-other-text-primary);
     transition: background-color 150ms ease;
 
     &:hover {
-        background-color: var(--mantine-color-gray-0);
+        background-color: #f5f1f4;
     }
 }
 
-.navActive.navActive {
-    overflow: visible;
+/* ── Nav: pills in an inset track ──────────────── */
+.track {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 999px;
+    background: #f5f1f4;
 }
 
-.navActive::after {
-    content: '';
+.tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #475569;
+    text-decoration: none;
+    transition:
+        background-color 150ms ease,
+        color 150ms ease,
+        box-shadow 150ms ease;
+
+    &:hover {
+        color: var(--mantine-color-brand-7);
+    }
+}
+
+.tabIcon {
+    padding: 0;
+    width: 40px;
+    justify-content: center;
+}
+
+/* Active tab: a lifted white pill */
+.tab[data-active] {
+    background: #fff;
+    color: var(--mantine-color-brand-6);
+    box-shadow: 0 1px 3px rgba(74, 27, 58, 0.14);
+}
+
+/* Unread count sits inside the pill instead of floating over its corner */
+.count {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    box-sizing: border-box;
+    border-radius: 999px;
+    background: var(--mantine-color-brand-6);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
+}
+
+/* Icon-only tabs carry the count as a corner dot-badge */
+.tabIcon .count {
     position: absolute;
-    left: 50%;
-    top: -8px;
-    width: 14px;
-    height: 7px;
-    transform: translateX(-50%);
-    background: no-repeat center / contain
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 7'%3E%3Cpath d='M1.2 6 7 1.2 12.8 6' fill='none' stroke='%23963B74' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    pointer-events: none;
-    animation: roofSettle 0.25s ease-out;
+    top: 2px;
+    right: 0;
+    min-width: 18px;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 5px;
+    box-shadow: 0 0 0 2px #f5f1f4;
 }
 
-@keyframes roofSettle {
-    from {
-        opacity: 0;
-        transform: translate(-50%, 3px);
+@media (max-width: 48em) {
+    .header {
+        padding: 12px 12px 0;
     }
-}
 
-@media (prefers-reduced-motion: reduce) {
-    .navActive::after {
-        animation: none;
+    .pill {
+        padding: 0 6px 0 16px;
+        gap: 8px;
+    }
+
+    .logoText {
+        font-size: 19px;
+    }
+
+    .userButton {
+        padding: 6px;
     }
 }

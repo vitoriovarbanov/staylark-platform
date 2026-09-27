@@ -1,0 +1,97 @@
+/* Decorative town roofs over the dusk village */
+.towns {
+    flex: 1;
+    max-width: 620px;
+    margin-top: 110px;
+    overflow: visible;
+}
+
+.roof {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 4.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.windowLit {
+    fill: var(--mantine-color-amber-4);
+}
+
+.windowOpen {
+    fill: none;
+    stroke: var(--mantine-color-amber-3);
+    stroke-width: 2.2;
+}
+
+.name {
+    font-family: var(--mantine-font-family-headings);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.2px;
+    fill: #fff;
+    text-anchor: middle;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+/* ── City change: a hand-off, not a blend — the old name lifts away and has mostly
+      cleared before the new one settles in; the window goes dark for a beat ── */
+.exit {
+    animation: nameOut 0.5s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.enter {
+    animation: nameIn 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.42s both;
+}
+
+.relight {
+    animation: relight 1.1s ease-out both;
+}
+
+@keyframes nameOut {
+    to {
+        opacity: 0;
+        transform: translateY(-12px);
+        filter: blur(2px);
+    }
+}
+
+@keyframes nameIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+        filter: blur(2px);
+    }
+}
+
+@keyframes relight {
+    0% {
+        opacity: 1;
+    }
+    30% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* The roofs need the width beside the copy; the village still carries the band */
+@media (max-width: 62em) {
+    .towns {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .exit,
+    .enter,
+    .relight {
+        animation: none;
+    }
+
+    .exit {
+        opacity: 0;
+    }
+}

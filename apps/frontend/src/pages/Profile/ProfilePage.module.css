@@ -11,7 +11,7 @@
 }
 
 .sectionTitle {
-    font-family: 'Outfit', system-ui, sans-serif;
+    font-family: var(--mantine-font-family-headings);
     font-weight: 700;
     font-size: 1.1rem;
     color: var(--mantine-other-text-primary, #1e2a3a);
