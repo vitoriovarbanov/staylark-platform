@@ -33,9 +33,9 @@ const IDS = {
     },
     properties: {
         sofiaApartment: '00000000-0000-4000-b000-000000000001',
-        banskoHotel: '00000000-0000-4000-b000-000000000002',
-        varnaHouse: '00000000-0000-4000-b000-000000000003',
-        plovdivApartment: '00000000-0000-4000-b000-000000000004'
+        zermattHotel: '00000000-0000-4000-b000-000000000002',
+        lagosHouse: '00000000-0000-4000-b000-000000000003',
+        tuscanyApartment: '00000000-0000-4000-b000-000000000004'
     },
     bookings: {
         confirmed: '00000000-0000-4000-c000-000000000001',
@@ -104,77 +104,75 @@ async function main() {
     console.log(`  Users: ${guest.email}, ${manager.email}, ${admin.email}`);
 
     // ─── Properties ─────────────────────────────────────────────
-    const sofiaApt = await prisma.property.upsert({
-        where: { id: IDS.properties.sofiaApartment },
-        update: {},
-        create: {
+    // One stay per country, one per setting (city, mountain, coast, countryside). Catalogue fields are applied on `update` too, so re-seeding
+    // an older database moves its rows onto this set in place (IDs, bookings, tickets
+    // and quotes stay attached). Photos are create-only: the boot sweep has already
+    // copied existing ones into the environment's own Cloudinary account.
+    const properties = [
+        {
             id: IDS.properties.sofiaApartment,
             title: 'Modern Sofia Apartment',
             description: 'A stylish 2-bedroom apartment in the heart of Sofia with city views.',
             type: 'APARTMENT',
             city: 'Sofia',
-            address: 'ul. Vitosha 42, Sofia 1000',
+            address: 'ul. Vitosha 42, Sofia 1000, Bulgaria',
             nightlyPrice: 85.0,
             amenities: ['wifi', 'kitchen', 'parking', 'air-conditioning'],
             photos: DEMO_PHOTOS.sofiaApartment
-        }
-    });
-
-    const banskoHotel = await prisma.property.upsert({
-        where: { id: IDS.properties.banskoHotel },
-        update: {},
-        create: {
-            id: IDS.properties.banskoHotel,
-            title: 'Bansko Mountain Hotel',
-            description: 'Cozy hotel room near the ski slopes with mountain panorama and spa access.',
+        },
+        {
+            id: IDS.properties.zermattHotel,
+            title: 'Zermatt Alpine Hotel',
+            description:
+                'Wood-panelled hotel room at the foot of the ski slopes, with a balcony facing the Matterhorn and a sauna for after a day on the mountain.',
             type: 'HOTEL',
-            city: 'Bansko',
-            address: 'ul. Pirin 15, Bansko 2770',
-            nightlyPrice: 120.0,
-            amenities: ['wifi', 'spa', 'restaurant', 'ski-storage', 'parking'],
-            photos: DEMO_PHOTOS.banskoHotel
-        }
-    });
-
-    const varnaHouse = await prisma.property.upsert({
-        where: { id: IDS.properties.varnaHouse },
-        update: {},
-        create: {
-            id: IDS.properties.varnaHouse,
-            title: 'Varna Seaside House',
-            description: 'Spacious 3-bedroom house steps from the Black Sea coast with a private garden.',
+            city: 'Zermatt',
+            address: 'Bahnhofstrasse 41, 3920 Zermatt, Switzerland',
+            nightlyPrice: 180.0,
+            amenities: ['wifi', 'breakfast', 'sauna', 'ski-storage', 'balcony'],
+            photos: DEMO_PHOTOS.zermattHotel
+        },
+        {
+            id: IDS.properties.lagosHouse,
+            title: 'Lagos Beach House',
+            description:
+                'Whitewashed three-bedroom house a short walk from Praia Dona Ana, with a roof terrace for sunsets over the Atlantic coast.',
             type: 'HOUSE',
-            city: 'Varna',
-            address: 'ul. Chernomorska 8, Varna 9000',
-            nightlyPrice: 150.0,
-            amenities: ['wifi', 'kitchen', 'garden', 'bbq', 'beach-access'],
-            photos: DEMO_PHOTOS.varnaHouse
-        }
-    });
-
-    const plovdivApt = await prisma.property.upsert({
-        where: { id: IDS.properties.plovdivApartment },
-        // Bounds in `update` too so re-seeding an existing row applies them.
-        update: { minNightlyPrice: 66.0, maxNightlyPrice: 68.0 },
-        create: {
-            id: IDS.properties.plovdivApartment,
-            title: 'Plovdiv Old Town Apartment',
-            description: 'Charming apartment in the historic Old Town with traditional Bulgarian architecture.',
+            city: 'Lagos',
+            address: 'Rua da Praia 12, 8600-315 Lagos, Portugal',
+            nightlyPrice: 160.0,
+            amenities: ['wifi', 'kitchen', 'terrace', 'beach-access', 'air-conditioning'],
+            photos: DEMO_PHOTOS.lagosHouse
+        },
+        {
+            id: IDS.properties.tuscanyApartment,
+            title: 'Tuscan Vineyard Apartment',
+            description:
+                'Stone apartment on a family farm among the vineyards below Montepulciano, with a shared pool and wine from the estate.',
             type: 'APARTMENT',
-            city: 'Plovdiv',
-            address: 'ul. Saborna 22, Plovdiv 4000',
-            nightlyPrice: 65.0,
-            // Tight per-night €-bounds so the dynamic-pricing clamp is exercised:
-            // natural ML output for this property sits ~€65–68, so [66, 68] makes
-            // low nights hit the €66 floor and high nights hit the €68 ceiling.
-            minNightlyPrice: 66.0,
-            maxNightlyPrice: 68.0,
-            amenities: ['wifi', 'kitchen', 'air-conditioning'],
-            photos: DEMO_PHOTOS.plovdivApartment
+            city: 'Montepulciano',
+            address: 'Via di Nottola 7, 53045 Montepulciano, Italy',
+            nightlyPrice: 95.0,
+            amenities: ['wifi', 'kitchen', 'pool', 'garden', 'parking'],
+            photos: DEMO_PHOTOS.tuscanyApartment
         }
-    });
+    ] as const;
 
-    console.log(`  Properties: ${sofiaApt.title}, ${banskoHotel.title}, ${varnaHouse.title}, ${plovdivApt.title}`);
+    for (const { id, photos, ...catalogue } of properties) {
+        const data = {
+            ...catalogue,
+            amenities: [...catalogue.amenities],
+            minNightlyPrice: null,
+            maxNightlyPrice: null
+        };
+        await prisma.property.upsert({
+            where: { id },
+            update: data,
+            create: { id, ...data, photos: [...photos] }
+        });
+    }
+
+    console.log(`  Properties: ${properties.map(p => p.title).join(', ')}`);
 
     // ─── Bookings ───────────────────────────────────────────────
     // Future confirmed booking
@@ -201,12 +199,12 @@ async function main() {
         create: {
             id: IDS.bookings.active,
             userId: IDS.users.guest,
-            propertyId: IDS.properties.banskoHotel,
+            propertyId: IDS.properties.zermattHotel,
             checkIn: new Date('2026-03-15'),
             checkOut: new Date('2026-03-20'),
             guests: 1,
-            totalPrice: 600.0,
-            priceBreakdown: buildUniformBreakdown('2026-03-15', 5, 600.0),
+            totalPrice: 900.0,
+            priceBreakdown: buildUniformBreakdown('2026-03-15', 5, 900.0),
             status: 'ACTIVE'
         }
     });
@@ -218,12 +216,12 @@ async function main() {
         create: {
             id: IDS.bookings.completed,
             userId: IDS.users.guest,
-            propertyId: IDS.properties.varnaHouse,
+            propertyId: IDS.properties.lagosHouse,
             checkIn: new Date('2026-01-10'),
             checkOut: new Date('2026-01-15'),
             guests: 4,
-            totalPrice: 750.0,
-            priceBreakdown: buildUniformBreakdown('2026-01-10', 5, 750.0),
+            totalPrice: 800.0,
+            priceBreakdown: buildUniformBreakdown('2026-01-10', 5, 800.0),
             status: 'COMPLETED'
         }
     });
@@ -235,12 +233,12 @@ async function main() {
         create: {
             id: IDS.bookings.pending,
             userId: IDS.users.guest,
-            propertyId: IDS.properties.plovdivApartment,
+            propertyId: IDS.properties.tuscanyApartment,
             checkIn: new Date('2026-06-01'),
             checkOut: new Date('2026-06-04'),
             guests: 2,
-            totalPrice: 195.0,
-            priceBreakdown: buildUniformBreakdown('2026-06-01', 3, 195.0),
+            totalPrice: 285.0,
+            priceBreakdown: buildUniformBreakdown('2026-06-01', 3, 285.0),
             status: 'PENDING'
         }
     });
@@ -256,7 +254,7 @@ async function main() {
         create: {
             id: IDS.feedback.positive,
             userId: IDS.users.guest,
-            propertyId: IDS.properties.varnaHouse,
+            propertyId: IDS.properties.lagosHouse,
             bookingId: IDS.bookings.completed,
             sentiment: 'POSITIVE',
             score: 5,
@@ -289,7 +287,7 @@ async function main() {
         create: {
             id: IDS.tickets.openHigh,
             userId: IDS.users.guest,
-            propertyId: IDS.properties.banskoHotel,
+            propertyId: IDS.properties.zermattHotel,
             bookingId: IDS.bookings.active,
             priority: 'HIGH',
             status: 'OPEN',
@@ -305,7 +303,7 @@ async function main() {
         create: {
             id: IDS.tickets.inProgressMedium,
             userId: IDS.users.guest,
-            propertyId: IDS.properties.varnaHouse,
+            propertyId: IDS.properties.lagosHouse,
             bookingId: IDS.bookings.completed,
             assignedToId: IDS.users.manager,
             priority: 'MEDIUM',
@@ -327,9 +325,9 @@ async function main() {
 
     const propertyList = [
         { id: IDS.properties.sofiaApartment, price: 85 },
-        { id: IDS.properties.banskoHotel, price: 120 },
-        { id: IDS.properties.varnaHouse, price: 150 },
-        { id: IDS.properties.plovdivApartment, price: 65 }
+        { id: IDS.properties.zermattHotel, price: 180 },
+        { id: IDS.properties.lagosHouse, price: 160 },
+        { id: IDS.properties.tuscanyApartment, price: 95 }
     ];
 
     // Extra guests so the dashboard shows varied names and a non-trivial user count.

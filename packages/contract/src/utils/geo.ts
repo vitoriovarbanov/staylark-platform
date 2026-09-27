@@ -7,6 +7,7 @@ export interface CityGeo {
 export const CITY_COUNTRY: Record<string, CityGeo> = {
     Lisbon: { country: 'Portugal', flag: '🇵🇹' },
     Porto: { country: 'Portugal', flag: '🇵🇹' },
+    Lagos: { country: 'Portugal', flag: '🇵🇹' },
     Barcelona: { country: 'Spain', flag: '🇪🇸' },
     Madrid: { country: 'Spain', flag: '🇪🇸' },
     Paris: { country: 'France', flag: '🇫🇷' },
@@ -16,7 +17,9 @@ export const CITY_COUNTRY: Record<string, CityGeo> = {
     Copenhagen: { country: 'Denmark', flag: '🇩🇰' },
     Stockholm: { country: 'Sweden', flag: '🇸🇪' },
     Vienna: { country: 'Austria', flag: '🇦🇹' },
+    Zermatt: { country: 'Switzerland', flag: '🇨🇭' },
     Milan: { country: 'Italy', flag: '🇮🇹' },
+    Montepulciano: { country: 'Italy', flag: '🇮🇹' },
     Prague: { country: 'Czechia', flag: '🇨🇿' },
     Budapest: { country: 'Hungary', flag: '🇭🇺' },
     Sofia: { country: 'Bulgaria', flag: '🇧🇬' },
