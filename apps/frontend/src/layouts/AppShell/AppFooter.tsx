@@ -47,7 +47,6 @@ export function AppFooter() {
                 <div className={classes.top}>
                     <div>
                         <Link to='/' className={classes.mark}>
-                            {/* The logo mark redrawn in pale strokes for the night ground */}
                             <svg viewBox='0 0 48 48' aria-hidden='true'>
                                 <path d='M4.5 29 24 10 43.5 29' strokeWidth='5' strokeLinejoin='round' />
                                 <path d='M11.5 35.5c6.5-6.5 13.5-5.5 21 2' strokeWidth='4.6' className={classes.wing} />
