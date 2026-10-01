@@ -29,11 +29,11 @@ export function BookingsPage() {
                         Home
                     </Anchor>
                     <Text size='sm' fw={500}>
-                        My Bookings
+                        Stays
                     </Text>
                 </Breadcrumbs>
 
-                <PageHeader title='My Bookings' subtitle='Your upcoming, active, and past journeys — in one place.' />
+                <PageHeader title='Stays' subtitle='Your upcoming, active, and past journeys — in one place.' />
 
                 {isLoading ? (
                     <Stack gap='xl'>

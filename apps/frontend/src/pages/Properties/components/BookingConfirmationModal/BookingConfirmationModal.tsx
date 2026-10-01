@@ -235,7 +235,7 @@ export function BookingConfirmationModal({
                         submitted successfully.
                     </Text>
                     <Button fullWidth onClick={() => navigate('/bookings')} mt='sm'>
-                        View My Bookings
+                        Open Stays
                     </Button>
                 </Stack>
             )}
