@@ -1,7 +1,7 @@
 import { Outlet, Link, useNavigate } from 'react-router';
 import { AppShell as MantineAppShell, Menu, Avatar, Text, UnstyledButton, Divider, Image } from '@mantine/core';
 import { IconSettings, IconLogout, IconChevronDown, IconUser } from '@tabler/icons-react';
-import { FeedbackBanner } from '@/components/FeedbackBanner/FeedbackBanner';
+import { FeedbackChip } from '@/components/FeedbackChip/FeedbackChip';
 import { useAuth } from '@/contexts/auth-context';
 import { useTicketEvents } from '@/hooks/use-ticket-events';
 import logoIcon from '@/assets/logo-icon.svg';
@@ -30,44 +30,50 @@ export function AppShellLayout() {
 
                     {!isStaff && <HeaderNavLinks />}
 
-                    {/* Every route under this shell is gated, so the visitor is always signed in. */}
-                    <Menu shadow='md' width={220} position='bottom-end' offset={10}>
-                        <Menu.Target>
-                            <UnstyledButton className={classes.userButton}>
-                                <Avatar src={user?.image} radius='xl' size={32} color='brand'>
-                                    {user?.name?.charAt(0).toUpperCase()}
-                                </Avatar>
-                                <Text size='sm' fw={600} visibleFrom='sm'>
-                                    {firstName}
-                                </Text>
-                                <IconChevronDown size={14} stroke={1.8} />
-                            </UnstyledButton>
-                        </Menu.Target>
-                        <Menu.Dropdown>
-                            <Menu.Label>
-                                <Text size='xs' c='dimmed' truncate>
-                                    {user?.email}
-                                </Text>
-                            </Menu.Label>
-                            <Divider />
-                            {isStaff && (
-                                <Menu.Item leftSection={<IconSettings size={14} />} onClick={() => navigate('/admin')}>
-                                    Admin panel
+                    <div className={classes.end}>
+                        <FeedbackChip />
+
+                        {/* Every route under this shell is gated, so the visitor is always signed in. */}
+                        <Menu shadow='md' width={220} position='bottom-end' offset={10}>
+                            <Menu.Target>
+                                <UnstyledButton className={classes.userButton}>
+                                    <Avatar src={user?.image} radius='xl' size={32} color='brand'>
+                                        {user?.name?.charAt(0).toUpperCase()}
+                                    </Avatar>
+                                    <Text size='sm' fw={600} visibleFrom='sm'>
+                                        {firstName}
+                                    </Text>
+                                    <IconChevronDown size={14} stroke={1.8} />
+                                </UnstyledButton>
+                            </Menu.Target>
+                            <Menu.Dropdown>
+                                <Menu.Label>
+                                    <Text size='xs' c='dimmed' truncate>
+                                        {user?.email}
+                                    </Text>
+                                </Menu.Label>
+                                <Divider />
+                                {isStaff && (
+                                    <Menu.Item
+                                        leftSection={<IconSettings size={14} />}
+                                        onClick={() => navigate('/admin')}
+                                    >
+                                        Admin panel
+                                    </Menu.Item>
+                                )}
+                                <Menu.Item leftSection={<IconUser size={14} />} onClick={() => navigate('/profile')}>
+                                    Profile
                                 </Menu.Item>
-                            )}
-                            <Menu.Item leftSection={<IconUser size={14} />} onClick={() => navigate('/profile')}>
-                                Profile
-                            </Menu.Item>
-                            <Menu.Item color='red' leftSection={<IconLogout size={14} />} onClick={signOut}>
-                                Sign out
-                            </Menu.Item>
-                        </Menu.Dropdown>
-                    </Menu>
+                                <Menu.Item color='red' leftSection={<IconLogout size={14} />} onClick={signOut}>
+                                    Sign out
+                                </Menu.Item>
+                            </Menu.Dropdown>
+                        </Menu>
+                    </div>
                 </div>
             </MantineAppShell.Header>
 
             <MantineAppShell.Main>
-                <FeedbackBanner />
                 <Outlet />
             </MantineAppShell.Main>
         </MantineAppShell>
