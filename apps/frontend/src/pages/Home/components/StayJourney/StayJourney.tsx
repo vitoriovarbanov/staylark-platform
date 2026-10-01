@@ -17,8 +17,8 @@ const STEPS: Step[] = [
     },
     {
         title: 'Arrive',
-        text: 'Your dates and the address are in My bookings, on any device.',
-        link: { to: '/bookings', label: 'Open My bookings' }
+        text: 'Your dates and the address are in Stays, on any device.',
+        link: { to: '/bookings', label: 'Open Stays' }
     },
     {
         title: 'Something wrong? Say it',

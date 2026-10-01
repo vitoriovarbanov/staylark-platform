@@ -46,7 +46,7 @@ export function HomeHero() {
                 </div>
             </div>
 
-            <form className={classes.search} onSubmit={handleSearch}>
+            <form id='home-search' className={classes.search} onSubmit={handleSearch}>
                 <Autocomplete
                     label='Where'
                     placeholder='Search a city'

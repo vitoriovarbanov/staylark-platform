@@ -1,0 +1,58 @@
+/* ── Closing band: back to dusk ──────────────── */
+.closing {
+    position: relative;
+    overflow: hidden;
+    /* Full-bleed, and runs straight into the footer below */
+    margin: 0 calc(-1 * var(--mantine-spacing-md)) calc(-1 * var(--app-footer-gap, 0px));
+    /* Fades down into the footer's night */
+    background: radial-gradient(120% 120% at 20% -10%, #6b2a55 0%, var(--mantine-color-brand-9) 40%, #2a0f21 100%);
+}
+
+.inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1152px;
+    margin: 0 auto;
+    padding: 120px 24px 88px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 40px;
+}
+
+.title {
+    margin: 0;
+    max-width: 16ch;
+    font-family: var(--mantine-font-family-headings);
+    font-weight: 800;
+    font-size: clamp(2.375rem, 4.4vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    color: #fff;
+}
+
+.lede {
+    margin: 16px 0 0;
+    max-width: 44ch;
+    font-size: 17px;
+    text-wrap: pretty;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.cta {
+    flex: none;
+    --button-bg: var(--mantine-color-amber-5);
+    --button-hover: var(--mantine-color-amber-4);
+    --button-color: #2a0f21;
+}
+
+@media (max-width: 48em) {
+    .inner {
+        padding: 88px 16px 56px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 28px;
+    }
+}

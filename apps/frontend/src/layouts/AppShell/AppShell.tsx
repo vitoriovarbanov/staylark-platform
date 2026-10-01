@@ -5,6 +5,7 @@ import { FeedbackChip } from '@/components/FeedbackChip/FeedbackChip';
 import { useAuth } from '@/contexts/auth-context';
 import { useTicketEvents } from '@/hooks/use-ticket-events';
 import logoIcon from '@/assets/logo-icon.svg';
+import { AppFooter } from './AppFooter';
 import { HeaderNavLinks } from './HeaderNavLinks';
 import classes from './AppShell.module.css';
 
@@ -73,8 +74,11 @@ export function AppShellLayout() {
                 </div>
             </MantineAppShell.Header>
 
-            <MantineAppShell.Main>
-                <Outlet />
+            <MantineAppShell.Main className={classes.main}>
+                <div className={classes.page}>
+                    <Outlet />
+                </div>
+                <AppFooter />
             </MantineAppShell.Main>
         </MantineAppShell>
     );
