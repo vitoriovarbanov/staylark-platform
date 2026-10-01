@@ -62,7 +62,7 @@ export function TicketsPage() {
         <Container size='xl' py='lg'>
             <Stack gap='lg'>
                 <PageHeader
-                    title='My Reports'
+                    title='Issue tracker'
                     subtitle="Problems you've reported during your stays — track status and resolution."
                     actions={
                         activeBooking && (
@@ -103,7 +103,7 @@ export function TicketsPage() {
                             <>
                                 Need to flag something during an active stay?{' '}
                                 <Anchor component={Link} to='/bookings' c='amber.4' inherit>
-                                    Open My Bookings
+                                    Open Stays
                                 </Anchor>{' '}
                                 and tap "Report a problem" on the active booking.
                             </>

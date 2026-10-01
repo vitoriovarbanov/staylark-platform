@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router';
 import { Box, Tooltip } from '@mantine/core';
-import { IconCalendar, IconAlertOctagon } from '@tabler/icons-react';
+import { IconBuildingCottage, IconProgressCheck } from '@tabler/icons-react';
 import type { Icon } from '@tabler/icons-react';
 import { useTicketUnreadCount } from '@/hooks/api/use-ticket-messages';
 import classes from './AppShell.module.css';
@@ -14,8 +14,8 @@ interface NavItem {
 const REPORTS_PATH = '/tickets';
 
 const NAV_ITEMS: NavItem[] = [
-    { label: 'My bookings', to: '/bookings', icon: IconCalendar },
-    { label: 'My reports', to: REPORTS_PATH, icon: IconAlertOctagon }
+    { label: 'Stays', to: '/bookings', icon: IconBuildingCottage },
+    { label: 'Issue tracker', to: REPORTS_PATH, icon: IconProgressCheck }
 ];
 
 export function HeaderNavLinks() {

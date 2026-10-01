@@ -1,3 +1,16 @@
+/* ── Main: page, then the footer pinned to the bottom ── */
+.main {
+    /* Space between a page's content and the footer; a full-bleed last section cancels it to join the footer */
+    --app-footer-gap: 96px;
+    display: flex;
+    flex-direction: column;
+}
+
+.page {
+    flex: 1 0 auto;
+    padding-bottom: var(--app-footer-gap);
+}
+
 /* ── Floating header ───────────────────────────── */
 /* The header band itself is invisible; only the pill catches clicks */
 .header {

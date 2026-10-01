@@ -39,7 +39,7 @@ export function useMarkTicketSeen() {
 
 /**
  * Total unread staff replies across the reporter's tickets — drives the
- * "My Reports" header badge. Keyed under ticketKeys.all, so the live socket
+ * "Issue tracker" header badge. Keyed under ticketKeys.all, so the live socket
  * handler (which invalidates ticketKeys.all) refreshes it in real time.
  */
 export function useTicketUnreadCount(enabled = true) {
